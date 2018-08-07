@@ -80,6 +80,26 @@ function edit() {
       source ~/.zshrc
       ;;
     *)
+    "edit $1 has not been setup"
     ;;
   esac
 }
+
+
+if [[ "$platform" == "osx" ]] then;
+
+  function manp() {
+    man -t $1 | open -f -a /Applications/Preview.app
+  }
+  function hiddenfiles() {
+    if [[ "$1" == "show" ]] then;
+      defaults write com.apple.Finder AppleShowAllFiles YES;
+    elif [[ "$1" == "hide" ]] then;
+      defaults write com.apple.Finder AppleShowAllFiles NO;
+    fi
+    osascript -e 'tell application "Finder" to quit';
+    sleep 0.25;
+    osascript -e 'tell application "Finder" to activate';
+  }
+
+fi
