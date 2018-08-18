@@ -50,7 +50,7 @@ function edit() {
       $EDITOR ~/.gitmessage
       ;;
     gitignore)
-      $EDITOR ~/.gitmessage
+      $EDITOR ~/.gitignore
       ;;
     nvim)
       $EDITOR ~/.config/nvim/init.vim
@@ -88,7 +88,7 @@ function edit() {
 
 if [[ "$platform" == "osx" ]] then;
 
-  function manp() {
+  function manpdf() {
     man -t $1 | open -f -a /Applications/Preview.app
   }
   function hiddenfiles() {

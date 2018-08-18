@@ -11,12 +11,13 @@ export ZSH=~/.oh-my-zsh
 # Set name of the theme to load.
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
 ZSH_THEME="avit"
+# ZSH_THEME="powerlevel9k/powerlevel9k"
 
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(git zsh-autosuggestions zsh-syntax-highlighting
-         node npm colored-man-pages python pip)
+         node npm python pip)
 
 # ---{ Auto-Complete }-------------------------------------------------------------------
 
@@ -59,3 +60,5 @@ source ~/scripts/path.sh
 source ~/scripts/platform.sh
 alias reload="source ~/.zshrc"
 export EDITOR='code'
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+

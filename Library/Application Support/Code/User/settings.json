@@ -170,13 +170,13 @@
   "window.zoomLevel": 0,
   "workbench.activityBar.visible": false,
   "workbench.colorCustomizations": {
-    "statusBar.background": "#1DAAA0",
-    "statusBar.debuggingBackground": "#1DAAA0",
+    "statusBar.background": "#F1C40F",
+    "statusBar.debuggingBackground": "#F1C40F",
     "statusBar.foreground": "#000000",
-    "statusBar.noFolderBackground": "#1DAAA0",
+    "statusBar.noFolderBackground": "#F1C40F",
     "tab.activeBorder": "#0000"
   },
-  "workbench.colorTheme": "Monokai Ocean",
+  "workbench.colorTheme": "Monokai Seti",
   "workbench.iconTheme": "material-icon-theme",
   "workbench.sideBar.location": "left",
   "workbench.startupEditor": "welcomePage",
