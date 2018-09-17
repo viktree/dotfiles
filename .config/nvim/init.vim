@@ -150,6 +150,9 @@ let g:enable_bold_font = 1
 " === Plugins === {{{
 call plug#begin('~/.config/nvim/plugged')
 
+" Start Page
+Plug 'mhinz/vim-startify'
+
 " Indentation of varios sorts
 Plug 'junegunn/vim-easy-align'
 Plug 'Yggdroot/indentLine'
