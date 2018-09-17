@@ -3,13 +3,13 @@
 <plist version="1.0">
 <dict>
 	<key>albumName</key>
-	<string>Oral Fixation Vol. 2</string>
+	<string>Voicenotes</string>
 	<key>artistName</key>
-	<string>Shakira</string>
+	<string>Charlie Puth</string>
 	<key>coverURL</key>
-	<string>https://lastfm-img2.akamaized.net/i/u/300x300/05d894cd2604463cb4d7951b7072b855.png</string>
+	<string>https://lastfm-img2.akamaized.net/i/u/300x300/abf2183dc908b192cdd5982c67d2bbe0.png</string>
 	<key>currentPosition</key>
-	<string>147</string>
+	<string>11</string>
 	<key>isLoved</key>
 	<string>false</string>
 	<key>oldFilename</key>
@@ -17,8 +17,8 @@
 	<key>songChanged</key>
 	<string>false</string>
 	<key>songDuration</key>
-	<string>218</string>
+	<string>186</string>
 	<key>songName</key>
-	<string>Hips Don't Lie</string>
+	<string>The Way I Am</string>
 </dict>
 </plist>
