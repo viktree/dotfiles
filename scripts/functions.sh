@@ -35,11 +35,19 @@ function edit() {
       $EDITOR ~/scripts/aliases.sh
       source ~/scripts/aliases.sh
       ;;
+    aliases)
+      $EDITOR ~/scripts/aliases.sh
+      source ~/scripts/aliases.sh
+      ;;
     env)
       $EDITOR ~/scripts/variables.sh
       source ~/scripts/variables.sh
       ;;
     functions)
+      $EDITOR ~/scripts/functions.sh
+      source ~/scripts/functions.sh
+      ;;
+    function)
       $EDITOR ~/scripts/functions.sh
       source ~/scripts/functions.sh
       ;;
