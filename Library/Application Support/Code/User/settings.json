@@ -1,185 +1,145 @@
 {
-  "[markdown]": {
-    "editor.quickSuggestions": true,
-    "editor.lineNumbers": "off",
-    "editor.renderLineHighlight": "none",
-    "editor.codeActionsOnSave": {},
-  },
-  "[todo]": {
-    "editor.tabSize": 2,
-  },
-  "activitusbar.activeColour": "#000",
-  "activitusbar.inactiveColour": "#000",
-  "cSpell.language": "en,en-US,en-GB",
-  "cSpell.userWords": [
-    "devtools",
-    "gplus"
-  ],
-  "code-runner.saveFileBeforeRun": true,
-  "disableLigatures.mode": "Cursor",
-  "editor.codeActionsOnSave": {},
-  "editor.fontFamily": "Fira Code",
-  "editor.fontLigatures": true,
-  "editor.fontSize": 12,
-  "editor.formatOnPaste": true,
-  "editor.formatOnSave": true,
-  "editor.hideCursorInOverviewRuler": true,
-  "editor.lineNumbers": "on",
-  "editor.minimap.enabled": false,
-  "editor.overviewRulerBorder": false,
-  "editor.quickSuggestionsDelay": 0,
-  "editor.renderIndentGuides": false,
-  "editor.renderLineHighlight": "gutter",
-  "files.associations": {
-    "*.html": "liquid"
-  },
-  "files.autoSave": "afterDelay",
-  "files.trimTrailingWhitespace": true,
-  "github.statusbar.enabled": false,
-  "gitlens.advanced.messages": {
-    "suppressShowKeyBindingsNotice": true
-  },
-  "gitlens.currentLine.enabled": false,
-  "gitlens.hovers.currentLine.over": "line",
-  "gitlens.hovers.enabled": false,
-  "gitlens.menus": {
-    "editor": {
-      "blame": false,
-      "clipboard": true,
-      "compare": true,
-      "details": true,
-      "history": false,
-      "remote": true
-    },
-    "editorGroup": {
-      "blame": true,
-      "compare": true,
-      "history": false,
-      "remote": false
-    },
-    "editorTab": {
-      "compare": false,
-      "history": false,
-      "remote": true
-    }
-  },
-  "gitlens.mode.statusBar.enabled": false,
-  "gitlens.statusBar.enabled": false,
-  "jest.enableSnapshotUpdateMessages": false,
-  "python.pythonPath": "/usr/local/bin/python3",
-  "vim.insertModeKeyBindings": [
-    {
-      "after": [
-        "<Esc>"
-      ],
-      "before": [
-        "j",
-        "j"
-      ]
-    }
-  ],
-  "vim.normalModeKeyBindings": [
-    {
-      "after": [
-        ":"
-      ],
-      "before": [
-        ";"
-      ]
-    },
-    {
-      "after": [],
-      "before": [
-        "tab"
-      ],
-      "commands": [
-        {
-          "command": "workbench.action.nextEditor"
-        }
-      ]
-    },
-    {
-      "after": [],
-      "before": [
-        "shift+tab"
-      ],
-      "commands": [
-        {
-          "command": "workbench.action.previousEditor"
-        }
-      ]
-    }
-  ],
-  "vim.statusBarColorControl": true,
-  "vim.statusBarColors": {
-    "insert": [
-      "#F1C40F",
-      "#000000"
-    ],
-    "normal": [
-      "#1DAAA0",
-      "#000000"
-    ],
-    "replace": "#D08770",
-    "visual": [
-      "#AF7AC5",
-      "#FFFFFF"
-    ],
-    "visualblock": [
-      "#AF7AC5",
-      "#FFFFFF"
-    ],
-    "visualline": [
-      "#AF7AC5",
-      "#FFFFFF"
-    ]
-  },
-  "vim.useSystemClipboard": false,
-  "vim.visualModeKeyBindings": [
-    {
-      "after": [
-        ":"
-      ],
-      "before": [
-        ";"
-      ],
-    },
-    {
-      "after": [],
-      "before": [
-        "tab"
-      ],
-      "commands": [
-        {
-          "command": "workbench.action.nextEditor"
-        }
-      ]
-    },
-    {
-      "after": [],
-      "before": [
-        "shift+tab"
-      ],
-      "commands": [
-        {
-          "command": "workbench.action.previousEditor"
-        }
-      ]
-    }
-  ],
-  "window.zoomLevel": 0,
-  "workbench.activityBar.visible": false,
-  "workbench.colorCustomizations": {
-    "statusBar.background": "#F1C40F",
-    "statusBar.debuggingBackground": "#F1C40F",
-    "statusBar.foreground": "#000000",
-    "statusBar.noFolderBackground": "#F1C40F",
-    "tab.activeBorder": "#0000"
-  },
-  "workbench.colorTheme": "Monokai Seti",
-  "workbench.iconTheme": "material-icon-theme",
-  "workbench.sideBar.location": "left",
-  "workbench.startupEditor": "welcomePage",
-  "workbench.statusBar.feedback.visible": false,
-  "workbench.statusBar.visible": true,
+	"[markdown]": {
+		"editor.quickSuggestions": true,
+		"editor.lineNumbers": "off",
+		"editor.renderLineHighlight": "none",
+		"editor.codeActionsOnSave": {}
+	},
+	"[todo]": {
+		"editor.tabSize": 2
+	},
+	"cSpell.language": "en,en-US,en-GB",
+	"cSpell.userWords": ["devtools", "gplus", "truncator"],
+	"code-runner.saveFileBeforeRun": true,
+	"disableLigatures.mode": "Cursor",
+	"editor.codeActionsOnSave": {},
+	"editor.fontFamily": "Fira Code",
+	"editor.fontLigatures": true,
+	"editor.fontSize": 12,
+	"editor.formatOnPaste": true,
+	"editor.formatOnSave": true,
+	"editor.hideCursorInOverviewRuler": true,
+	"editor.lineNumbers": "on",
+	"editor.minimap.enabled": false,
+	"editor.overviewRulerBorder": false,
+	"editor.quickSuggestionsDelay": 0,
+	"editor.renderIndentGuides": false,
+	"editor.renderLineHighlight": "gutter",
+	"files.associations": {
+		"*.html": "liquid"
+	},
+	"files.autoSave": "afterDelay",
+	"files.trimTrailingWhitespace": true,
+	"github.statusbar.enabled": false,
+	"gitlens.advanced.messages": {
+		"suppressShowKeyBindingsNotice": true
+	},
+	"gitlens.currentLine.enabled": false,
+	"gitlens.hovers.currentLine.over": "line",
+	"gitlens.hovers.enabled": false,
+	"gitlens.menus": {
+		"editor": {
+			"blame": false,
+			"clipboard": true,
+			"compare": true,
+			"details": true,
+			"history": false,
+			"remote": true
+		},
+		"editorGroup": {
+			"blame": true,
+			"compare": true,
+			"history": false,
+			"remote": false
+		},
+		"editorTab": {
+			"compare": false,
+			"history": false,
+			"remote": true
+		}
+	},
+	"gitlens.mode.statusBar.enabled": false,
+	"gitlens.statusBar.enabled": false,
+	"jest.enableSnapshotUpdateMessages": false,
+	"python.pythonPath": "/usr/local/bin/python3",
+	"vim.insertModeKeyBindings": [
+		{
+			"after": ["<Esc>"],
+			"before": ["j", "j"]
+		}
+	],
+	"vim.normalModeKeyBindings": [
+		{
+			"after": [":"],
+			"before": [";"]
+		},
+		{
+			"after": [],
+			"before": ["tab"],
+			"commands": [
+				{
+					"command": "workbench.action.nextEditor"
+				}
+			]
+		},
+		{
+			"after": [],
+			"before": ["shift+tab"],
+			"commands": [
+				{
+					"command": "workbench.action.previousEditor"
+				}
+			]
+		}
+	],
+	"vim.useSystemClipboard": false,
+	"vim.visualModeKeyBindings": [
+		{
+			"after": [":"],
+			"before": [";"]
+		},
+		{
+			"after": [],
+			"before": ["tab"],
+			"commands": [
+				{
+					"command": "workbench.action.nextEditor"
+				}
+			]
+		},
+		{
+			"after": [],
+			"before": ["shift+tab"],
+			"commands": [
+				{
+					"command": "workbench.action.previousEditor"
+				}
+			]
+		}
+	],
+	"window.zoomLevel": 0,
+	"workbench.colorCustomizations": {
+		"statusBar.background": "#F1C40F",
+		"statusBar.debuggingBackground": "#F1C40F",
+		"statusBar.foreground": "#000000",
+		"statusBar.noFolderBackground": "#F1C40F",
+		"tab.activeBorder": "#0000"
+	},
+	"workbench.iconTheme": "vscode-icons",
+	"workbench.sideBar.location": "left",
+	"workbench.startupEditor": "welcomePage",
+	"workbench.statusBar.feedback.visible": false,
+	"workbench.colorTheme": "Stockholm Theme",
+	"github.hosts": [
+		{
+			"host": "https://github.com",
+			"username": "oauth",
+			"token": "system"
+		}
+	],
+	"diffEditor.ignoreTrimWhitespace": true,
+	"cSpell.showStatus": false,
+	"flow.showStatus": false,
+	"todo.statistics.statusbar.alignment": "right",
+	"git.decorations.enabled": false
 }
