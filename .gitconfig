@@ -31,6 +31,8 @@
   ls = reflog --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate
   undo = reset HEAD --hard
 
+	diff-2 = diff --patience
+
   # branch stuff
 	delete-branch = branch -D
   rename-branch = branch -m
@@ -44,6 +46,9 @@
 
 [commit]
 	template = ~/.gitmessage
+
+[core]
+  pager = diff-so-fancy | less --tabs=1,5 -R
 
 [credential]
 	helper = osxkeychain
