@@ -126,20 +126,27 @@
 		"tab.activeBorder": "#0000"
 	},
 	"workbench.iconTheme": "vscode-icons",
-	"workbench.sideBar.location": "left",
+	"workbench.sideBar.location": "right",
 	"workbench.startupEditor": "welcomePage",
 	"workbench.statusBar.feedback.visible": false,
 	"workbench.colorTheme": "Stockholm Theme",
-	"github.hosts": [
+	"diffEditor.ignoreTrimWhitespace": true,
+	"cSpell.showStatus": false,
+	"flow.showStatus": false,
+	"todo.statistics.statusbar.alignment": "right",
+	"git.decorations.enabled": false,
+	"vs-kubernetes": {
+		"vs-kubernetes.kubectl-path": "/Users/vikram.v/.vs-kubernetes/tools/kubectl/kubectl",
+		"vs-kubernetes.helm-path": "/Users/vikram.v/.vs-kubernetes/tools/helm/darwin-amd64/helm",
+		"vs-kubernetes.draft-path": "/Users/vikram.v/.vs-kubernetes/tools/draft/darwin-amd64/draft",
+		"vs-kubernetes.minikube-path": "/Users/vikram.v/.vs-kubernetes/tools/minikube/darwin-amd64/minikube"
+	},
+	"vsicons.dontShowNewVersionMessage": true,
+	"githubPullRequests.hosts": [
 		{
 			"host": "https://github.com",
 			"username": "oauth",
 			"token": "system"
 		}
-	],
-	"diffEditor.ignoreTrimWhitespace": true,
-	"cSpell.showStatus": false,
-	"flow.showStatus": false,
-	"todo.statistics.statusbar.alignment": "right",
-	"git.decorations.enabled": false
+	]
 }
