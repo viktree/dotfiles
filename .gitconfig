@@ -1,54 +1,129 @@
 # This is Git's per-user configuration file.
 
 [user]
-	name = Vikram Venkatarmanan
+
+	name = Vikram Venkataramanan
 	email = vikram.venkataramanan@mail.utoronto.ca
+	initials = VV
+	username = viktree
+
+[github]
+
+  user = viktree
 
 [core]
 	editor = nvim
 
 [color "branch"]
+
 	current = yellow reverse
 	local = yellow
 	remote = green
 
 [color "status"]
+
 	changed = yellow
 	added = green
 	untracked = red
 
 [color "diff"]
-	meta = yellow bold
+
+  # Colour for file information at the top of diff
+  meta = yellow bold
+
+  # Color for
 	frag = magenta bold # line info
 	old = red # deletions
 	new = green # additions
 
 [help]
+
 	autocorrect = 1
 
 [alias]
+
+	# List all the aliases that I have set. Need to figure out how to better format this
+  # later
+  aliases = config --get-regexp ^alias\\.
+
+  # Get a list of contributors
+  who = shortlog -n -s --no-merges
+
+  # Discard the changes that were made a particular file
+  discard = checkout --
+
+  # Fetches a .gitignore template for the project
+  generate-ignore = "!gi() { curl -L -s https://www.gitignore.io/api/$@ ;}; gi"
+
+  # Simple status update
+  brief = status -s
+
+  # Cleanup unnecessary stuff
+  cleanup = remote prune origin && git gc && git stash clear
+
+  # === List files ===
+
+  # Lists all the files that were tracked by git
+  ls-tracked = ls-tree -r HEAD --name-only
+
+  # Lists all the files that were ignored by git
+  ls-ignored = ls-files --others -i --exclude-standard
+
+  # === Commits ===
+
+  # Initial Commit
+  initial-commit = commit --allow-empty -m 'Initial commit'
+
+  # Amend the previous commit
+  amend = commit --amend
+
+  # Add the stuff that got left out of the commit
   fix = commit -a --amend --no-edit
-  ls = reflog --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate
+
+  # === Readable Logs ===
+  extended-log = log --graph --branches --remotes --tags
+  graph = "!git extended-log --format=format:'%Cgreen%h %Creset %s (%cN, %cr) %Cred%d'"
+  summary = reflog --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]"
   undo = reset HEAD --hard
+
+  uncommit = reset --mixed HEAD~
+  unstage = reset -q HEAD --
+
+  # === Branch related stuff ===
+
+  # Get the name of the current branch, this is useful in other commands
+  branch-name = rev-parse --abbrev-ref HEAD
+
+  # Some simple actions around branches
+  new-branch = checkout -b
+  switch-branch = checkout
+  rename-branch = branch -m
+	delete-branch = branch -D
+
+  # Push the changes
+  push-branch = "!git push -u origin $(git branch-name)"
+	publish = "!git push -u origin $(git branch-name)"
+
+  # Use this to force push changes. Typically for use after a rebase
+  push-branch-f = "!git push --force-with-lease -u origin $(git branch-name)"
+	publish-fix = "!git push --force-with-lease -u origin $(git branch-name)"
+
+  # Undo a push
+  unpush-branch = "!git push origin :$(git branch-name)"
+  unpublish = "!git push origin :$(git branch-name)"
 
 	diff-2 = diff --patience
 
-  # branch stuff
-	delete-branch = branch -D
-  rename-branch = branch -m
-  new-branch = checkout -b
-  switch-branch = checkout
-  branch-name = "!git rev-parse --abbrev-ref HEAD"
-  publish = "!git push -u origin $(git branch-name)"
-	publish-fix = "!git push -f -u origin $(git branch-name)"
-  unpublish = "!git push origin :$(git branch-name)"
-	delete-merged-branches = "!git checkout master && git branch --merged | grep -v '\\*' | xargs -n 1 git branch -d"
-
 [commit]
+
+  # Use this file as a template when git commit is run
 	template = ~/.gitmessage
 
-[core]
-  pager = diff-so-fancy | less --tabs=1,5 -R
-
 [credential]
+
+  # Make Mac OSX plays well with git
 	helper = osxkeychain
+
+[core]
+
+	pager = diff-so-fancy | less --tabs=1,5 -R
