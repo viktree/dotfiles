@@ -11,7 +11,6 @@ export ZSH=~/.oh-my-zsh
 # Set name of the theme to load.
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
 ZSH_THEME="avit"
-# ZSH_THEME="powerlevel9k/powerlevel9k"
 
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
@@ -22,6 +21,7 @@ plugins=(git zsh-autosuggestions zsh-syntax-highlighting
 # ---{ Auto-Complete }-------------------------------------------------------------------
 
 CASE_SENSITIVE="true"
+COMPLETION_WAITING_DOTS="true"
 
 source $ZSH/oh-my-zsh.sh
 bindkey '^ ' autosuggest-accept
@@ -54,11 +54,19 @@ cfg-history() { $EDITOR $HISTFILE ;}
 
 # ---------------------------------------------------------------------------------------
 
+export EDITOR='code'
+alias reload="source ~/.zshrc"
 source ~/scripts/aliases.sh
-source ~/scripts/functions.sh
+# source ~/scripts/functions.sh
 source ~/scripts/path.sh
 source ~/scripts/platform.sh
-alias reload="source ~/.zshrc"
-export EDITOR='code'
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
+eval "$(direnv hook zsh)"
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/vikram.v/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/vikram.v/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/vikram.v/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/vikram.v/google-cloud-sdk/completion.zsh.inc'; fi
+if [ /Users/vikram.v/google-cloud-sdk/bin/kubectl ]; then source <(kubectl completion zsh); fi
