@@ -3,6 +3,8 @@
 alias config='/usr/bin/git --git-dir=$HOME/.myconf/ --work-tree=$HOME'
 
 alias g=git
+alias n=nvim
+alias c=code
 
 alias ip.address="dig +short myip.opendns.com @resolver1.opendns.com"
 alias ip.local="ipconfig getifaddr en0"
@@ -10,10 +12,11 @@ alias ip.local="ipconfig getifaddr en0"
 alias update.npm='npm install -g; npm update'
 
 alias ..='cd ..'
-alias ...='cd ../..'
-alias ....='cd ../../..'
-alias .....='cd ../../../..'
-alias ......='cd ../../../../..'
+alias ..1='cd ..'
+alias ..2='cd ../..'
+alias ..3='cd ../../..'
+alias ..4='cd ../../../..'
+alias ..5='cd ../../../../..'
 
 alias fuck='pkill -9'
 alias cls='clear'

@@ -51,22 +51,22 @@ function edit() {
       $EDITOR ~/scripts/functions.sh
       source ~/scripts/functions.sh
       ;;
-    git)
-      $EDITOR ~/.gitconfig
-      ;;
-    gitmessage)
-      $EDITOR ~/.gitmessage
-      ;;
-    gitignore)
-      $EDITOR ~/.gitignore
-      ;;
-    nvim)
-      $EDITOR ~/.config/nvim/init.vim
-      ;;
-    path)
-      $EDITOR ~/scripts/path.sh
-      source ~/scripts/path.sh
-      ;;
+#     git)
+#       $EDITOR ~/.gitconfig
+#       ;;
+#     gitmessage)
+#       $EDITOR ~/.gitmessage
+#       ;;
+#     gitignore)
+#       $EDITOR ~/.gitignore
+#       ;;
+#     nvim)
+#       $EDITOR ~/.config/nvim/init.vim
+#       ;;
+#     path)
+#       $EDITOR ~/scripts/path.sh
+#       source ~/scripts/path.sh
+#       ;;
     skhd)
       if [[ "$platform" == "osx" ]] then;
         $EDITOR ~/.skhdrc
