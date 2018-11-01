@@ -3,3 +3,8 @@
 ~/themes/.DS_Store
 .*.swp
 *~
+
+# Direnv stuff
+.direnv
+.envrc
+EXCL

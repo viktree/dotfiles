@@ -2,29 +2,32 @@
 
 [user]
 
-	name = Vikram Venkataramanan
-	email = vikram.venkataramanan@mail.utoronto.ca
-	initials = VV
-	username = viktree
+  name = Vikram Venkataramanan
+  email = vikram.venkataramanan@mail.utoronto.ca
+  initials = VV
+  username = viktree
 
 [github]
 
   user = viktree
 
 [core]
-	editor = nvim
+
+  editor = nvim
+  excludesfile = ~/.gitignore
+  pager = diff-so-fancy | less --tabs=1,5 -R
 
 [color "branch"]
 
-	current = yellow reverse
-	local = yellow
-	remote = green
+  current = yellow reverse
+  local = yellow
+  remote = green
 
 [color "status"]
 
-	changed = yellow
-	added = green
-	untracked = red
+  changed = yellow
+  added = green
+  untracked = red
 
 [color "diff"]
 
@@ -32,17 +35,17 @@
   meta = yellow bold
 
   # Color for
-	frag = magenta bold # line info
-	old = red # deletions
-	new = green # additions
+  frag = magenta bold # line info
+  old = red # deletions
+  new = green # additions
 
 [help]
 
-	autocorrect = 1
+  autocorrect = 1
 
 [alias]
 
-	# List all the aliases that I have set. Need to figure out how to better format this
+  # List all the aliases that I have set. Need to figure out how to better format this
   # later
   aliases = config --get-regexp ^alias\\.
 
@@ -98,32 +101,29 @@
   new-branch = checkout -b
   switch-branch = checkout
   rename-branch = branch -m
-	delete-branch = branch -D
+  delete-branch = branch -D
 
   # Push the changes
   push-branch = "!git push -u origin $(git branch-name)"
-	publish = "!git push -u origin $(git branch-name)"
+  publish = "!git push -u origin $(git branch-name)"
 
   # Use this to force push changes. Typically for use after a rebase
   push-branch-f = "!git push --force-with-lease -u origin $(git branch-name)"
-	publish-fix = "!git push --force-with-lease -u origin $(git branch-name)"
+  publish-fix = "!git push --force-with-lease -u origin $(git branch-name)"
 
   # Undo a push
   unpush-branch = "!git push origin :$(git branch-name)"
   unpublish = "!git push origin :$(git branch-name)"
 
-	diff-2 = diff --patience
+  # Different type of diff
+  diff-2 = diff --patience
 
 [commit]
 
   # Use this file as a template when git commit is run
-	template = ~/.gitmessage
+  template = ~/.gitmessage
 
 [credential]
 
   # Make Mac OSX plays well with git
-	helper = osxkeychain
-
-[core]
-
-	pager = diff-so-fancy | less --tabs=1,5 -R
+  helper = osxkeychain
