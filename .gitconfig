@@ -5,7 +5,6 @@
   name = Vikram Venkataramanan
   email = vikram.venkataramanan@mail.utoronto.ca
   initials = VV
-  username = viktree
 
 [github]
 
@@ -15,6 +14,7 @@
 
   editor = nvim
   excludesfile = ~/.gitignore
+  # insanely beautiful diffs ==> npm install -g diff-so-fancy
   pager = diff-so-fancy | less --tabs=1,5 -R
 
 [color "branch"]
@@ -51,6 +51,10 @@
 
   # Get a list of contributors
   who = shortlog -n -s --no-merges
+
+  # Open the link soon
+  origin-url = remote get-url origin
+  open = "!open $(git origin-url)"
 
   # Discard the changes that were made a particular file
   discard = checkout --

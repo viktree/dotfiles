@@ -9,7 +9,12 @@
 		"editor.tabSize": 2
 	},
 	"cSpell.language": "en,en-US,en-GB",
-	"cSpell.userWords": ["devtools", "gplus", "truncator"],
+	"cSpell.userWords": [
+		"devtools",
+		"gplus",
+		"truncator",
+		"unmock"
+	],
 	"code-runner.saveFileBeforeRun": true,
 	"disableLigatures.mode": "Cursor",
 	"editor.codeActionsOnSave": {},
@@ -148,5 +153,6 @@
 			"username": "oauth",
 			"token": "system"
 		}
-	]
+	],
+	"javascript.updateImportsOnFileMove.enabled": "always"
 }

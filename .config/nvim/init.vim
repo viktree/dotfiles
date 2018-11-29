@@ -1,4 +1,3 @@
-"----------------------------------------------------------------------------------------
 "                           _
 "                 __ __    (_)    _ __      _ _    __
 "           _     \ V /    | |   | '  \    | '_|  / _|
@@ -236,3 +235,4 @@ let g:airline#extensions#hunks#enabled = 1
 
 " }}}
 
+autocmd filetype crontab setlocal nobackup nowritebackup
