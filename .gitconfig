@@ -44,6 +44,7 @@
   autocorrect = 1
 
 [alias]
+  # These are aliases for git. Prefixing them with an ! treats the command as a new shell command.
 
   # List all the aliases that I have set. Need to figure out how to better format this
   # later
@@ -106,6 +107,7 @@
   switch-branch = checkout
   rename-branch = branch -m
   delete-branch = branch -D
+  # clear-workspace = "!git branch | grep -v \* | xargs $(git delete-branch)"
 
   # Push the changes
   push-branch = "!git push -u origin $(git branch-name)"
