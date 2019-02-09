@@ -139,10 +139,9 @@ inoremap <C-S>		<C-O>:update<CR>
 
 " === Colour Scheme === {{{
 
-" colorscheme PaperColor
-set background=dark
-colorscheme hybrid_material
-let g:enable_bold_font = 1
+" set background=dark
+colorscheme gruvbox
+" let g:enable_bold_font = 1
 
 "}}}
 
@@ -151,6 +150,7 @@ call plug#begin('~/.config/nvim/plugged')
 
 " Start Page
 Plug 'mhinz/vim-startify'
+Plug 'morhetz/gruvbox'
 
 " Indentation of varios sorts
 Plug 'junegunn/vim-easy-align'
@@ -173,7 +173,7 @@ Plug 'jiangmiao/auto-pairs'
 Plug 'vim-airline/vim-airline'
 let g:airline#extensions#tabline#enabled = 1
 Plug 'vim-airline/vim-airline-themes'
-let g:airline_theme = "hybrid"
+let g:airline_theme = "gruvbox"
 
 " Commentary:makes commenting easy
 Plug 'tpope/vim-commentary'
