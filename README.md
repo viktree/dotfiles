@@ -27,7 +27,7 @@ To get started:
 
 ```bash
 $ alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
-$ git clone --bare https://github.com/Viktree/dotfiles.git $HOME/.cfg
+$ git clone --bare https://github.com/viktree/dotfiles.git $HOME/.cfg
 $ alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 $ config checkout
 $ config config --local status.showUntrackedFiles no
