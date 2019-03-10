@@ -7,58 +7,74 @@
 #   function definitions, shell option settings, completion settings, prompt settings,
 #   key bindings, etc.
 #
-# ---{ General Settings }----------------------------------------------------------------
+# ---------------------------------------------------------------------------------------
+# ---{ Settings for ZPLUG }--------------------------------------------------------------
 
-# Path to your oh-my-zsh installation.
-export ZSH=~/.oh-my-zsh
+function source_if_possible(){ [[ -e $1 ]] && source $1 }
 
-# Set name of the theme to load.
-ZSH_THEME="avit"
-
-# Use hyphen-insensitive completion. Case sensitive completion must be off.
-# _ and - will be interchangeable.
-HYPHEN_INSENSITIVE="true"
-
-# ---{ Plugins }-------------------------------------------------------------------------
-
-# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
-# Add wisely, as too many plugins slow down shell startup.
-plugins=(zsh-autosuggestions zsh-syntax-highlighting)
-plugins+=(git)
-plugins+=(node zsh-better-npm-completion)
-plugins+=(python pip)
-
-# ---{ Auto-Complete }-------------------------------------------------------------------
-
-export CASE_SENSITIVE="true"
-
-# Standard shell completion
-source $ZSH/oh-my-zsh.sh
-bindkey '^ ' autosuggest-accept
-if [ -f ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh ]; then
-  source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+# You can customize where you put it but it's generally recommended that you put
+# in $HOME/.zplug
+if [[ ! -d ~/.zplug ]];then
+  git clone https://github.com/b4b4r07/zplug ~/.zplug
 fi
 
-# User configuration
-fpath=(~/.zsh/completions $fpath)
-autoload -U compinit && compinit
+source ~/.zplug/init.zsh
+
+# Let zplug manage zplug
+zplug 'zplug/zplug', hook-build:'zplug --self-manage'
+
+# Async for zsh, used by pure
+zplug "mafredri/zsh-async", from:github, defer:0
+
+zplug "lib/completion", from:oh-my-zsh
+zplug "lib/git", from:oh-my-zsh
+zplug "lib/history", from:oh-my-zsh
+zplug "lib/key-bindings", from:oh-my-zsh
+
+zplug "andrewferrier/fzf-z"
+
+zplug "lukechilds/zsh-better-npm-completion", defer:2
+
+# Syntax highlighting for commands, load last
+zplug "zsh-users/zsh-syntax-highlighting", from:github, defer:3
+zplug "zsh-users/zsh-autosuggestions", from:github
+zplug "zsh-users/zsh-completions", from:github
+
+# Theme!
+zplug "sindresorhus/pure", use:pure.zsh, from:github, as:theme
 
 # The next line enables shell command completion for gcloud.
 if [ -f '$HOME/google-cloud-sdk/completion.zsh.inc' ]
   then . '$HOME/google-cloud-sdk/completion.zsh.inc'
+  zplug "littleq0903/gcloud-zsh-completion", lazy:true
 fi
 
+# Install plugins if there are plugins that have not been installed
+if ! zplug check --verbose
+    then printf "Install? [y/N]: "
+    if read -q
+        then echo; zplug install
+    fi
+fi
+
+# Then, source plugins and add commands to $PATH
+zplug load
+
+# Brew completions
+if type brew &>/dev/null; then
+  FPATH=$(brew --prefix)/share/zsh/site-functions:$FPATH
+fi
+
+# Add kubectl completions if they exist
 if [ -e $HOME/google-cloud-sdk/bin/kubectl ]
   then source <(kubectl completion zsh)
 fi
 
-
 # iterm2 Integration
-test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+source_if_possible "${HOME}/.iterm2_shell_integration.zsh"
 
 # FZF integration
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+source_if_possible ~/.fzf.zsh
 
 
 # ---{ Better History }------------------------------------------------------------------
@@ -100,6 +116,7 @@ alias ..3="echo 'Moved back 3 directories:' && cd ../../.. | ls"
 
 alias fuck='pkill -9'
 alias cls='clear'
+alias gh='history | grep '
 
 case "$PLATFORM" in
     "osx")
@@ -212,12 +229,23 @@ if [[ "$PLATFORM" == "osx" ]] then;
 
 fi
 
+# Alias things quickly and worry about it later.
+# https://news.ycombinator.com/item?id=9869231
+function save() {
+  echo "alias $1='${@:2}'" >> ~/.zshrc
+  echo "made alias:";
+  echo "alias $1='${@:2}'";
+  source ~/.zshrc;
+}
+
 
 # ---{ Direnv }--------------------------------------------------------------------------
 
 export NVM_DIR="$HOME/.nvm"
-  [ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
-  [ -s "/usr/local/opt/nvm/etc/bash_completion" ] && . "/usr/local/opt/nvm/etc/bash_completion"  # This loads nvm bash_completion
+# This loads nvm
+[ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"
+# This loads nvm bash_completion
+[ -s "/usr/local/opt/nvm/etc/bash_completion" ] && . "/usr/local/opt/nvm/etc/bash_completion"
 
 # Used to allow zsh to work ok
 eval "$(direnv hook zsh)"
