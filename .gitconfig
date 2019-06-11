@@ -103,10 +103,12 @@
   branch-name = rev-parse --abbrev-ref HEAD
 
   # Some simple actions around branches
+  local-branches = "!git branch | fzf"
+  all-branches = "!git branch -a | fzf"
   new-branch = checkout -b
-  switch-branch = checkout
+  switch-branch = "!git checkout $(git all-branches)"
   rename-branch = branch -m
-  delete-branch = branch -D
+  delete-branch = "!git branch -D $(git local-branches)"
   # clear-workspace = "!git branch | grep -v \* | xargs $(git delete-branch)"
 
   # Push the changes
