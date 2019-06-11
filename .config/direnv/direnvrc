@@ -1,0 +1,27 @@
+
+use_node() {
+  layout node
+
+  local node_version=$1
+
+  if [ "$node_version" == "package.json" ]; then
+    # Requires jq: `brew install jq`
+    node_version=`jq --raw-output .engines.node package.json | tr -d "<=> "`
+  fi
+
+  # local node_path=${NODE_DIR:-/usr/local/n/versions/node}
+  local node_path="$HOME/.nvm/versions/node"
+
+  if [ -x "$node_path/$node_version/bin/node" ]; then
+    PATH_add $node_path/$node_version/bin
+  elif [ -x "$node_path/v$node_version/bin/node" ]; then
+    # Support nvm users (nvm prefixes versions with 'v')
+    PATH_add $node_path/v$node_version/bin
+  else
+    nvm install $node_version
+    PATH_add $node_path/v$node_version/bin
+    echo "!!! Node.js version $node_version is not installed"
+  fi
+
+  export NODE_PATH=./node_modules
+}
