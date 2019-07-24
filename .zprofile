@@ -1,5 +1,5 @@
 # ---------------------------------------------------------------------------------------
-# ---{ My ~\.zprofile } -----------------------------------------------------------------
+# ---{ My ~/.zprofile } -----------------------------------------------------------------
 # ---------------------------------------------------------------------------------------
 #
 #   The file ~/.profile is loaded by login shells. The login shell is the first process
@@ -10,94 +10,107 @@
 #   Typically, ~/.profile contains environment variable definitions, and might start some
 #   programs that you want to run once when you log in or for the whole session.
 #
-# ---{ Bash compatible }-----------------------------------------------------------------
+#   Variables that are more prone to change, like $PATH declared in .zshenv
 #
-#   The easiest solution to both work with zsh and run ~/.profile is to create a 
-#   ~/.zprofile that enters sh emulation mode while it runs ~/.profile
-
-if [[ -f '~/.profile' ]] then
-  emulate sh -c '. ~/.profile'.
-fi
-
-# ---{ PLATFORM }------------------------------------------------------------------------
+# ---{ Pre-load Checks }-----------------------------------------------------------------
 #
-#   Set the operating system to an environment variable so that we can easily reference
-#   it when we want to have aliases or functions that are platform specific.
+#   -e    exit on first error
+#   -u    exit when an undefined variable
+#   -o    pipefail exit when any cmd in pipe sequence has exitcode != 0
+#   -x    print all commands
+#
+
+set -euo pipefail
+
+# ---{ Utility Functions }---------------------------------------------------------------
+
+function check_for_command(){ command -v $1 >/dev/null 2>&1 }
+function source_if_file(){ [[ -f $1 ]] && source $1 }
+function source_if_possible(){ [[ -e $1 ]] && source $1 }
+
+# ---{ OS Setiings }---------------------------------------------------------------------
+#
+#   Set some operating system specific stuff
 
 PLATFORM='unknown'
-unamestr="$(uname)"
-
-case "$unamestr" in
-    "Darwin")
-        PLATFORM='osx'
-        ;;
-    "Linux")
-        PLATFORM='linux'
-        ;;
-    "FreeBSD")
-        PLATFORM='freebsd'
-        ;;
-    *)
-        ;;
+case "$(uname)" in
+    "Darwin") PLATFORM='osx';;
+    "Linux") PLATFORM='linux';;
+    "FreeBSD") PLATFORM='freebsd';;
+    *);;
 esac
 
-case "$PLATFORM" in
-    "osx")
-        # Set all Hombrew apps to correct location.
-        export HOMEBREW_CASK_OPTS="--appdir=/Applications"
-        ;;
-    "linux")
-        ;;
-    "freebsd")
-        ;;
-    *)
-        ;;
-esac
+function is_mac(){ [[ "$PLATFORM" == "osx" ]]  }
+function is_linux(){ [[ "$PLATFORM" == "linux" ]]  }
+function is_freebsd(){ [[ "$PLATFORM" == "freebsd" ]]  }
+function is_windows(){ grep -q Microsoft /proc/version }
 
-export PLATFORM
 export DEFAULT_USER=`whoami`
-export LANG=en_US.UTF-8
+export LANG="en_US.UTF-8"
 export SSH_KEY_PATH="~/.ssh/rsa_id"
 
+if is_mac && check_for_command brew; then
+    # Set all Hombrew apps to correct location.
+    export HOMEBREW_CASK_OPTS="--appdir=/Applications --fontdir=/Library/Fonts"
 
-# ---{ PATH }----------------------------------------------------------------------------
-#
-#   PATH is an environmental variable that tells the shell which directories to search
-#   when looking for for executable files
-#
-
-# If you come from bash you might have to change your $PATH.
-export PATH=$HOME/bin:/usr/local/bin:$PATH
-
-# Check if yarn package manager is installed. If it is then add it to $PATH.
-# https://yarnpkg.com
-
-if (( $+commands[yarn] )) then
-  export PATH="$PATH:`yarn global bin`"
+    # Learn more about what you are opting in to at
+    # https://docs.brew.sh/Analytics
+    export HOMEBREW_NO_ANALYTICS=1
 fi
 
-export PATH=$HOME/.local/bin:$PATH
-export PATH=/Users/tintinux/Library/Python/3.7/bin:$PATH
+if check_for_command git; then
 
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/vikram.v/google-cloud-sdk/path.zsh.inc' ]
-  then . '/Users/vikram.v/google-cloud-sdk/path.zsh.inc' 
+    # insanely beautiful diffs ==> npm install -g diff-so-fancy
+    if check_for_command diff-so-fancy; then
+        git config --global core.pager "diff-so-fancy | less --tabs=4 -RFX"
+    fi
+
+    # Save git password
+    if is_mac; then
+        git config --global credential.helper osxkeychain
+    else
+        git config --global credential.helper cache
+    fi
+fi
+
+# List the iPhone simulator as an application
+if [[ -f "/Applications/Xcode.app/Contents/Applications/iPhone\ Simulator.app"  ]]; then
+    ln -s "/Applications/Xcode.app/Contents/Applications/iPhone\ Simulator.app /Applications"
 fi
 
 # ---{ PROGRAMS }------------------------------------------------------------------------
 
-# Set the default editor
-if [[ -n $SSH_CONNECTION ]]; then
-  export EDITOR='code'
-else
-  export EDITOR='nvim'
-fi
-
-# Set the path for go-lang
 export GOPATH=$HOME
 
-export NVM_DIR="$HOME/.nvm/usr/local/opt/nvm/nvm.sh"
+PATH_append "$HOME/.local/bin"
 
-export MANPATH="/usr/local/man:$MANPATH"
+if [[ -e '/usr/local/bin/code' ]]; then
+    export EDITOR='/usr/local/bin/code'
+fi
+
+if [[ -e '$HOME/.nvm/usr/local/opt/nvm/nvm.sh' ]]; then
+    export NVM_DIR="$HOME/.nvm/usr/local/opt/nvm/nvm.sh"
+fi
+
+if [[ -f '~/.profile' ]] then
+    #   The easiest solution to both work with zsh and run ~/.profile is to create a
+    #   ~/.zprofile that enters sh emulation mode while it runs ~/.profile
+    emulate sh -c '. ~/.profile'.
+fi
+
+if [[ -e "/usr/local/opt/android-ndk" ]]; then
+    export ANDROID_NDK_HOME="/usr/local/opt/android-ndk"
+fi
+
+
+# ---{ Post-load Checks }----------------------------------------------------------------
+#
+#   -e    exit on first error
+#   -u    exit when an undefined variable
+#   -o    pipefail exit when any cmd in pipe sequence has exitcode != 0
+#   -x    print all commands
+#
+
+set +euo pipefail
 
 # ---------------------------------------------------------------------------------------

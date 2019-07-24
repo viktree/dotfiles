@@ -10,15 +10,17 @@
 # ---------------------------------------------------------------------------------------
 # ---{ Settings for ZPLUG }--------------------------------------------------------------
 
-function source_if_possible(){ [[ -e $1 ]] && source $1 }
-
-# You can customize where you put it but it's generally recommended that you put
-# in $HOME/.zplug
-if [[ ! -d ~/.zplug ]];then
-  git clone https://github.com/b4b4r07/zplug ~/.zplug
+# If ZPLUG is missing then let's get it
+# Installation location: $HOME/.zplug
+if [[ ! -d "$HOME/.zplug" ]]; then
+  if check_for_command git; then
+    git clone https://github.com/b4b4r07/zplug $HOME/.zplug
+  else
+    echo "Failed to fetch zplug, no git installed"
+  fi
 fi
 
-source ~/.zplug/init.zsh
+source_if_file "$HOME/.zplug/init.zsh"
 
 # Let zplug manage zplug
 zplug 'zplug/zplug', hook-build:'zplug --self-manage'
@@ -50,31 +52,24 @@ if [ -f '$HOME/google-cloud-sdk/completion.zsh.inc' ]
 fi
 
 # Install plugins if there are plugins that have not been installed
-if ! zplug check --verbose
-    then printf "Install? [y/N]: "
-    if read -q
-        then echo; zplug install
+if ! zplug check --verbose; then
+    printf "Install? [y/N]: "
+    if read -q; then
+        echo; zplug install
     fi
 fi
 
 # Then, source plugins and add commands to $PATH
 zplug load
 
-# Brew completions
-if type brew &>/dev/null; then
-  FPATH=$(brew --prefix)/share/zsh/site-functions:$FPATH
-fi
+# matches case insensitive for lowercase
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 
-# Add kubectl completions if they exist
-if [ -e $HOME/google-cloud-sdk/bin/kubectl ]
-  then source <(kubectl completion zsh)
-fi
-
-# iterm2 Integration
-source_if_possible "${HOME}/.iterm2_shell_integration.zsh"
+# pasting with tabs doesn't perform completion
+zstyle ':completion:*' insert-tab pending
 
 # FZF integration
-source_if_possible ~/.fzf.zsh
+setopt complete_aliases
 
 
 # ---{ Better History }------------------------------------------------------------------
@@ -91,17 +86,48 @@ setopt HIST_SAVE_NO_DUPS
 setopt HIST_EXPIRE_DUPS_FIRST
 setopt HIST_FIND_NO_DUPS
 
-HISTSIZE=10000
-SAVEHIST=10000
-cfg-history() { $EDITOR $HISTFILE ;}
+export HISTSIZE=10000
+export SAVEHIST=10000
+export HIST_STAMPS="yyyy-mm-dd"
+
+
+# ---{ Souce completions }---------------------------------------------------------------
+
+# Brew completions
+if type brew &>/dev/null; then
+  FPATH=$(brew --prefix)/share/zsh/site-functions:$FPATH
+fi
+
+# Add kubectl completions if they exist
+if [[ -e "$HOME/google-cloud-sdk/bin/kubectl" ]]; then
+  source <(kubectl completion zsh)
+fi
+
+# iterm2 Integration
+source_if_file "$HOME/.iterm2_shell_integration.zsh"
+
+# FZF integration
+source_if_possible "$HOME/.fzf.zsh"
+
+# Uupdates PATH for the Google Cloud SDK.
+source_if_file "$/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc"
+source_if_file "/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc"
+source_if_possible "$HOME/themes/zsh/gcloud.zsh"
+
+
+# ---{ Pre-load Checks }-----------------------------------------------------------------
+#
+#   -e    exit on first error
+#   -u    exit when an undefined variable
+#   -o    pipefail exit when any cmd in pipe sequence has exitcode != 0
+#   -x    print all commands
+#
+
+set -euo pipefail
 
 # ---{ Aliases }-------------------------------------------------------------------------
 
 alias config='/usr/bin/git --git-dir=$HOME/.myconf/ --work-tree=$HOME'
-
-alias reload="source ~/.zshrc"
-alias n=nvim
-alias g=git
 
 alias ip.address="dig +short myip.opendns.com @resolver1.opendns.com"
 alias ip.local="ipconfig getifaddr en0"
@@ -116,40 +142,108 @@ alias ..3="echo 'Moved back 3 directories:' && cd ../../.. | ls"
 
 alias fuck='pkill -9'
 alias cls='clear'
-alias gh='history | grep '
+alias gh='history | rg '
 
-case "$PLATFORM" in
-    "osx")
-        alias update.all='sudo softwareupdate -i -a; brew update; brew upgrade; brew cleanup; npm install -g; npm update'
-        alias update.mac='sudo softwareupdate -i -a'
-        alias update.brew='brew update; brew upgrade; brew cleanup'
-        alias icons.show="defaults write com.apple.finder CreateDesktop true"
-        alias icons.hide="defaults write com.apple.finder CreateDesktop false"
-        alias lock="/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend"
-        alias trash.empty="sudo rm -rfv ~/.Trash;"
-        alias trash.empty_all="sudo rm -rfv /Volumes/*/.Trashes; sudo rm -rfv ~/.Trash;"
-        ;;
-    "linux")
-        alias ls='ls --color=auto'
-        ;;
-    "freebsd")
-        alias ls='ls -G'
-        ;;
-    *)
-        ;;
-esac
+if check_for_command git; then
+
+  alias config='/usr/bin/git --git-dir=$HOME/.myconf/ --work-tree=$HOME'
+  alias g='git'
+
+  if check_for_command tig; then
+    alias ge="tig status && git commit"
+  fi
+
+fi
+
+if check_for_command nvim; then
+  alias svim='sudo nvim'
+  alias n='nvim'
+fi
+
+alias zipkins="java -jar $HOME/ecobee/bin/zipkins.jar"
+
+if is_mac; then
+    alias update.all='sudo softwareupdate -i -a; brew update; brew upgrade; brew cleanup; npm install -g; npm update'
+    alias update.mac='sudo softwareupdate -i -a'
+    alias update.brew='brew update; brew upgrade; brew cleanup'
+    alias icons.show="defaults write com.apple.finder CreateDesktop true"
+    alias icons.hide="defaults write com.apple.finder CreateDesktop false"
+    alias lock="/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend"
+    alias trash.empty="sudo rm -rfv ~/.Trash;"
+    alias trash.empty_all="sudo rm -rfv /Volumes/*/.Trashes; sudo rm -rfv ~/.Trash;"
+
+    # Avoid creating .DS_Store files on network or USB volumes
+    defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
+    defaults write com.apple.desktopservices DSDontWriteUSBStores -bool true
+
+    # Prevent Time Machine from prompting to use new hard drives as backup volume
+    defaults write com.apple.TimeMachine DoNotOfferNewDisksForBackup -bool true
+
+fi
+
+if is_linux; then
+    alias ls='ls --color=auto'
+fi
+
+if is_freebsd; then
+    alias ls='ls -G'
+fi
 
 # ---{ Functions }-----------------------------------------------------------------------
 
-function mkcd() { mkdir -p $1 && cd $1 }
+function reload(){
+  source "$HOME/.zshenv"
+  echo "reloading ~/.zshenv"
 
-function cdls() { cd $1 && ls }
+  source "$HOME/.zprofile"
+  echo "reloading ~/.zprofile"
 
-# stolen from @topfunky
-function cdf() { cd *$1*/ }
+  source "$HOME/.zshrc"
+  echo "reloading ~/.zshrc"
+}
+
+function cdls() {
+  cd $1
+  ls
+}
+
+function mkcd () {
+    mkdir $1
+    cd $1
+}
+
+function bak(){
+    cp $1{,.bak}
+}
 
 function overview(){
-  tree -aC -I '.git|node_modules|bower_components|.DS_Store' --dirsfirst "$@"
+  local ignore_this_stuff='.git|node_modules|bower_components|.DS_Store'
+  tree -aC -I $ignore_this_stuff --dirsfirst "$@"
+}
+
+function prune_path(){
+  PATH="$(perl -e 'print join(":", grep { not $seen{$_}++ } split(/:/, $ENV{PATH}))')"
+  export PATH
+}
+
+function add_path(){
+  echo "PATH_append $1" >> .zshenv
+  source "$HOME/.zshenv"
+}
+
+function grep-path(){
+  echo -e ${PATH//:/\\n} | rg $1
+}
+
+function grep-node(){
+  local common_node_processes="Visual|Insomnia|Boostnote|Postman|Keybase|Notion|Station|Uebersicht"
+  ps aux \
+    | rg -i node \
+    | rg -v $common_node_processes
+}
+
+function cfg-history() {
+  open $HISTFILE
 }
 
 # Extract many types of compressed packages
@@ -177,43 +271,14 @@ function extract() {
   fi
 }
 
-function edit() {
-  case "$1" in
-    git)
-      $EDITOR ~/.gitconfig
-      ;;
-    gitmessage)
-      $EDITOR ~/.gitmessage
-      ;;
-    gitignore)
-      $EDITOR ~/.gitignore
-      ;;
-    nvim)
-      $EDITOR ~/.config/nvim/init.vim
-      ;;
-    vim)
-      $EDITOR ~/.vimrc &&
-      source ~/.vimrc
-      ;;
-    zsh)
-      $EDITOR ~/.zshrc &&
-      source ~/.zshrc
-      ;;
-    profile)
-      $EDITOR ~/.zprofile &&
-      source ~/.zprofile
-      ;;
-    *)
-    "edit $1 has not been setup"
-    ;;
-  esac
-}
-
-
-if [[ "$PLATFORM" == "osx" ]] then;
+if is_mac; then
 
   function manpdf() {
     man -t $1 | open -f -a /Applications/Preview.app
+  }
+
+  function cdf(){
+      cd "$(osascript -e 'tell app "Finder" to POSIX path of (insertion location as alias)')";
   }
 
   function hiddenfiles() {
@@ -239,18 +304,31 @@ function save() {
 }
 
 
+# ---{ Post-load Checks }----------------------------------------------------------------
+#
+#   -e    exit on first error
+#   -u    exit when an undefined variable
+#   -o    pipefail exit when any cmd in pipe sequence has exitcode != 0
+#   -x    print all commands
+#
+
+set +euo pipefail
+
+
 # ---{ Direnv }--------------------------------------------------------------------------
 
-export NVM_DIR="$HOME/.nvm"
+# export NVM_DIR="$HOME/.nvm"
 # This loads nvm
-[ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"
-# This loads nvm bash_completion
-[ -s "/usr/local/opt/nvm/etc/bash_completion" ] && . "/usr/local/opt/nvm/etc/bash_completion"
+export PATH="/usr/local/opt/node@10/bin:$PATH"
 
 # Used to allow zsh to work ok
 eval "$(direnv hook zsh)"
 
+# Load nodenv automatically by appending
+# the following to ~/.zshrc:
+
+eval "$(nodenv init -)"
+
 # ---------------------------------------------------------------------------------------
 
 
-export PATH="/usr/local/opt/node@10/bin:$PATH"
