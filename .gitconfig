@@ -14,8 +14,7 @@
 
   editor = nvim
   excludesfile = ~/.gitignore
-  # insanely beautiful diffs ==> npm install -g diff-so-fancy
-  pager = diff-so-fancy | less --tabs=1,5 -R
+	pager = diff-so-fancy | less --tabs=4 -RFX
 
 [color "branch"]
 
@@ -133,6 +132,4 @@
   template = ~/.gitmessage
 
 [credential]
-
-  # Make Mac OSX plays well with git
-  helper = osxkeychain
+	helper = osxkeychain
