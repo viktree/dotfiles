@@ -7,9 +7,10 @@ As of right now, I am using [this](https://developer.atlassian.com/blog/2016/02/
 
 ## Computers
 
-Right now, the configuration for each computer is managed using a seperate branch
+Right now, the configuration for each computer is managed using a separate branch
 
-1. `mac/tintinux`: Personal Laptop
+1. `mac/tintinux`: My personal laptop that I use for most things
+
     - **Make**: Apple
     - **Model** "13-inch MacBook Air (2017)
     - **Operating System**: macOS High Sierra
@@ -18,20 +19,8 @@ Right now, the configuration for each computer is managed using a seperate branc
     - **Graphics**: Intel HD Graphics 6000 1536 MB
     - **Storage**: 120 GB Flash storage, expanded by another 120GB
 
-2. `mac/ecobee-web`: Work Laptop
+2. `mac/ecobee-web`: This was the laptop I was using while at ecobee
+
+3. [ubuntu-jetson/alcazar](https://github.com/viktree/dotfiles/tree/ubuntu-jetson/alcazar): This is a nvidia jetson that I have sitting on my desk at home.
 
 
-## Getting setup on a new machine
-
-To get started:
-
-```bash
-$ alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
-$ git clone --bare https://github.com/viktree/dotfiles.git $HOME/.cfg
-$ alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
-$ config checkout
-$ config config --local status.showUntrackedFiles no
-```
-
-- When starting off, rip a new branch from a branch that has relatively similar settings.
-- Instead of using `git`, use `config` when you want to control the dotfiles repo
