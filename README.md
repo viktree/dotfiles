@@ -1,26 +1,95 @@
 # Vikram's Dotfiles
 
-Dotfiles are a way of backing up and syncing my settings the my setup across multiple machines. This way I can keep the settings and programs that I love and keep any tidbits/gems that I pickup along the way.
-
-As of right now, I am using [this](https://developer.atlassian.com/blog/2016/02/best-way-to-store-dotfiles-git-bare-repo/) convenient nice strategy to manage my configuration files for my development environments. I first found this idea in [a HackerNews post](https://news.ycombinator.com/item?id=11070797).
+Dotfiles are a way of backing up and syncing my settings the my setup across multiple machines. This way I can keep the settings for programs that I love, as well as any tidbits/gems that I pickup along the way.
 
 
-## Computers
 
-Right now, the configuration for each computer is managed using a separate branch
+## My machines
 
-1. `mac/tintinux`: My personal laptop that I use for most things
+Right now, the configuration for each computer is managed using a separate branch. I try and name my machines using characters from [The Adventures of Tintin](https://en.wikipedia.org/wiki/The_Adventures_of_Tintin) and the branches accordingly.
 
-    - **Make**: Apple
-    - **Model** "13-inch MacBook Air (2017)
-    - **Operating System**: macOS High Sierra
-    - **Processor:** 1.8 GHz Intel Core i5
-    - **Memory:** 8 GB 1600 MHz DDR3
-    - **Graphics**: Intel HD Graphics 6000 1536 MB
-    - **Storage**: 120 GB Flash storage, expanded by another 120GB
+![](https://upload.wikimedia.org/wikipedia/en/e/ed/Tintin-mainSupportingCharacters.png)
 
-2. `mac/ecobee-web`: This was the laptop I was using while at ecobee
 
-3. [ubuntu-jetson/alcazar](https://github.com/viktree/dotfiles/tree/ubuntu-jetson/alcazar): This is a nvidia jetson that I have sitting on my desk at home.
 
+### Active development environments
+
+1. [mac/tintinux](https://github.com/viktree/dotfiles/tree/mac/tintinux) The main operating system on my personal macbook that I use for most things
+
+2. [ubuntu-jetson/alcazar](https://github.com/viktree/dotfiles/tree/ubuntu-jetson/alcazar) This is a nvidia jetson that I have sitting on my desk at home.
+
+   
+
+### No longer in use
+
+1. [mac/ecobee-web](https://github.com/viktree/dotfiles/tree/mac/ecobee-web) This was the laptop I was using while at ecobee
+
+
+
+## Setting up a new computer
+
+There are many different programs for managing dotfiles, but one idea that seemed really slick was mentioned in this [a HackerNews post](https://news.ycombinator.com/item?id=11070797) and then elaborated on [here](https://developer.atlassian.com/blog/2016/02/best-way-to-store-dotfiles-git-bare-repo/). Unlike many of the other options, this strategy doesn't relie on symlinks or bulky programs (you really only need git)! 
+
+
+
+I used this for the first little while and then I started to peek over at [yadm](https://yadm.io/), which is a program that pretty much does the same thing under the hood and comes with a couple of other nice features. We are still only using a glorified git repo.
+
+
+
+### With yadm
+
+First we will need to download yadm
+
+```bash
+git clone https://github.com/TheLocehiliosan/yadm.git ~/.config/yadm
+ln -s ~/.config/yadm ~/bin/yadm
+```
+
+Then we need to point it at this repo 
+
+```bash
+# ssh version: git@github.com:viktree/dotfiles.git
+yadm remote add https://github.com/viktree/dotfiles
+yadm pull
+```
+
+And cut a new branch
+
+```
+yadm checkout -b <descriptive-branch-name>
+yadm add <file-to-backup>
+yadm commit -m "initial commit"
+yadm push --set-upstream origin <descriptive-branch-name>
+```
+
+
+
+### Without yadm
+
+```bash
+alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
+git clone --bare https://github.com/Viktree/dotfiles.git $HOME/.cfg
+git clone --bare https://github.com/viktree/dotfiles.git $HOME/.cfg
+alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
+config checkout
+config config --local status.showUntrackedFiles no
+```
+
+
+
+### After branch creation
+
+Just as a reminder to myself here are a few things to do after creating a new branch:
+
+- [ ] add machine specs to the README.md file of the branch
+
+- [ ] add entry to this file on the master branch
+
+- [ ] make sure to commit to the branch frequently
+
+
+
+---
+
+[Link to configs for my other machines](https://github.com/viktree/dotfiles#my-machines)
 
