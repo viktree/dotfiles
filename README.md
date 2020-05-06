@@ -4,7 +4,7 @@ This branch of my dotfiles repo contains the configuration files for my macbook 
 
 
 
-![](/Users/tintinux/screenshot.png)
+![](./screenshot.png)
 
 
 
