@@ -1,0 +1,1 @@
+/Users/tintinux/.config/zsh/.zshenv

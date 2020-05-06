@@ -1,0 +1,120 @@
+# -*- mode: sh;-*-
+# ---------------------------------------------------------------------------------------
+# ---{ My direnvrc } --------------------------------------------------------------------
+# ---------------------------------------------------------------------------------------
+# ---{ Python }--------------------------------------------------------------------------
+
+#
+#   It's possible to use `pyenv` to manage python versions and direnv to load them.
+#
+#   To use a specific version of python, try:
+#
+#      use python 2.6.7
+#
+
+# use_python() {
+#   local python_root=$HOME/.pyenv/versions/$1
+#   load_prefix "$python_root"
+#   layout_python "$python_root/bin/python"
+# }
+
+use_pyenv() {
+  unset PYENV_VERSION
+  # Because each python version is prepended to the PATH, add them in reverse order
+  for ((j = $#; j >= 1; j--)); do
+    local python_version=${!j}
+    local pyenv_python=$(pyenv root)/versions/${python_version}/bin/python
+    if [[ ! -x "$pyenv_python" ]]; then
+      log_error "Error: $pyenv_python can't be executed."
+      return 1
+    fi
+
+    unset PYTHONHOME
+    local ve=$($pyenv_python -c "import pkgutil; print('venv' if pkgutil.find_loader('venv') else ('virtualenv' if pkgutil.find_loader('virtualenv') else ''))")
+
+    case $ve in
+      "venv")
+        VIRTUAL_ENV=$(direnv_layout_dir)/python-$python_version
+        export VIRTUAL_ENV
+        if [[ ! -d $VIRTUAL_ENV ]]; then
+          $pyenv_python -m venv "$VIRTUAL_ENV"
+        fi
+        PATH_add "$VIRTUAL_ENV"/bin
+        ;;
+      "virtualenv")
+        layout_python "$pyenv_python"
+        ;;
+      *)
+        log_error "Error: neither venv nor virtualenv are available to ${pyenv_python}."
+        return 1
+        ;;
+    esac
+
+    # e.g. Given "use pyenv 3.6.9 2.7.16", PYENV_VERSION becomes "3.6.9:2.7.16"
+    [[ -z "${PYENV_VERSION-}" ]] && PYENV_VERSION=$python_version || PYENV_VERSION="${python_version}:$PYENV_VERSION"
+  done
+
+  export PYENV_VERSION
+}
+
+use_poetry(){
+  if [ ! -f "pyproject.toml" ]
+  then
+    poetry init
+  fi
+}
+
+# use_python() {
+#   local python_root=$PYENV_ROOT/versions/$1
+#   local CFLAGS="-I$(brew --prefix readline)/include -I$(brew --prefix openssl)/include -I$(xcrun --show-sdk-path)/usr/include"
+#   local LDFLAGS="-L$(brew --prefix readline)/lib -L$(brew --prefix openssl)/lib"
+#   local PYTHON_CONFIGURE_OPTS=--enable-unicode=ucs2
+#   load_prefix "$python_root"
+#   if [[ -x "$python_root/bin/python" ]]; then
+#     layout python "$python_root/bin/python"
+#   else
+#     echo "Error: $python_root/bin/python can't be executed."
+#     exit
+#   fi
+# }
+
+# ---{ nodejs }--------------------------------------------------------------------------
+
+use_nvm() {
+  local node_version=$1
+
+  nvm_sh=~/.nvm/nvm.sh
+  if [[ -e $nvm_sh ]]; then
+    source $nvm_sh
+    nvm use $node_version
+  fi
+}
+
+# ---{ Golang }--------------------------------------------------------------------------
+#
+#    Usage: layout golang
+#
+#    Sets up environment for a Go project using the alternative gb build tool. Also
+#    works with the official dep package.In addition to project executables on
+#    PATH, this includes an exclusive, project- local GOPATH which enables many
+#    tools like gocode and oracle to "just work".
+#
+#    http://getgb.io/
+#    https://golang.github.io/dep/
+#
+layout_golang() {
+  export GOPATH="$PWD/vendor:$PWD"
+  PATH_add "$PWD/vendor/bin"
+  PATH_add bin
+}
+
+# ---{ Haskell }-------------------------------------------------------------------------
+
+layout_haskell() {
+  PATH_add ~/.cabal/bin
+  [ -d .cabal-sandbox ] || cabal sandbox init
+  PATH_add .cabal-sandbox/bin
+  export GHC_PACKAGE_PATH=$(cabal exec -- sh -c "echo \$GHC_PACKAGE_PATH")
+}
+
+# --------------------------------------------------------------------------------------
