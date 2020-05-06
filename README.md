@@ -8,8 +8,9 @@ Dotfiles are a way of backing up and syncing my settings the my setup across mul
 
 Right now, the configuration for each computer is managed using a separate branch. I try and name my machines using characters from [The Adventures of Tintin](https://en.wikipedia.org/wiki/The_Adventures_of_Tintin) and the branches accordingly.
 
-![](https://upload.wikimedia.org/wikipedia/en/e/ed/Tintin-mainSupportingCharacters.png)
-
+<p align="center">
+  <img src="https://upload.wikimedia.org/wikipedia/en/e/ed/Tintin-mainSupportingCharacters.png">
+</p>
 
 
 ### Active development environments
@@ -18,7 +19,7 @@ Right now, the configuration for each computer is managed using a separate branc
 
 2. [ubuntu-jetson/alcazar](https://github.com/viktree/dotfiles/tree/ubuntu-jetson/alcazar) This is a nvidia jetson that I have sitting on my desk at home.
 
-   
+
 
 ### No longer in use
 
@@ -28,7 +29,7 @@ Right now, the configuration for each computer is managed using a separate branc
 
 ## Setting up a new computer
 
-There are many different programs for managing dotfiles, but one idea that seemed really slick was mentioned in this [a HackerNews post](https://news.ycombinator.com/item?id=11070797) and then elaborated on [here](https://developer.atlassian.com/blog/2016/02/best-way-to-store-dotfiles-git-bare-repo/). Unlike many of the other options, this strategy doesn't relie on symlinks or bulky programs (you really only need git)! 
+There are many different programs for managing dotfiles, but one idea that seemed really slick was mentioned in this [a HackerNews post](https://news.ycombinator.com/item?id=11070797) and then elaborated on [here](https://developer.atlassian.com/blog/2016/02/best-way-to-store-dotfiles-git-bare-repo/). Unlike many of the other options, this strategy doesn't depend on having symbolic links or bulky programs (you really only need git)!
 
 
 
@@ -45,7 +46,7 @@ git clone https://github.com/TheLocehiliosan/yadm.git ~/.config/yadm
 ln -s ~/.config/yadm ~/bin/yadm
 ```
 
-Then we need to point it at this repo 
+Then we need to point it at this repo
 
 ```bash
 # ssh version: git@github.com:viktree/dotfiles.git
@@ -79,17 +80,14 @@ config config --local status.showUntrackedFiles no
 
 ### After branch creation
 
-Just as a reminder to myself here are a few things to do after creating a new branch:
+Just a few reminders:
 
 - [ ] add machine specs to the README.md file of the branch
-
 - [ ] add entry to this file on the master branch
-
 - [ ] make sure to commit to the branch frequently
-
 
 
 ---
 
-[Link to configs for my other machines](https://github.com/viktree/dotfiles#my-machines)
+[Here's a link to how these files are setup and the configuration files for my other machines](https://github.com/viktree/dotfiles)
 
