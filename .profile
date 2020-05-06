@@ -14,10 +14,6 @@ export XDG_DATA_HOME="$XDG_LOCAL_HOME/share"
 export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_CACHE_HOME="$HOME/.cache"
 
-if check_for_command vim
-then export EDITOR="vim"
-fi
-
 function check_for_command(){
     command -v $1 >/dev/null 2>&1
 }
@@ -30,6 +26,10 @@ function PATH_append(){
         fi
     fi
 }
+
+if check_for_command vim
+then export EDITOR="vim"
+fi
 
 export CARGO_HOME="$XDG_DATA_HOME/cargo"
 
