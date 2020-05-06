@@ -116,6 +116,7 @@ if ! shopt -oq posix; then
   fi
 fi
 
+source /usr/local/bin/virtualenvwrapper.sh
 
 if command -v pyenv 1>/dev/null 2>&1; then
   eval "$(pyenv init -)"
