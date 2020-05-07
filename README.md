@@ -25,6 +25,7 @@ Right now, the configuration for each computer is managed using a separate branc
 
 1. [mac/ecobee-web](https://github.com/viktree/dotfiles/tree/mac/ecobee-web) This was the laptop I was using while at ecobee
 
+2. [uoft/wolf](https://github.com/viktree/dotfiles/tree/uoft/wolf) Some of the configuration files from U of T's computer science server. Not quite sure why it was called wolf.
 
 
 ## Setting up a new computer
@@ -68,12 +69,17 @@ yadm push --set-upstream origin <descriptive-branch-name>
 ### Without yadm
 
 ```bash
-alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
-git clone --bare https://github.com/Viktree/dotfiles.git $HOME/.cfg
+# ssh version: git@github.com:viktree/dotfiles.git
 git clone --bare https://github.com/viktree/dotfiles.git $HOME/.cfg
+
+# Keep this in a bashrc or an equivalent file
 alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
-config checkout
+
+config checkout  -b <descriptive-branch-name>
 config config --local status.showUntrackedFiles no
+config add <file-to-backup>
+config commit -m "initial commit"
+config push --set-upstream origin <descriptive-branch-name>
 ```
 
 
