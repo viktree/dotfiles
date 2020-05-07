@@ -1,0 +1,9 @@
+xterm*font: 9x15
+xterm*boldFont: 9x15bold
+xterm*scrollBar: on
+xterm*background: cornsilk2
+Home Window*font: 9x15
+Home Window*boldFont: 9x15bold
+Home Window*background: cornsilk2
+Mwm*iconPlacement: right top tight
+Mwm*keyboardFocusPolicy:        pointer

@@ -1,0 +1,18 @@
+# $Header: /admin/cvsroot/cdf/local.share/cdf/skel/.bash_login,v 1.4 2002/09/12 16:36:38 agenkin Exp $
+# Default .bash_login script for CSC students whose login shell is Bash.
+# Run once, when you log in.
+
+# Establish the terminal settings. This sets your backspace key to "control-H"
+# (equivalent to the backspace key on a workstation keyboard), and your
+# interrupt key to "control-C". See the manual page for stty for more info.
+
+tty -s && stty -tabs erase "^H" intr "^C"
+
+# prevent people from "talk"ing or "write"ing to your terminal. Change this
+# to "mesg y" if you want to allow this.
+tty -s && mesg n
+
+if [ -f $HOME/.bashrc ]
+then
+    source $HOME/.bashrc
+fi

@@ -1,0 +1,7 @@
+[core]
+	editor = nedit
+[user]
+	name = Vikram
+	email = vikram.venkataramanan@mail.utoronto.ca
+[credential]
+	helper = store
