@@ -25,7 +25,7 @@ Right now, the configuration for each computer is managed using a separate branc
 
 1. [mac/ecobee-web](https://github.com/viktree/dotfiles/tree/mac/ecobee-web) This was the laptop I was using while at ecobee
 
-2. [uoft/wolf](https://github.com/viktree/dotfiles/tree/uoft/wolf) Some of the configuration files from U of T's computer science server. Not quite sure why it was called wolf.
+2. [uoftcs/wolf](https://github.com/viktree/dotfiles/tree/uoftcs/wolf) Some of the configuration files from U of T's computer science server. Not quite sure why it was called wolf.
 
 
 ## Setting up a new computer
