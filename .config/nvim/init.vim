@@ -125,14 +125,16 @@ Plug 'tpope/vim-sleuth'
 Plug 'ntpeters/vim-better-whitespace'
 Plug 'Raimondi/delimitMate'
 Plug 'godlygeek/tabular'
+Plug 'psf/black', { 'for': 'python' }
+Plug 'rhysd/vim-clang-format'
 Plug 'prettier/vim-prettier', {
   \ 'do': 'yarn install',
   \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'vue', 'yaml', 'html'] }
 
 let g:prettier#quickfix_enabled = 0
 let g:prettier#autoformat = 0
-
-autocmd BufWritePre,TextChanged,InsertLeave *.js,*.jsx,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.vue,*.yaml,*.html PrettierAsync
+let g:black_linelength = 100
+let g:clang_format#detect_style_file = 1
 
 function! TrimWhitespace()
     let l:save = winsaveview()
@@ -141,6 +143,16 @@ function! TrimWhitespace()
 endfunction
 
 autocmd BufWritePre * :call TrimWhitespace()
+autocmd BufWritePre *.py execute ':Black'
+autocmd BufWritePre,TextChanged,InsertLeave *.js,*.jsx PrettierAsync
+autocmd BufWritePre,TextChanged,InsertLeave *.ts,*.tsx PrettierAsync
+autocmd BufWritePre,TextChanged,InsertLeave *.css,*.less,*.scss PrettierAsync
+autocmd BufWritePre,TextChanged,InsertLeave *.vue PrettierAsync
+autocmd BufWritePre,TextChanged,InsertLeave *.json PrettierAsync
+autocmd BufWritePre,TextChanged,InsertLeave *.graphql PrettierAsync
+autocmd BufWritePre,TextChanged,InsertLeave *.yaml PrettierAsync
+autocmd FileType c ClangFormatAutoEnable
+autocmd FileType cpp ClangFormatAutoEnable
 
 ""}}}
 " version control {{{
@@ -216,7 +228,6 @@ let g:coc_global_extensions = [
   \ 'coc-eslint',
   \ 'coc-html',
   \ 'coc-json',
-  \ 'coc-python',
   \ 'coc-sh',
   \ 'coc-snippets',
   \ 'coc-stylelint',
@@ -260,7 +271,13 @@ nmap J <Plug>(devdocs-under-cursor)
 Plug 'kovetskiy/vim-bash', { 'for': 'bash' }
 " }}}
 " c/cpp {{{
-Plug 'arakashic/chromatica.nvim', { 'for': ['c']}
+Plug 'arakashic/chromatica.nvim', { 'for': ['c', 'cpp']}
+
+autocmd BufNewFile,BufRead *.cpp setlocal fdm=syntax
+autocmd BufNewFile,BufRead *.cpp setlocal nofoldenable
+autocmd BufNewFile,BufRead *.cpp setlocal tabstop=4
+autocmd BufNewFile,BufRead *.cpp setlocal softtabstop=4
+autocmd BufNewFile,BufRead *.cpp setlocal shiftwidth=4
 "}}}
 " elixir {{{
 " Plug 'elixir-editors/vim-elixir',     { 'for': 'elixir' }
@@ -309,9 +326,9 @@ autocmd BufNewFile,BufRead *.md setlocal spell
 Plug 'LnL7/vim-nix', { 'for': 'nix' }
 " }}}
 " python {{{
-Plug 'psf/black', { 'for': 'python' }
 Plug 'tmhedberg/SimpylFold', { 'for': 'python' }
 Plug 'raimon49/requirements.txt.vim', {'for': 'requirements'}
+" Plug 'vim-scripts/indentpython.vim'
 
 autocmd BufNewFile,BufRead *.py setlocal tabstop=4
 autocmd BufNewFile,BufRead *.py setlocal softtabstop=4
@@ -320,6 +337,8 @@ autocmd BufNewFile,BufRead *.py setlocal textwidth=79
 autocmd BufNewFile,BufRead *.py setlocal expandtab
 autocmd BufNewFile,BufRead *.py setlocal foldlevel=30
 autocmd BufNewFile,BufRead *.py setlocal autoindent
+autocmd BufNewFile,BufRead *.py setlocal fileformat=unix
+autocmd BufNewFile,BufRead *.py setlocal colorcolumn=81
 " }}}
 " r {{{
 Plug 'jalvesaq/Nvim-R', { 'for': 'r' }
