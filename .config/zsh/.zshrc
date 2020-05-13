@@ -8,29 +8,6 @@
 #   key bindings, etc.
 #
 
-PLATFORM='unknown'
-case "$(uname)" in
-    "Darwin") PLATFORM='osx';;
-    "Linux") PLATFORM='linux';;
-    "FreeBSD") PLATFORM='freebsd';;
-    *);;
-esac
-
-is_mac(){
-    [ "$PLATFORM" = "osx" ]
-}
-
-is_linux(){
-    [ "$PLATFORM" = "linux" ]
-}
-
-is_freebsd(){
-    [ "$PLATFORM" = "freebsd" ]
-}
-is_windows(){
-    grep -q Microsoft /proc/version
-}
-
 # ---{ Zinit }---------------------------------------------------------------------------
 #
 source "$HOME/.config/zsh/.zinit/bin/zinit.zsh"
@@ -86,10 +63,10 @@ zinit ice as"program" make'!' atclone'./direnv hook zsh > zhook.zsh' \
 	atpull'%atclone' src"zhook.zsh"
 zinit light direnv/direnv
 
-zinit ice atclone'PYENV_ROOT="$PWD" ./libexec/pyenv init - > zpyenv.zsh' \
-	atinit'export PYENV_ROOT="$PWD"' atpull"%atclone" \
-	as'command' pick'bin/pyenv' src"zpyenv.zsh" nocompile'!'
-zinit light pyenv/pyenv
+# zinit ice atclone'PYENV_ROOT="$PWD" ./libexec/pyenv init - > zpyenv.zsh' \
+# 	atinit'export PYENV_ROOT="$PWD"' atpull"%atclone" \
+# 	as'command' pick'bin/pyenv' src"zpyenv.zsh" nocompile'!'
+# zinit light pyenv/pyenv
 
 zinit ice atclone'NODENV_ROOT="$PWD" ./libexec/nodenv init - > znodenv.zsh' \
 	atinit'export NODENV_ROOT="$PWD"' atpull"%atclone" \
@@ -109,6 +86,7 @@ unset -f _zinit_plugin_exists
 function source_if_file(){ [[ -f $1 ]] && source $1 }
 function source_if_possible(){ [[ -e $1 ]] && source $1 }
 function check_for_command(){ command -v $1 >/dev/null 2>&1 }
+function is_mac(){ [ "$(uname)" = "Darwin" ] }
 
 if check_for_command brew
 then FPATH="/usr/local/share/zsh/site-functions":$FPATH
@@ -247,6 +225,10 @@ fi
 # pipx competions
 if check_for_command pipx
 then eval "$(register-python-argcomplete pipx)"
+fi
+
+if check_for_command pyenv
+then eval "$(pyenv init -)"
 fi
 
 if check_for_command jenv

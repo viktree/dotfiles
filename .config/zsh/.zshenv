@@ -99,7 +99,7 @@ then export ANDROID_NDK_HOME="$BREW_PREFIX/opt/android-ndk"
 fi
 
 if check_for_command pyenv
-then export PYENV_VERSION="2.7"
+then export PYENV_ROOT="$HOME/.pyenv"
 fi
 
 if [[ -e "/Library/TeX/texbin" ]]
@@ -154,10 +154,13 @@ PATH_append "$HOME/.local/bin"
 PATH_append "$HOME/.yarn/bin"
 PATH_append "$HOME/bin"
 PATH_append "$MAVEN_HOME"
+PATH_append "$PYENV_ROOT/bin"
 PATH_append "$TEX_HOME"
 PATH_append "$XDG_CONFIG_HOME/yarn/global/node_modules/.bin"
 PATH_append "$XDG_DATA_HOME/bin"
 PATH_append "$HOME/.poetry/bin"
+
+PATH_append "$BREW_PREFIX/Cellar/llvm/10.0.0_3/bin/"
 
 export PATH
 
