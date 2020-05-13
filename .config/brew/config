@@ -13,83 +13,88 @@
 #   These are the packages reposititories that homebrew should look at
 #
 
-tap "azure/draft"
-tap "github/gh"
-tap "heroku/brew"
-tap "homebrew/bundle"
-tap "homebrew/cask"
-tap "homebrew/cask-fonts"
-tap "homebrew/cask-versions"
-tap "homebrew/core"
-tap "homebrew/services"
-tap "khanhas/tap"
-tap "koekeishiya/formulae"
+tap 'azure/draft'
+tap 'cjbassi/ytop'
+tap 'github/gh'
+tap 'heroku/brew'
+tap 'homebrew/bundle'
+tap 'homebrew/cask'
+tap 'homebrew/cask-fonts'
+tap 'homebrew/cask-versions'
+tap 'homebrew/core'
+tap 'homebrew/services'
+tap 'khanhas/tap'
+tap 'koekeishiya/formulae'
 
 # ---{ Programs } -----------------------------------------------------------------------
 
-brew "ant"
-brew "aria2"
-brew "aspell"
-brew "automake"
-brew "cabal-install"
-brew "cmake"
-brew "coreutils"
-brew "cscope"
-brew "ctags"
-brew "docker"
-brew "docker-compose"
-brew "draft"
-brew "editorconfig"
-brew "entr"
-brew "elixir"
-brew "erlang"
-brew "findutils"
-brew "fzf"
-brew "gcc"
-brew "gdb"
-brew "gh"
-brew "ghc"
-brew "git"
-brew "glow"
-brew "gnupg"
-brew "gnuplot"
-brew "go"
-brew "go"
-brew "gradle"
-brew "gs"
-brew "helm"
-brew "jq"
-brew "libtool"
-brew "llvm"
-brew "lua"
-brew "maven"
-brew "mitmproxy"
-brew "neofetch"
-brew "neovim"
-brew "node"
-brew "nodenv"
-brew "opencv"
-brew "pandoc"
-brew "postgresql"
-brew "pulumi"
-brew "r"
-brew "redis"
-brew "ripgrep"
-brew "rustup"
-brew "shellcheck"
-brew "socat"
-brew "spicetify-cli"
-brew "terraform"
-brew "tor"
-brew "tree"
-brew "vifm"
-brew "wabt"
-brew "wget"
-brew "yabai", restart_service: :changed
-brew "yadm"
-brew "yarn"
-brew "youtube-dl"
-brew "zplug"
+brew 'ant'
+brew 'aria2'
+brew 'aspell'
+brew 'automake'
+brew 'cabal-install'
+brew 'clang-format'
+brew 'cmake'
+brew 'coreutils'
+brew 'cscope'
+brew 'ctags'
+brew 'docker'
+brew 'docker-compose'
+brew 'draft'
+brew 'editorconfig'
+brew 'entr'
+brew 'elixir'
+brew 'erlang'
+brew 'findutils'
+brew 'fzf'
+brew 'gcc'
+brew 'gdb'
+brew 'gh'
+brew 'ghc'
+brew 'git'
+brew 'glow'
+brew 'gnupg'
+brew 'gnuplot'
+brew 'go'
+brew 'go'
+brew 'gradle'
+brew 'gs'
+brew 'helm'
+brew 'jq'
+brew 'libtool'
+brew 'llvm'
+brew 'lua'
+brew 'maven'
+brew 'mitmproxy'
+brew 'neofetch'
+brew 'neovim'
+brew 'node'
+brew 'nodenv'
+brew 'opencv'
+brew 'pandoc'
+brew 'postgresql'
+brew 'pulumi'
+brew 'pyenv'
+brew 'r'
+brew 'redis'
+brew 'ripgrep'
+brew 'rustup'
+brew 'shellcheck'
+brew 'socat'
+brew 'spicetify-cli'
+brew 'sshfs'
+brew 'terraform'
+brew 'tor'
+brew 'tree'
+brew 'vifm'
+brew 'wabt'
+brew 'wget'
+brew 'yabai', restart_service: :changed
+brew 'yadm'
+brew 'yarn'
+brew 'ytop'
+brew 'youtube-dl'
+brew 'zplug'
 
 # ---{ Casks } --------------------------------------------------------------------------
 #
@@ -97,70 +102,72 @@ brew "zplug"
 #   applications through the cask project
 #
 
-cask_args fontdir: "/Library/Fonts"
+cask_args fontdir: '/Library/Fonts'
 
 # Fonts
-cask "font-fantasque-sans-mono"
-cask "font-fontawesome"
-cask "font-ia-writer-quattro"
-cask "font-jetbrains-mono"
-cask "font-monoton"
-cask "font-montserrat"
-cask "font-roboto-slab"
+cask 'font-fantasque-sans-mono'
+cask 'font-fontawesome'
+cask 'font-ia-writer-quattro'
+cask 'font-jetbrains-mono'
+cask 'font-monoton'
+cask 'font-montserrat'
+cask 'font-roboto-slab'
 
 # Quicklook
-cask "qlcolorcode"
+cask 'qlcolorcode'
 
 # Java and Android
-cask "adoptopenjdk"
-cask "java"
+cask 'adoptopenjdk'
+cask 'java'
 
 # IDEs
-cask "android-studio"
-cask "atom"
-cask "datagrip"
-cask "goland"
-cask "rstudio"
-cask "intellij-idea"
-cask "visual-studio-code"
+cask 'android-studio'
+cask 'atom'
+cask 'datagrip'
+cask 'goland'
+cask 'rstudio'
+cask 'intellij-idea'
+cask 'visual-studio-code'
 
 # LaTeX
-cask "basictex"
-cask "tex-live-utility"
+cask 'basictex'
+cask 'tex-live-utility'
 
 # Virtual box
-cask "virtualbox"
-cask "virtualbox-extension-pack"
+cask 'virtualbox'
+cask 'virtualbox-extension-pack'
 
 # Web Browsers
-cask "firefox"
-cask "google-chrome"
-cask "tor-browser"
+cask 'firefox'
+cask 'google-chrome'
+cask 'tor-browser'
 
-cask "alfred"
-cask "appcleaner"
-cask "beardedspice"
-cask "balenaetcher"
-cask "brooklyn"
-cask "caffeine"
-cask "calibre"
-cask "dozer"
-cask "dropbox"
-cask "flycut"
-cask "fork"
-cask "hyperswitch"
-cask "insomnia"
-cask "jetbrains-toolbox"
-cask "julia"
-cask "karabiner-elements"
-cask "kitty"
-cask "skim"
-cask "skype"
-cask "slack"
-cask "thunderbird"
-cask "tiddly"
-cask "typora"
-cask "ubersicht"
-cask "xquartz"
+cask 'alfred'
+cask 'appcleaner'
+cask 'beardedspice'
+cask 'balenaetcher'
+cask 'brooklyn'
+cask 'caffeine'
+cask 'calibre'
+cask 'dozer'
+cask 'dropbox'
+cask 'flycut'
+cask 'fork'
+cask 'hyperswitch'
+cask 'insomnia'
+cask 'jetbrains-toolbox'
+cask 'julia'
+cask 'karabiner-elements'
+cask 'kite'
+cask 'kitty'
+cask 'osxfuse'
+cask 'skim'
+cask 'skype'
+cask 'slack'
+cask 'thunderbird'
+cask 'tiddly'
+cask 'typora'
+cask 'ubersicht'
+cask 'xquartz'
 
 # ---------------------------------------------------------------------------------------
