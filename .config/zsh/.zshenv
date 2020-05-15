@@ -70,8 +70,8 @@ fi
 
 if check_for_command go
 then
-	export GOPATH="/Volumes/vikram/go"
-	export PATH=$PATH:$GOPATH/bin
+    export GOPATH="/Volumes/vikram/go"
+    export PATH=$PATH:$GOPATH/bin
 fi
 
 if check_for_command docker
@@ -108,32 +108,32 @@ fi
 
 if check_for_command fzf && check_for_command rg
 then
-	export FZF_DEFAULT_COMMAND='rg --files --hidden --follow -g "!{.git} !{node_modules}" 2>/dev/null'
-	export FZF_CTRL_T_COMMAND='rg --files --hidden --follow -g "!{.git} !{node_modules}" 2>/dev/null'
+    export FZF_DEFAULT_COMMAND='rg --files --hidden --follow -g "!{.git} !{node_modules}" 2>/dev/null'
+    export FZF_CTRL_T_COMMAND='rg --files --hidden --follow -g "!{.git} !{node_modules}" 2>/dev/null'
 fi
 
 # ---------------------------------------------------------------------------------------
 
 if [[ -d "$vikram" ]]
 then
-	if [[ -d "$vikram/Android/sdk" ]]
-	then
-		export ANDROID_HOME="$vikram/Android/sdk"
-		export ANDROID_SDK_ROOT="$vikram/Android/sdk"
-		export ANDROID_SDK=$ANDROID_SDK_ROOT
-	fi
-	if [[ -d "$vikram/google-cloud-sdk" ]]
-	then export GCLOUD_HOME="$vikram/google-cloud-sdk"
-	fi
+    if [[ -d "$vikram/Android/sdk" ]]
+    then
+    	export ANDROID_HOME="$vikram/Android/sdk"
+    	export ANDROID_SDK_ROOT="$vikram/Android/sdk"
+    	export ANDROID_SDK=$ANDROID_SDK_ROOT
+    fi
+    if [[ -d "$vikram/google-cloud-sdk" ]]
+    then export GCLOUD_HOME="$vikram/google-cloud-sdk"
+    fi
 fi
 
 
 # ---------------------------------------------------------------------------------------
 
 function PATH_append(){
-	if [[ -e $1 ]] && [[ ":$PATH:" != *":$1:"* ]]
-	then PATH="$1:$PATH"
-	fi
+    if [[ -e $1 ]] && [[ ":$PATH:" != *":$1:"* ]]
+    then PATH="$1:$PATH"
+    fi
 }
 
 PATH_append "$ANDROID_HOME/build-tools/$build_tool_version"
