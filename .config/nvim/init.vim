@@ -1,4 +1,4 @@
-" vim: fdm=marker foldenable sw=4 ts=4 sts=4
+" vim: fdm=marker foldlevel=0 foldenable sw=4 ts=4 sts=4
 "----------------------------------------------------------------------------------------
 " Title:		Neovim configuration
 " Author:		Vikram Venkataramanan
@@ -20,6 +20,12 @@ set secure                 " disallows :autocmd, shell + write commands in local
 set showmatch              " Show matching brackets
 set updatetime=100         " Faster, faster, faster!
 set wildmode=longest,list  " get bash-like tab completions
+
+set foldmethod=syntax
+set foldlevelstart=1
+let javaScript_fold=1
+let r_syntax_folding=1
+let sh_fold_enabled=1
 
 " searching {{{
 set nohlsearch			   " highlight search results
@@ -81,7 +87,9 @@ let g:which_key_map.w = {
       \ 's' : ['<C-W>s',  'split-window-below'],
       \ 'v' : ['<C-W>v',  'split-window-right'],
       \ 'd' : ['<C-W>c',  'delete-window'],
-      \ '?' : ['Windows', 'fzf-window'],
+      \ '-' : ['<C-W>_',  'maximize-window-height'],
+      \ '|' : ['<C-W>|',  'maximize-window-width'],
+      \ '=' : ['<C-W>=',  'equalize-window'],
       \ }
 
 let g:which_key_map.s = {
@@ -125,7 +133,7 @@ Plug 'tpope/vim-sleuth'
 Plug 'ntpeters/vim-better-whitespace'
 Plug 'Raimondi/delimitMate'
 Plug 'godlygeek/tabular'
-Plug 'psf/black', { 'for': 'python' }
+Plug 'psf/black', { 'tag': '19.10b0', 'for': 'python' }
 Plug 'rhysd/vim-clang-format'
 Plug 'prettier/vim-prettier', {
   \ 'do': 'yarn install',
@@ -211,14 +219,19 @@ nmap     <leader>bm  <Plug>BookmarkAnnotate
 nmap     <leader>ba  :BookmarkShowAll <CR>/
 noremap  <leader>bb  :Buffers <CR>
 "}}}
-" vifm {{{
+" file management {{{
 Plug 'vifm/vifm.vim'
+Plug 'dylanaraps/fff.vim'
+
+let g:fff#split = "30vnew"
 
 nnoremap <BS> :Vifm<CR>
+nnoremap f    :F<CR>
 " }}}
 " filetypes {{{
 Plug 'sheerun/vim-polyglot'
 Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
+Plug 'KabbAmine/zeavim.vim'
 Plug 'honza/vim-snippets'
 
 " coc {{{
@@ -259,16 +272,12 @@ inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
 " }}}
 
-let g:devdocs_filetype_map = {
-    \   'javascript.jsx'  : 'react',
-    \   'javascript.test' : 'chai',
-	\   '*'               : ''
-    \ }
-
-nmap J <Plug>(devdocs-under-cursor)
-
 " bash {{{
 Plug 'kovetskiy/vim-bash', { 'for': 'bash' }
+
+autocmd BufNewFile,BufRead *.sh setlocal tabstop=4
+autocmd BufNewFile,BufRead *.sh setlocal softtabstop=4
+autocmd BufNewFile,BufRead *.sh setlocal shiftwidth=4
 " }}}
 " c/cpp {{{
 Plug 'arakashic/chromatica.nvim', { 'for': ['c', 'cpp']}
@@ -280,14 +289,13 @@ autocmd BufNewFile,BufRead *.cpp setlocal softtabstop=4
 autocmd BufNewFile,BufRead *.cpp setlocal shiftwidth=4
 "}}}
 " elixir {{{
-" Plug 'elixir-editors/vim-elixir',     { 'for': 'elixir' }
-" Plug 'carlosgaldino/elixir-snippets', { 'for': 'elixir' }
-" Plug 'avdgaag/vim-phoenix',           { 'for': 'elixir' }
-" Plug 'mmorearty/elixir-ctags', { 'for': 'elixir'}
-" Plug 'mattreduce/vim-mix', { 'for': 'elixir'}
-" Plug 'BjRo/vim-extest', { 'for': 'elixir'}
-" Plug 'frost/vim-eh-docs', { 'for': 'elixir'}
-" Plug 'slashmili/alchemist.vim', { 'for': 'elixir'}
+Plug 'elixir-editors/vim-elixir',     { 'for': 'elixir' }
+Plug 'carlosgaldino/elixir-snippets', { 'for': 'elixir' }
+Plug 'avdgaag/vim-phoenix',           { 'for': 'elixir' }
+Plug 'mmorearty/elixir-ctags',        { 'for': 'elixir'}
+Plug 'mattreduce/vim-mix',            { 'for': 'elixir'}
+Plug 'BjRo/vim-extest',               { 'for': 'elixir'}
+Plug 'frost/vim-eh-docs',             { 'for': 'elixir'}
 
 " }}}
 " golang {{{
@@ -299,7 +307,6 @@ Plug 'jparise/vim-graphql'
 " haskell {{{
 " Plug 'eagletmt/neco-ghc'
 " Plug 'dag/vim2hs'
-" Plug 'pbrisbin/vim-syntax-shakespeare'
 
 "}}}
 "javascript {{{
@@ -312,6 +319,21 @@ au BufNewFile,BufRead *.js setlocal softtabstop=2
 au BufNewFile,BufRead *.js setlocal shiftwidth=2
 
 "}}}
+" julia {{{
+Plug 'JuliaEditorSupport/julia-vim', { 'for': 'julia' }
+
+autocmd BufNewFile,BufRead *.jmd set syntax=markdown
+autocmd BufNewFile,BufRead *.jmd set filetype=markdown
+autocmd BufNewFile,BufRead *.jmd setlocal tabstop=4
+autocmd BufNewFile,BufRead *.jmd setlocal softtabstop=4
+autocmd BufNewFile,BufRead *.jmd setlocal shiftwidth=4
+autocmd BufNewFile,BufRead *.jmd setlocal textwidth=79
+autocmd BufNewFile,BufRead *.jmd setlocal expandtab
+autocmd BufNewFile,BufRead *.jmd setlocal autoindent
+autocmd BufNewFile,BufRead *.jmd setlocal nofoldenable
+
+autocmd BufNewFile,BufRead *.tpl set syntax=tex
+" }}}
 " latex {{{
 Plug 'lervag/vimtex'
 "}}}
@@ -335,7 +357,6 @@ autocmd BufNewFile,BufRead *.py setlocal softtabstop=4
 autocmd BufNewFile,BufRead *.py setlocal shiftwidth=4
 autocmd BufNewFile,BufRead *.py setlocal textwidth=79
 autocmd BufNewFile,BufRead *.py setlocal expandtab
-autocmd BufNewFile,BufRead *.py setlocal foldlevel=30
 autocmd BufNewFile,BufRead *.py setlocal autoindent
 autocmd BufNewFile,BufRead *.py setlocal fileformat=unix
 autocmd BufNewFile,BufRead *.py setlocal colorcolumn=81
@@ -348,8 +369,8 @@ Plug 'vim-pandoc/vim-pandoc-syntax', { 'for': 'r' }
 autocmd BufNewFile,BufRead *.Rmd setlocal nonumber
 "}}}
 " rust {{{
-" Plug 'racer-rust/vim-racer', { 'for': 'rust' }
-" Plug 'rust-lang/rust.vim', { 'for': 'rust' }
+Plug 'racer-rust/vim-racer', { 'for': 'rust' }
+Plug 'rust-lang/rust.vim', { 'for': 'rust' }
 "  }}}
 " terraform {{{
 Plug 'hashivim/vim-terraform'
@@ -363,20 +384,8 @@ let g:yats_host_keyword = 1
 " webgl {{{
 Plug 'petrbroz/vim-glsl', { 'for': 'glsl' }
 "}}}
-" julia {{{
-Plug 'JuliaEditorSupport/julia-vim', { 'for': 'julia' }
-
-autocmd BufNewFile,BufRead *.jmd set syntax=markdown
-autocmd BufNewFile,BufRead *.jmd set filetype=markdown
-autocmd BufNewFile,BufRead *.jmd setlocal tabstop=4
-autocmd BufNewFile,BufRead *.jmd setlocal softtabstop=4
-autocmd BufNewFile,BufRead *.jmd setlocal shiftwidth=4
-autocmd BufNewFile,BufRead *.jmd setlocal textwidth=79
-autocmd BufNewFile,BufRead *.jmd setlocal expandtab
-autocmd BufNewFile,BufRead *.jmd setlocal autoindent
-autocmd BufNewFile,BufRead *.jmd setlocal nofoldenable
-
-autocmd BufNewFile,BufRead *.tpl set syntax=tex
+" yaml {{{
+Plug 'avakhov/vim-yaml'
 " }}}
 
 "}}}
