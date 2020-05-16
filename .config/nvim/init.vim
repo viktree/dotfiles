@@ -59,6 +59,19 @@ vnoremap > >gv
 nnoremap Q @q
 vnoremap Q :normal @q
 
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
+
+let g:tmux_navigator_no_mappings = 1
+
+nnoremap <C-H> :TmuxNavigateLeft<cr>
+nnoremap <C-J> :TmuxNavigateDown<cr>
+nnoremap <C-K> :TmuxNavigateUp<cr>
+nnoremap <C-L> :TmuxNavigateRight<cr>
+nnoremap <C-P> :TmuxNavigatePrevious<cr>
+
 " leader mappings {{{
 function ListLeaders()
   silent! redir @a
@@ -76,21 +89,6 @@ endfunction
 let g:which_key_map =  {}
 
 " Define prefix dictionary
-
-let g:which_key_map.w = {
-      \ 'name' : '+windows' ,
-      \ 'h' : ['<C-W>h',  'window-left'],
-      \ 'j' : ['<C-W>j',  'window-below'],
-      \ 'l' : ['<C-W>l',  'window-right'],
-      \ 'k' : ['<C-W>k',  'window-up'],
-      \ 'w' : ['<C-W>w',  'other-window'],
-      \ 's' : ['<C-W>s',  'split-window-below'],
-      \ 'v' : ['<C-W>v',  'split-window-right'],
-      \ 'd' : ['<C-W>c',  'delete-window'],
-      \ '-' : ['<C-W>_',  'maximize-window-height'],
-      \ '|' : ['<C-W>|',  'maximize-window-width'],
-      \ '=' : ['<C-W>=',  'equalize-window'],
-      \ }
 
 let g:which_key_map.s = {
       \ 'name' : '+sessions' ,
@@ -233,6 +231,7 @@ Plug 'sheerun/vim-polyglot'
 Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
 Plug 'KabbAmine/zeavim.vim'
 Plug 'honza/vim-snippets'
+Plug 'junegunn/vim-journal'
 
 " coc {{{
 
@@ -523,6 +522,7 @@ Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-abolish'
 Plug 'markonm/traces.vim'
 Plug 'wellle/targets.vim'
+Plug 'christoomey/vim-tmux-navigator'
 " }}}
 " which-key {{{
 Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!'] }
