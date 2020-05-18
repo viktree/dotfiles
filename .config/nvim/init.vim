@@ -21,12 +21,6 @@ set showmatch              " Show matching brackets
 set updatetime=100         " Faster, faster, faster!
 set wildmode=longest,list  " get bash-like tab completions
 
-set foldmethod=syntax
-set foldlevelstart=1
-let javaScript_fold=1
-let r_syntax_folding=1
-let sh_fold_enabled=1
-
 " searching {{{
 set nohlsearch			   " highlight search results
 set inccommand=nosplit	   " THIS IS AMAZING! :O
@@ -58,19 +52,6 @@ vnoremap > >gv
 
 nnoremap Q @q
 vnoremap Q :normal @q
-
-nnoremap <C-J> <C-W><C-J>
-nnoremap <C-K> <C-W><C-K>
-nnoremap <C-L> <C-W><C-L>
-nnoremap <C-H> <C-W><C-H>
-
-let g:tmux_navigator_no_mappings = 1
-
-nnoremap <C-H> :TmuxNavigateLeft<cr>
-nnoremap <C-J> :TmuxNavigateDown<cr>
-nnoremap <C-K> :TmuxNavigateUp<cr>
-nnoremap <C-L> :TmuxNavigateRight<cr>
-nnoremap <C-P> :TmuxNavigatePrevious<cr>
 
 " leader mappings {{{
 function ListLeaders()
@@ -127,6 +108,23 @@ Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-sleuth'
 "}}}
+" navigation {{{
+Plug 'christoomey/vim-tmux-navigator'
+
+let g:tmux_navigator_no_mappings = 1
+
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
+
+nnoremap <C-H> :TmuxNavigateLeft<cr>
+nnoremap <C-J> :TmuxNavigateDown<cr>
+nnoremap <C-K> :TmuxNavigateUp<cr>
+nnoremap <C-L> :TmuxNavigateRight<cr>
+nnoremap <C-P> :TmuxNavigatePrevious<cr>
+
+" }}}
 " formatters {{{
 Plug 'ntpeters/vim-better-whitespace'
 Plug 'Raimondi/delimitMate'
@@ -141,6 +139,8 @@ let g:prettier#quickfix_enabled = 0
 let g:prettier#autoformat = 0
 let g:black_linelength = 100
 let g:clang_format#detect_style_file = 1
+let g:rustfmt_autosave = 1
+
 
 function! TrimWhitespace()
     let l:save = winsaveview()
@@ -208,7 +208,7 @@ let g:fzf_action = { 'ctrl-s': 'split', 'ctrl-v': 'vsplit' }
 if isdirectory(".git")
     nmap <leader>f :GitFiles --cached --others --exclude-standard<CR>
 else
-    nmap <leader>f :FZF<CR>
+    nmap <leader>f :FZF .<CR>
 endif
 
 nmap     <leader>c   :BLines<CR>
@@ -236,19 +236,20 @@ Plug 'junegunn/vim-journal'
 " coc {{{
 
 let g:coc_global_extensions = [
-  \ 'coc-css',
-  \ 'coc-eslint',
-  \ 'coc-html',
-  \ 'coc-json',
-  \ 'coc-sh',
-  \ 'coc-snippets',
-  \ 'coc-stylelint',
-  \ 'coc-tslint',
-  \ 'coc-tsserver',
-  \ 'coc-vimlsp',
-  \ 'coc-vimtex',
-  \ 'coc-yaml',
-  \ ]
+	\ 'coc-css',
+	\ 'coc-eslint',
+	\ 'coc-html',
+	\ 'coc-json',
+	\ 'coc-rls',
+	\ 'coc-sh',
+	\ 'coc-snippets',
+	\ 'coc-stylelint',
+	\ 'coc-tslint',
+	\ 'coc-tsserver',
+	\ 'coc-vimlsp',
+	\ 'coc-vimtex',
+	\ 'coc-yaml',
+	\ ]
 
 inoremap <silent><expr> <TAB>
       \ pumvisible() ? coc#_select_confirm() :
@@ -256,17 +257,14 @@ inoremap <silent><expr> <TAB>
       \ <SID>check_back_space() ? "\<TAB>" :
       \ coc#refresh()
 
-let g:coc_snippet_next = '<tab>'
-
 function! s:check_back_space() abort
 	let col = col('.') - 1
 	return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
-inoremap <silent><expr> <TAB>
-			\ pumvisible() ? "\<C-n>" :
-			\ <SID>check_back_space() ? "\<TAB>" :
-			\ coc#refresh()
+let g:coc_snippet_next = '<tab>'
+
+imap <C-e> <Plug>(coc-snippets-expand)
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
 " }}}
@@ -522,7 +520,6 @@ Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-abolish'
 Plug 'markonm/traces.vim'
 Plug 'wellle/targets.vim'
-Plug 'christoomey/vim-tmux-navigator'
 " }}}
 " which-key {{{
 Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!'] }
