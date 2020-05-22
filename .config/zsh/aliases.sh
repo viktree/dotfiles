@@ -24,3 +24,5 @@ alias ...="echo 'Moved back 2 directories:' && cd ../.. | ls"
 
 alias g='git'
 
+alias attach='tmuxinator start $(tmuxinator list -n | tail -n +2 | fzf)'
+
