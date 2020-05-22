@@ -532,7 +532,7 @@ function! GitStats()
 endfunction
 
 let g:lightline = {
-      \ 'colorscheme': 'wombat',
+      \ 'colorscheme': 'gruvbox',
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ],
       \             [ 'filename', 'gitbranch', 'stats', 'currentfunction'],
