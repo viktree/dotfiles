@@ -45,33 +45,33 @@ then
     if [ -f "$XDG_CONFIG_HOME/brew/config" ]
     then
         echo "Updating homebrew bundles"
-        # brew bundle
-        # brew cleanup -s
-        # brew bundle cleanup --force
+        brew bundle
+        brew cleanup -s
+        brew bundle cleanup --force
     fi
 fi
 
-# if check_for_command nvim
-# then
-#     EDITOR="nvim"
-#     if [ ! -f "$XDG_DATA_HOME/nvim/site/autoload/plug.vim" ]
-#     then
-#         curl -fLo "$XDG_DATA_HOME/nvim/site/autoload/plug.vim" --create-dirs \
-#             https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-#     fi
-#     nvim '+PlugUpdate' '+PlugClean!' '+PlugUpdate' '+qall'
-# fi
+if check_for_command nvim
+then
+    EDITOR="nvim"
+    if [ ! -f "$XDG_DATA_HOME/nvim/site/autoload/plug.vim" ]
+    then
+        curl -fLo "$XDG_DATA_HOME/nvim/site/autoload/plug.vim" --create-dirs \
+            https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    fi
+    nvim '+PlugUpdate' '+PlugClean!' '+PlugUpdate' '+qall'
+fi
 
-# if check_for_command vim
-# then
-#     EDITOR="vim"
-#     if [ ! -f "$HOME/.vim/autoload/plug.vim" ]
-#     then
-#         curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
-#             https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-#     fi
-#     vim '+PlugUpdate' '+PlugClean!' '+PlugUpdate' '+qall'
-# fi
+if check_for_command vim
+then
+    EDITOR="vim"
+    if [ ! -f "$HOME/.vim/autoload/plug.vim" ]
+    then
+        curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+            https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    fi
+    vim '+PlugUpdate' '+PlugClean!' '+PlugUpdate' '+qall'
+fi
 
 name="Vikram Venkataranan"
 email="vikram.venkataramanan@mail.utoronto.ca"
