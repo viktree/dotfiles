@@ -162,6 +162,8 @@ PATH_append "$HOME/.poetry/bin"
 
 PATH_append "$BREW_PREFIX/Cellar/llvm/10.0.0_3/bin/"
 
+PATH_append "$HOME/programs/git-fuzzy/bin"
+
 export PATH
 
 # ---------------------------------------------------------------------------------------
