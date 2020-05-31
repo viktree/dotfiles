@@ -38,7 +38,8 @@ shift + alt - 9 : yabai -m window --space  9 && yabai -m space --focus 9
 alt - 0 : yabai -m space --balance
 
 # toggle programs
-alt - a : yabai -m window --focus recent
+alt - a : yabai -m space --focus recent
+alt - w : yabai -m window --focus recent
 
 # swap window
 shift + alt - h : chunkc tiling::window --swap west
