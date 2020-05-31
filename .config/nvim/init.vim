@@ -18,12 +18,12 @@ set noshowcmd			   " don't show last command
 set noswapfile             " no more swapfiles
 set secure                 " disallows :autocmd, shell + write commands in local .vimrc
 set showmatch              " Show matching brackets
-set updatetime=100         " Faster, faster, faster!
+set updatetime=100         " faster, faster, faster!
 set wildmode=longest,list  " get bash-like tab completions
 
 " searching {{{
 set nohlsearch			   " highlight search results
-set inccommand=nosplit	   " THIS IS AMAZING! :O
+set inccommand=nosplit	   " tHIS IS AMAZING! :O
 
 " }}}
 
@@ -46,30 +46,20 @@ ino jj <esc>
 cno jj <c-c>
 
 " Easier moving of code blocks
-" Try to go into visual mode (v), then select lines of code here and press `>`
+" try to go into visual mode (v), then select lines of code here and press `>`
 vnoremap < <gv
 vnoremap > >gv
 
 nnoremap Q @q
 vnoremap Q :normal @q
 
+nnoremap <leader>d :put =strftime('%Y_%b_%d_%a:')<cr>
+
 " leader mappings {{{
-function ListLeaders()
-  silent! redir @a
-  silent! nmap <LEADER>
-  silent! redir END
-  silent! new
-  silent! put! a
-  silent! g/^s*$/d
-  silent! %s/^.*,//
-  silent! normal ggVg
-  silent! sort
-  silent! let lines = getline(1,"$")
-endfunction
 
 let g:which_key_map =  {}
 
-" Define prefix dictionary
+" " Define prefix dictionary
 
 let g:which_key_map.s = {
       \ 'name' : '+sessions' ,
@@ -107,6 +97,9 @@ Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-sleuth'
+
+let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://.*']
+
 "}}}
 " navigation {{{
 Plug 'christoomey/vim-tmux-navigator'
@@ -182,21 +175,19 @@ nmap     <leader>ba  :BookmarkShowAll <CR>/
 noremap  <leader>bb  :Buffers <CR>
 "}}}
 " file management {{{
-Plug 'vifm/vifm.vim'
-Plug 'dylanaraps/fff.vim'
+if executable("vifm")
+  Plug 'vifm/vifm.vim'
+  nnoremap <BS> :Vifm<CR>
+endif
 
-let g:fff#split = "30vnew"
-
-nnoremap <BS> :Vifm<CR>
-nnoremap f    :F<CR>
 " }}}
 " filetypes {{{
 Plug 'sheerun/vim-polyglot'
 Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
-Plug 'KabbAmine/zeavim.vim'
+
 Plug 'honza/vim-snippets'
-Plug 'junegunn/vim-journal'
 Plug 'ap/vim-css-color'
+Plug 'wellle/context.vim'
 
 " coc {{{
 
@@ -232,7 +223,7 @@ let g:coc_snippet_next = '<tab>'
 imap <C-e> <Plug>(coc-snippets-expand)
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
-" }}}
+"" }}}
 " formatters {{{
 Plug 'ntpeters/vim-better-whitespace'
 Plug 'Raimondi/delimitMate'
@@ -253,7 +244,18 @@ endfunction
 
 autocmd BufWritePre * :call TrimWhitespace()
 
-""}}}
+"""}}}
+" documentation {{{
+
+if executable("zeal")
+	Plug 'KabbAmine/zeavim.vim'
+endif
+
+if executable("dash")
+	Plug 'rizzatti/dash.vim'
+endif
+
+" }}}
 
 " bash {{{
 Plug 'kovetskiy/vim-bash', { 'for': 'bash' }
@@ -379,18 +381,21 @@ endfunction
 augroup filetype_python
 	au!
 
-	" Tabs
+	" indentation
 	au BufNewFile,BufRead *.py setlocal expandtab
 	au BufNewFile,BufRead *.py setlocal tabstop=4
 	au BufNewFile,BufRead *.py setlocal softtabstop=4
 	au BufNewFile,BufRead *.py setlocal shiftwidth=4
 	au BufNewFile,BufRead *.py setlocal autoindent
 
-	" Textwidth
+	" textwidth
 	au BufNewFile,BufRead *.py setlocal colorcolumn=81
 	au BufNewFile,BufRead *.py setlocal textwidth=79
 
-	" Format on save
+	" code folding
+	autocmd BufNewFile,BufRead *.jmd setlocal nofoldenable
+
+	" format on save
 	autocmd BufWritePre * :call TrimWhitespace()
 	autocmd BufWritePre *.py execute ':Black'
 augroup END
@@ -567,6 +572,7 @@ Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-abolish'
 Plug 'markonm/traces.vim'
 Plug 'wellle/targets.vim'
+Plug 'raghur/vim-ghost', {'do': ':GhostInstall'}
 " }}}
 " which-key {{{
 Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!'] }
@@ -585,7 +591,7 @@ augroup END
 "
 call plug#end()
 "
-" Transparency! {{{
+" transparency! {{{
 highlight Folded                       ctermbg=NONE
 highlight Normal                       ctermbg=NONE
 highlight SignColumn                   ctermbg=NONE
