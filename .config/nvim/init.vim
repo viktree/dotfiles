@@ -20,19 +20,25 @@ set secure                 " disallows :autocmd, shell + write commands in local
 set showmatch              " Show matching brackets
 set updatetime=100         " faster, faster, faster!
 set wildmode=longest,list  " get bash-like tab completions
+set gdefault			   " by default, swap out all instances in a line
+set autoread			   " automatically reload file when underlying files change
 
-" searching {{{
+" Automatically reload .vimrc file on save
+augroup reload_vimrc
+  au!
+  au BufWritePost $MYVIMRC source % | echom "Reloaded " . $MYVIMRC | redraw
+augroup END
+
+" searching
 set nohlsearch			   " highlight search results
-set inccommand=nosplit	   " tHIS IS AMAZING! :O
-
-" }}}
+set inccommand=nosplit	   " THIS IS AMAZING! :O
 
 let mapleader = "\<SPACE>"
 
 " Sync with system clipboard files
 if has('macunix')
-	vmap <C-x> :!pbcopy<CR>
-	vmap <C-c> :w !pbcopy<CR><CR>
+	vmap <C-x> :!pbcopy<cr>
+	vmap <C-c> :w !pbcopy<cr><cr>
 endif
 
 " line numbers
@@ -50,58 +56,48 @@ cno jj <c-c>
 vnoremap < <gv
 vnoremap > >gv
 
+" Quick get that register!
 nnoremap Q @q
 vnoremap Q :normal @q
 
-nnoremap <leader>d :put =strftime('%Y_%b_%d_%a:')<cr>
-
-" leader mappings {{{
-
-let g:which_key_map =  {}
-
-" " Define prefix dictionary
-
-let g:which_key_map.s = {
-      \ 'name' : '+sessions' ,
-      \ 'o' : ['SLoad',    'open-session'],
-      \ 's' : ['SSave',    'save-session'],
-      \ 'd' : ['SDelete',  'delete-session'],
-      \ 'c' : ['SClose',   'close-session'],
-      \ }
-
-let g:which_key_map.t = {
-      \ 'name' : '+toggle' ,
-      \ 's' : ['set spell!',    'spelling'],
-      \ 'g' : ['Goyo',    'goyo'],
-      \ }
-
-nnoremap <leader>x	     *``cgn        " change next forwards
-nnoremap <leader>X	     #``cgN        " change next backwards
-
-" Don't think about when to use percent
-nnoremap <leader>/ :%s/
-vnoremap <leader>/ :s/
-let g:which_key_map['/'] = { 'name' : 'find-&-replace' }
-
-nnoremap <leader><space> :b#<CR>
-nnoremap <leader>cd	     :cd %:p:h<CR> " cd into current buffer
-" }}}
-
+" Redo with U instead of Ctrl+R
+noremap U <C-R>
 " }}}
 "
-call plug#begin('~/.config/nvim/plugged')
+call plug#begin('$XDG_CONFIG_HOME/nvim/plugged')
 "
 " essentials {{{
-Plug 'editorconfig/editorconfig-vim'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
-Plug 'tpope/vim-sleuth'
+Plug 'editorconfig/editorconfig-vim'
 
 let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://.*']
-
 "}}}
-" navigation {{{
+" which-key {{{
+Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!'] }
+
+let g:which_key_map =  {}
+
+autocmd! User vim-which-key call which_key#register('<Space>', "g:which_key_map")
+
+let g:which_key_map.t = { 'name' : '+toggle' }
+nnoremap <leader>t<space> :Buffers<cr>
+
+nnoremap <leader>d :put =strftime('%Y_%b_%d_%a:')<cr>
+let g:which_key_map.d = 'insert-date'
+
+nnoremap <leader>ts :set spell!<cr>
+let g:which_key_map.t.s = 'spelling'
+
+" cd into current buffer
+nnoremap <leader>cd :cd %:p:h<cr>
+
+nnoremap <silent> <leader> :<c-u>WhichKey '<Space>'<cr>
+vnoremap <silent> <leader> :<c-u>WhichKeyVisual '<Space>'<cr>
+
+" }}}
+" navigation + tmux {{{
 Plug 'christoomey/vim-tmux-navigator'
 
 let g:tmux_navigator_no_mappings = 1
@@ -117,6 +113,9 @@ nnoremap <C-K> :TmuxNavigateUp<cr>
 nnoremap <C-L> :TmuxNavigateRight<cr>
 nnoremap <C-P> :TmuxNavigatePrevious<cr>
 
+nnoremap <leader><space> :b#<cr>
+let g:which_key_map['SPC'] = 'previous-buffer'
+
 " }}}
 " version control {{{
 Plug 'tpope/vim-fugitive'
@@ -125,6 +124,7 @@ Plug 'mhinz/vim-signify'
 Plug 'mbbill/undotree', {'on': 'UndotreeToggle' }
 
 let g:magit_default_show_all_files = 0
+let g:which_key_map.M = 'which_key_ignore'
 
 if isdirectory(".git")
 	let g:magit_enabled=1
@@ -143,13 +143,9 @@ else
       \ 'u' : ['UndotreeToggle',  'undo-tree'],
       \ }
 endif
-
-
 "}}}
 " fzf and bookmarks {{{
-Plug 'MattesGroeger/vim-bookmarks'
-
-if isdirectory('/usr/local/opt/fzf')
+if executable("fzf")
     Plug '/usr/local/opt/fzf'
 else
     Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
@@ -157,37 +153,57 @@ endif
 Plug 'junegunn/fzf.vim'
 
 let g:fzf_layout = { 'down': '~25%' }
-let g:bookmark_auto_close = 1
-let g:bookmark_sign = '##'
-let g:bookmark_annotation_sign = '##'
 let g:fzf_action = { 'ctrl-s': 'split', 'ctrl-v': 'vsplit' }
 
 if isdirectory(".git")
-    nmap <leader>f :GitFiles --cached --others --exclude-standard<CR>
+    nmap <leader>p :GitFiles --cached --others --exclude-standard<cr>
 else
-    nmap <leader>f :FZF .<CR>
+    nmap <leader>p :FZF .<cr>
 endif
+let g:which_key_map.p = 'snipe-file'
 
-nmap     <leader>c   :BLines<CR>
-nmap     <leader>bt  <Plug>BookmarkToggle
-nmap     <leader>bm  <Plug>BookmarkAnnotate
-nmap     <leader>ba  :BookmarkShowAll <CR>/
-noremap  <leader>bb  :Buffers <CR>
+nmap <leader>f   :BLines<cr>
+let g:which_key_map.f = 'snipe-line'
+"}}}
+" bookmarks {{{
+Plug 'MattesGroeger/vim-bookmarks'
+let g:bookmark_auto_close = 1
+let g:bookmark_sign = '##'
+let g:bookmark_annotation_sign = '##'
+
+let g:which_key_map.b = {
+      \ 'name' : '+bookmarks' ,
+      \ 't' : ['BookmarkToggle',    'toggle-bookmark'],
+      \ 'r' : ['BookmarkAnnotate',    'rename-bookmark'],
+      \ 'o' : ['BookmarkShowAll',  'open-bookmark'],
+      \ }
+
+nnoremap <leader>tb :BookmarkToggle<cr>
+let g:which_key_map.t.b = 'bookmark'
+
+" Shortcuts for frequently accessed files
+command! Vimrc e $MYVIMRC
+command! Zshrc e $XDG_CONFIG_HOME/zsh/.zshrc
+command! J vs /Volumes/vikram/planner/app.txt
+command! Brew e $XDG_CONFIG_HOME/brew/config
+command! Env e $XDG_CONFIG_HOME/zsh/.zshenv
 "}}}
 " file management {{{
 if executable("vifm")
   Plug 'vifm/vifm.vim'
-  nnoremap <BS> :Vifm<CR>
+  nnoremap <BS> :Vifm<cr>
 endif
 
 " }}}
 " filetypes {{{
 Plug 'sheerun/vim-polyglot'
 Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
-
 Plug 'honza/vim-snippets'
 Plug 'ap/vim-css-color'
-Plug 'wellle/context.vim'
+
+if executable('shellcheck')
+	Plug 'itspriddle/vim-shellcheck'
+endif
 
 " coc {{{
 
@@ -209,7 +225,7 @@ let g:coc_global_extensions = [
 
 inoremap <silent><expr> <TAB>
       \ pumvisible() ? coc#_select_confirm() :
-      \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
+      \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<cr>" :
       \ <SID>check_back_space() ? "\<TAB>" :
       \ coc#refresh()
 
@@ -245,6 +261,24 @@ endfunction
 autocmd BufWritePre * :call TrimWhitespace()
 
 """}}}
+" {{{ refactoring
+Plug 'da-x/name-assign.vim'
+
+let g:name_assign_mode_maps = { "settle" : ["jj"] }
+
+nnoremap <leader>x	     *``cgn
+nnoremap <leader>X	     #``cgN
+let g:which_key_map.x = 'change-next-forward'
+let g:which_key_map.X = 'change-next-backwards'
+
+" Don't think about when to use percent
+nnoremap <leader>/ :%s/
+vnoremap <leader>/ :s/
+let g:which_key_map['/'] = 'find-&-replace'
+
+vmap <leader>r <Plug>NameAssign
+let g:which_key_map.r = 'refactor'
+" }}}
 " documentation {{{
 
 if executable("zeal")
@@ -451,41 +485,6 @@ Plug 'morhetz/gruvbox'
 Plug 'luochen1990/rainbow'
 Plug 'itchyny/lightline.vim'
 Plug 'mhinz/vim-startify'
-Plug 'junegunn/goyo.vim'
-
-" Goyo {{{
-let g:vim_markdown_frontmatter = 1
-let g:goyo_width               = "80%"
-let g:goyo_disabled_signify    = 1
-
-function! s:goyo_enter()
-	set nonumber
-	set linespace=7
-endfunction
-
-function! s:goyo_leave()
-	set number
-	set linespace=0
-	highlight Folded                       ctermbg=NONE
-	highlight Normal                       ctermbg=NONE
-	highlight SignColumn                   ctermbg=NONE
-
-	highlight SignifyLineAdd               ctermbg=NONE ctermfg=green
-	highlight SignifyLineChange            ctermbg=NONE ctermfg=blue
-	highlight SignifyLineDelete            ctermbg=NONE ctermfg=red
-	highlight SignifyLineDeleteFirstLine   ctermbg=NONE ctermfg=red
-	highlight SignifySignAdd               ctermbg=NONE ctermfg=green
-	highlight SignifySignChange            ctermbg=NONE ctermfg=blue
-	highlight SignifySignDelete            ctermbg=NONE ctermfg=red
-	highlight SignifySignDeleteFirstLine   ctermbg=NONE ctermfg=red
-
-	highlight BookmarkSign                 ctermbg=NONE ctermfg=blue
-	highlight BookmarkLine                 ctermbg=NONE ctermfg=blue
-endfunction
-
-autocmd! User GoyoEnter nested call <SID>goyo_enter()
-autocmd! User GoyoLeave nested call <SID>goyo_leave()
-" }}}
 
 colorscheme gruvbox
 
@@ -493,9 +492,9 @@ let g:rainbow_active   = 1
 let g:startify_use_env = 1
 
 let g:startify_commands = [
-        \   { 'up': [ 'Update Plugins', ':PlugUpdate' ] },
+        \   { 'up': [ 'Update Plugins',			':PlugUpdate' ] },
         \   { 'ug': [ 'Upgrade Plugin Manager', ':PlugUpgrade' ] },
-        \   { 'uc': [ 'Clean Plugin Manager', ':PlugClean' ] },
+        \   { 'uc': [ 'Clean Plugin Manager',	':PlugClean' ] },
         \ ]
 
 autocmd User Startified setlocal cursorline
@@ -565,7 +564,65 @@ let g:lightline = {
       \ },
       \ }
 
+function! LightlineReload()
+  call lightline#init()
+  call lightline#colorscheme()
+  call lightline#update()
+endfunction
+
+" Automatically reload .vimrc file on save
+augroup reload_vimrc
+  au BufWritePost $MYVIMRC call LightlineReload()
+augroup END
+
 "}}}
+" goyo {{{
+Plug 'junegunn/goyo.vim'
+let g:vim_markdown_frontmatter = 1
+let g:goyo_width               = "80%"
+let g:goyo_disabled_signify    = 1
+let g:which_key_map.t.g = 'goyo'
+
+function! s:goyo_enter()
+	set nonumber
+	set linespace=7
+endfunction
+
+function! s:goyo_leave()
+	set number
+	set linespace=0
+	highlight Folded                       ctermbg=NONE
+	highlight Normal                       ctermbg=NONE
+	highlight SignColumn                   ctermbg=NONE
+
+	highlight SignifyLineAdd               ctermbg=NONE ctermfg=green
+	highlight SignifyLineChange            ctermbg=NONE ctermfg=blue
+	highlight SignifyLineDelete            ctermbg=NONE ctermfg=red
+	highlight SignifyLineDeleteFirstLine   ctermbg=NONE ctermfg=red
+	highlight SignifySignAdd               ctermbg=NONE ctermfg=green
+	highlight SignifySignChange            ctermbg=NONE ctermfg=blue
+	highlight SignifySignDelete            ctermbg=NONE ctermfg=red
+	highlight SignifySignDeleteFirstLine   ctermbg=NONE ctermfg=red
+
+	highlight BookmarkSign                 ctermbg=NONE ctermfg=blue
+	highlight BookmarkLine                 ctermbg=NONE ctermfg=blue
+endfunction
+
+autocmd! User GoyoEnter nested call <SID>goyo_enter()
+autocmd! User GoyoLeave nested call <SID>goyo_leave()
+
+nnoremap <leader>tg :Goyo<cr>
+
+" }}}
+" sessions {{{
+let g:which_key_map.s = {
+      \ 'name' : '+sessions' ,
+      \ 'o' : ['SLoad',    'open-session'],
+      \ 's' : ['SSave',    'save-session'],
+      \ 'd' : ['SDelete',  'delete-session'],
+      \ 'c' : ['SClose',   'close-session'],
+      \ }
+" }}}
 " experimental{{{
 Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-endwise'
@@ -573,14 +630,6 @@ Plug 'tpope/vim-abolish'
 Plug 'markonm/traces.vim'
 Plug 'wellle/targets.vim'
 Plug 'raghur/vim-ghost', {'do': ':GhostInstall'}
-" }}}
-" which-key {{{
-Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!'] }
-
-autocmd! User vim-which-key call which_key#register('<Space>', "g:which_key_map")
-
-nnoremap <silent> <leader> :<c-u>WhichKey '<Space>'<CR>
-vnoremap <silent> <leader> :<c-u>WhichKeyVisual '<Space>'<CR>
 " }}}
 " remember position in file {{{
 augroup vimrc-remember-cursor-position
