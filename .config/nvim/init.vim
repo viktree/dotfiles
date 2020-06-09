@@ -575,6 +575,19 @@ augroup reload_vimrc
   au BufWritePost $MYVIMRC call LightlineReload()
 augroup END
 
+augroup reload_zshenv
+  au!
+  au BufWritePost .zshenv !source %
+  au BufWritePost .zshenv call LightlineReload()
+augroup END
+
+augroup reload_zshrc
+  au!
+  au BufWritePost .zshrc  !source %
+  au BufWritePost .zshrc call LightlineReload()
+augroup END
+
+
 "}}}
 " goyo {{{
 Plug 'junegunn/goyo.vim'
