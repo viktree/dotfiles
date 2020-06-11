@@ -1,0 +1,31 @@
+
+new_tab main
+launch zsh
+
+# new_tab fun
+# launch zsh
+# cd /Volumes/vikram/projects
+# 
+# new_tab cg-a7
+# launch zsh
+# cd /Volumes/vikram/school/computer-graphics/assignments
+# 
+# new_tab stats-a3
+# launch zsh
+# cd /Volumes/vikram/school/stats/assignments/a3
+# 
+# new_tab ml-a2
+# launch zsh
+# cd /Volumes/vikram/school/machine-learning/a2
+# 
+# new_tab parallel-proj
+# launch zsh
+# cd /Volumes/vikram/school/parallel-programming/project
+# 
+# new_tab parallel-prog-labs
+# launch zsh
+# cd /Volumes/vikram/school/parallel-programming/labs
+# 
+# new_tab downloads
+# launch zsh
+# cd /Volumes/vikram/downloads
