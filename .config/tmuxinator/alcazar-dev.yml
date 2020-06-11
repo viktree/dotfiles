@@ -1,0 +1,22 @@
+name: alcazar-dev
+root: /Volumes/vikram/programming/alcazar
+
+on_project_start:
+  - sshfs jetson:/home/alcazar/projects mnt
+
+on_project_exit:
+  - umount -f /Volumes/vikram/programming/alcazar/mnt
+
+windows:
+  - monitor:
+      layout: even-vertical
+      panes:
+        - ssh -t jetson "sudo jtop"
+        - ytop -b
+  - editor:
+      layout: main-horizontal
+      panes:
+        - vifm .
+        - ssh jetson
+
+startup_window: editor
