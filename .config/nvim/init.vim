@@ -6,32 +6,40 @@
 "
 " general {{{
 
-set encoding=utf-8         " encodeings
+" encodings
+set encoding=utf-8
 set fileencoding=utf-8
 set fileencodings=utf-8
-set clipboard+=unnamedplus " map nvim clipboard to system clipboard
+
+" no more swap files
+set noswapfile
+set nobackup
+set nowritebackup
+
 set cmdheight=2            " Give more space for displaying messages
-set exrc                   " exrc allows loading local executing local rc files
-set ffs=unix,dos,mac       " Unix as standard file type
-set mouse=a                " sometimes helpful
 set noshowcmd			   " don't show last command
-set noswapfile             " no more swapfiles
+set wildmode=longest,list  " get bash-like tab completions
+
+set clipboard+=unnamedplus " map nvim clipboard to system clipboard
+set ffs=unix,dos,mac       " Unix as standard file type
+set updatetime=100         " faster, faster, faster!
+set autoread			   " automatically reload file when underlying files change
+set mouse=a                " sometimes helpful
 set secure                 " disallows :autocmd, shell + write commands in local .vimrc
 set showmatch              " Show matching brackets
-set updatetime=100         " faster, faster, faster!
-set wildmode=longest,list  " get bash-like tab completions
+
+set shortmess+=c		   " don't pass messages to |ins-completion-menu|.
+
+" searching
+set nohlsearch			   " highlight search results
+set inccommand=nosplit	   " THIS IS AMAZING! :O
 set gdefault			   " by default, swap out all instances in a line
-set autoread			   " automatically reload file when underlying files change
 
 " Automatically reload .vimrc file on save
 augroup reload_vimrc
   au!
   au BufWritePost $MYVIMRC source % | echom "Reloaded " . $MYVIMRC | redraw
 augroup END
-
-" searching
-set nohlsearch			   " highlight search results
-set inccommand=nosplit	   " THIS IS AMAZING! :O
 
 let mapleader = "\<SPACE>"
 
@@ -74,7 +82,7 @@ Plug 'editorconfig/editorconfig-vim'
 
 let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://.*']
 "}}}
-" which-key {{{
+" leader mappings and which-key {{{
 Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!'] }
 
 let g:which_key_map =  {}
@@ -107,12 +115,16 @@ nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
 
-nnoremap <C-H> :TmuxNavigateLeft<cr>
-nnoremap <C-J> :TmuxNavigateDown<cr>
-nnoremap <C-K> :TmuxNavigateUp<cr>
-nnoremap <C-L> :TmuxNavigateRight<cr>
-nnoremap <C-P> :TmuxNavigatePrevious<cr>
+if executable("tmux")
+	nnoremap <C-H> :TmuxNavigateLeft<cr>
+	nnoremap <C-J> :TmuxNavigateDown<cr>
+	nnoremap <C-K> :TmuxNavigateUp<cr>
+	nnoremap <C-L> :TmuxNavigateRight<cr>
+	nnoremap <C-P> :TmuxNavigatePrevious<cr>
+endif
 
+nnoremap <tab>           :bnext<cr>
+nnoremap <s-tab>         :bprevious<cr>
 nnoremap <leader><space> :b#<cr>
 let g:which_key_map['SPC'] = 'previous-buffer'
 
@@ -128,7 +140,7 @@ let g:which_key_map.M = 'which_key_ignore'
 
 if isdirectory(".git")
 	let g:magit_enabled=1
-	let g:which_key_map.g = {
+	let g:which_key_map.g  = {
       \ 'name' : '+git' ,
       \ 's' : ['MagitOnly',      'status'],
       \ 't' : ['SignifyToggle',  'toggle-signs'],
@@ -137,14 +149,14 @@ if isdirectory(".git")
 
 else
 	let g:magit_enabled=0
-	let g:which_key_map.g = {
+	let g:which_key_map.g  = {
       \ 'name' : '+versions' ,
       \ 't' : ['SignifyToggle',  'toggle-signs'],
       \ 'u' : ['UndotreeToggle',  'undo-tree'],
       \ }
 endif
 "}}}
-" fzf and bookmarks {{{
+" fzf {{{
 if executable("fzf")
     Plug '/usr/local/opt/fzf'
 else
@@ -173,8 +185,8 @@ let g:bookmark_annotation_sign = '##'
 
 let g:which_key_map.b = {
       \ 'name' : '+bookmarks' ,
-      \ 't' : ['BookmarkToggle',    'toggle-bookmark'],
-      \ 'r' : ['BookmarkAnnotate',    'rename-bookmark'],
+      \ 't' : ['BookmarkToggle',   'toggle-bookmark'],
+      \ 'r' : ['BookmarkAnnotate', 'rename-bookmark'],
       \ 'o' : ['BookmarkShowAll',  'open-bookmark'],
       \ }
 
@@ -184,14 +196,17 @@ let g:which_key_map.t.b = 'bookmark'
 " Shortcuts for frequently accessed files
 command! Vimrc e $MYVIMRC
 command! Zshrc e $XDG_CONFIG_HOME/zsh/.zshrc
-command! J vs /Volumes/vikram/planner/app.txt
+command! J e /Volumes/vikram/planner/app.txt
 command! Brew e $XDG_CONFIG_HOME/brew/config
 command! Env e $XDG_CONFIG_HOME/zsh/.zshenv
 "}}}
 " file management {{{
 if executable("vifm")
   Plug 'vifm/vifm.vim'
-  nnoremap <BS> :Vifm<cr>
+  let g:vifm_replace_netrw = 1
+
+  nnoremap <bs> :Vifm<cr>
+
 endif
 
 " }}}
@@ -209,6 +224,7 @@ endif
 
 let g:coc_global_extensions = [
 	\ 'coc-css',
+	\ 'coc-clangd',
 	\ 'coc-eslint',
 	\ 'coc-html',
 	\ 'coc-json',
@@ -238,6 +254,36 @@ let g:coc_snippet_next = '<tab>'
 
 imap <C-e> <Plug>(coc-snippets-expand)
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+let g:which_key_map.c  = { 'name' : '+coc' }
+nmap <leader>cp <Plug>(coc-diagnostic-prev)
+let g:which_key_map.c.p = 'jump-out'
+nmap <leader>cn <Plug>(coc-diagnostic-next)
+let g:which_key_map.c.n  = 'jump-in'
+nmap <leader>cd <Plug>(coc-definition)
+let g:which_key_map.c.d  = 'definition'
+nmap <leader>cy <Plug>(coc-type-definition)
+let g:which_key_map.c.y  = 'type-definition'
+nmap <leader>ci <Plug>(coc-implementation)
+let g:which_key_map.c.i  = 'implementation'
+nmap <leader>cr <Plug>(coc-references)
+let g:which_key_map.c.r  = 'references'
+nmap <leader>cf  <Plug>(coc-fix-current)
+let g:which_key_map.c.f  = 'fix'
+
+" Map function and class text objects
+" NOTE: Requires 'textDocument.documentSymbol' support from the language server.
+xmap if <Plug>(coc-funcobj-i)
+omap if <Plug>(coc-funcobj-i)
+xmap af <Plug>(coc-funcobj-a)
+omap af <Plug>(coc-funcobj-a)
+xmap ic <Plug>(coc-classobj-i)
+omap ic <Plug>(coc-classobj-i)
+xmap ac <Plug>(coc-classobj-a)
+omap ac <Plug>(coc-classobj-a)
+
+" Highlight symbol under cursor on CursorHold
+autocmd CursorHold * silent call CocActionAsync('highlight')
 
 "" }}}
 " formatters {{{
@@ -272,11 +318,11 @@ let g:which_key_map.x = 'change-next-forward'
 let g:which_key_map.X = 'change-next-backwards'
 
 " Don't think about when to use percent
-nnoremap <leader>/ :%s/
-vnoremap <leader>/ :s/
+autocmd VimEnter * nnoremap <leader>/ :%s/
+autocmd VimEnter * vnoremap <leader>/ :s/
 let g:which_key_map['/'] = 'find-&-replace'
 
-vmap <leader>r <Plug>NameAssign
+autocmd VimEnter * vmap <leader>r <Plug>NameAssign
 let g:which_key_map.r = 'refactor'
 " }}}
 " documentation {{{
@@ -352,7 +398,7 @@ Plug 'fatih/vim-go', { 'for': 'go', 'do': ':GoUpdateBinaries'}
 " }}}
 " gql{{{
 Plug 'jparise/vim-graphql'
-autocmd BufWritePre,TextChanged,InsertLeave *.graphql PrettierAsync
+autocmd BufWritePre,TextChanged,InsertLeave *.g['['] raphql PrettierAsync
 "}}}
 " haskell {{{
 " Plug 'eagletmt/neco-ghc'
@@ -480,10 +526,9 @@ Plug 'reedes/vim-wordy'            " weasel words and passive voice
 Plug 'Ron89/thesaurus_query.vim'   " use better words
 Plug 'sedm0784/vim-you-autocorrect'
 "}}}
-" visual and user interface {{{
+" colorscheme {{{
 Plug 'morhetz/gruvbox'
 Plug 'luochen1990/rainbow'
-Plug 'itchyny/lightline.vim'
 Plug 'mhinz/vim-startify'
 
 colorscheme gruvbox
@@ -491,13 +536,11 @@ colorscheme gruvbox
 let g:rainbow_active   = 1
 let g:startify_use_env = 1
 
-let g:startify_commands = [
-        \   { 'up': [ 'Update Plugins',			':PlugUpdate' ] },
-        \   { 'ug': [ 'Upgrade Plugin Manager', ':PlugUpgrade' ] },
-        \   { 'uc': [ 'Clean Plugin Manager',	':PlugClean' ] },
-        \ ]
-
 autocmd User Startified setlocal cursorline
+
+"}}}
+" lightline {{{
+Plug 'itchyny/lightline.vim'
 
 function! CurrFunction()
 	return get(b:, 'coc_current_function', '')
@@ -594,7 +637,7 @@ Plug 'junegunn/goyo.vim'
 let g:vim_markdown_frontmatter = 1
 let g:goyo_width               = "80%"
 let g:goyo_disabled_signify    = 1
-let g:which_key_map.t.g = 'goyo'
+let g:which_key_map.t.g		   = 'goyo'
 
 function! s:goyo_enter()
 	set nonumber
@@ -627,14 +670,11 @@ autocmd! User GoyoLeave nested call <SID>goyo_leave()
 nnoremap <leader>tg :Goyo<cr>
 
 " }}}
-" sessions {{{
-let g:which_key_map.s = {
-      \ 'name' : '+sessions' ,
-      \ 'o' : ['SLoad',    'open-session'],
-      \ 's' : ['SSave',    'save-session'],
-      \ 'd' : ['SDelete',  'delete-session'],
-      \ 'c' : ['SClose',   'close-session'],
-      \ }
+" remember position in file {{{
+augroup vimrc-remember-cursor-position
+  autocmd!
+  autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
+augroup END
 " }}}
 " experimental{{{
 Plug 'tpope/vim-dispatch'
@@ -643,12 +683,6 @@ Plug 'tpope/vim-abolish'
 Plug 'markonm/traces.vim'
 Plug 'wellle/targets.vim'
 Plug 'raghur/vim-ghost', {'do': ':GhostInstall'}
-" }}}
-" remember position in file {{{
-augroup vimrc-remember-cursor-position
-  autocmd!
-  autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
-augroup END
 " }}}
 "
 call plug#end()
