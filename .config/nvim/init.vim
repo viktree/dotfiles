@@ -228,8 +228,10 @@ if executable('brew')
 	command! Brew  e $HOMEBREW_BUNDLE_FILE
 endif
 
-if executable('yadm')
+if !empty(glob('$XDG_CONFIG_HOME/yadm/bootstrap'))
 	command! Yadm  e $XDG_CONFIG_HOME/yadm/bootstrap
+elseif !empty(glob('.yadm/bootstrap'))
+	command! Yadm  e .yadm/bootstrap
 endif
 
 "}}}
