@@ -24,14 +24,11 @@ export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
 export ATOM_HOME="$XDG_DATA_HOME/atom"
 export CARGO_HOME="$XDG_DATA_HOME/cargo"
 export GNUPGHOME="$XDG_DATA_HOME/gnupg"
-export HISTFILE="$XDG_DATA_HOME/bash/history"
 export HISTFILE="$XDG_DATA_HOME/zsh/history"
 export HOMEBREW_BUNDLE_FILE="$XDG_CONFIG_HOME/brew/config"
-export IPYTHONDIR="$XDG_CONFIG_HOME/jupyter"
 export JUPYTER_CONFIG_DIR="$XDG_CONFIG_HOME/jupyter"
 export KITTY_CONFIG_DIRECTORY="$XDG_CONFIG_HOME/kitty"
 export LESSHISTFILE="$XDG_CONFIG_HOME/less/history"
-export NOTMUCH_CONFIG="$XDG_CONFIG_HOME/notmuch/config"
 export RUSTUP_HOME="$XDG_DATA_HOME/rustup"
 export WAKATIME_HOME="$XDG_CONFIG_HOME/wakatime"
 export _Z_DATA="$XDG_DATA_HOME/z"
@@ -39,7 +36,7 @@ export _Z_DATA="$XDG_DATA_HOME/z"
 # ---{ PROGRAMS }------------------------------------------------------------------------
 
 local vikram='/Volumes/Vikram'
-local build_tool_version="29.0.1"
+local android_build_tool_version="29.0.1"
 local node_version="10"
 local BREW_PREFIX="/usr/local"
 
@@ -66,12 +63,11 @@ fi
 
 if check_for_command nvim
 then export EDITOR='nvim'
+else export EDITOR='vi'
 fi
 
 if check_for_command go
-then
-    export GOPATH="/Volumes/vikram/go"
-    export PATH=$PATH:$GOPATH/bin
+then export GOPATH="$vikram/go"
 fi
 
 if check_for_command docker
@@ -136,33 +132,37 @@ function PATH_append(){
     fi
 }
 
-PATH_append "$ANDROID_HOME/build-tools/$build_tool_version"
+PATH_append "$ANDROID_HOME/build-tools/$android_build_tool_version"
 PATH_append "$ANDROID_HOME/emulator"
 PATH_append "$ANDROID_HOME/platform-tools"
 PATH_append "$ANDROID_HOME/tools"
+
 PATH_append "$ANT_HOME"
 PATH_append "$GCLOUD_HOME/bin"
+
 PATH_append "$BREW_PREFIX/bin"
+PATH_append "$BREW_PREFIX/sbin"
 PATH_append "$BREW_PREFIX/opt/node@$node_version/bin"
 PATH_append "$BREW_PREFIX/opt/sqlite/bin"
-PATH_append "$BREW_PREFIXopt/llvm/bin"
-PATH_append "$BREW_PREFIX/sbin"
+PATH_append "$BREW_PREFIX/opt/llvm/bin"
+PATH_append "$BREW_PREFIX/Cellar/llvm/10.0.0_3/bin/"
+
 PATH_append "$GOPATH/bin"
 PATH_append "$GRADLE_HOME"
+
 PATH_append "$HOME/.cargo/bin"
 PATH_append "$HOME/.local/bin"
+PATH_append "$HOME/.poetry/bin"
 PATH_append "$HOME/.yarn/bin"
+PATH_append "$HOME/programs/git-fuzzy/bin"
 PATH_append "$HOME/bin"
+
 PATH_append "$MAVEN_HOME"
 PATH_append "$PYENV_ROOT/bin"
 PATH_append "$TEX_HOME"
+
 PATH_append "$XDG_CONFIG_HOME/yarn/global/node_modules/.bin"
 PATH_append "$XDG_DATA_HOME/bin"
-PATH_append "$HOME/.poetry/bin"
-
-PATH_append "$BREW_PREFIX/Cellar/llvm/10.0.0_3/bin/"
-
-PATH_append "$HOME/programs/git-fuzzy/bin"
 
 export PATH
 

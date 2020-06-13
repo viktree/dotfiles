@@ -1,7 +1,8 @@
-" vim: fdm=marker foldlevel=0 foldenable sw=4 ts=4 sts=4
+" vim: fdm=marker foldlevel=0 foldenable sw=2 ts=2 sts=2
 "----------------------------------------------------------------------------------------
 " Title:		Neovim configuration
 " Author:		Vikram Venkataramanan
+" Description:  Should work out of the box on most mac/unix machines
 "----------------------------------------------------------------------------------------
 "
 " general {{{
@@ -35,12 +36,6 @@ set nohlsearch			   " highlight search results
 set inccommand=nosplit	   " THIS IS AMAZING! :O
 set gdefault			   " by default, swap out all instances in a line
 
-" Automatically reload .vimrc file on save
-augroup reload_vimrc
-  au!
-  au BufWritePost $MYVIMRC source % | echom "Reloaded " . $MYVIMRC | redraw
-augroup END
-
 let mapleader = "\<SPACE>"
 
 " Sync with system clipboard files
@@ -49,20 +44,30 @@ if has('macunix')
 	vmap <C-c> :w !pbcopy<cr><cr>
 endif
 
-" line numbers
 set number
-autocmd TermOpen * setlocal listchars= nonumber norelativenumber
+set relativenumber
+augroup line_numbers
+  autocmd!
+  autocmd InsertEnter * set norelativenumber
+  autocmd InsertLeave * set relativenumber
+  autocmd TermOpen * setlocal listchars= nonumber norelativenumber
+augroup END
 
 " }}}
 " key mappings {{{
+"
 " Quickly exit insert mode
 ino jj <esc>
 cno jj <c-c>
 
+" why 3 strokes for command mode?
+nnoremap ; :
+
 " Easier moving of code blocks
-" try to go into visual mode (v), then select lines of code here and press `>`
-vnoremap < <gv
-vnoremap > >gv
+nnoremap <Tab>   >>
+nnoremap <S-Tab> <<
+vnoremap <Tab>   >><Esc>gv
+vnoremap <S-Tab> <<<Esc>gv
 
 " Quick get that register!
 nnoremap Q @q
@@ -71,8 +76,20 @@ vnoremap Q :normal @q
 " Redo with U instead of Ctrl+R
 noremap U <C-R>
 " }}}
+" setup vim-plug {{{
+let autoload_plug_path = stdpath('data') . '/site/autoload/plug.vim'
+let g:plug_home = stdpath('data') . '/plugged'
+
+if !filereadable(autoload_plug_path)
+  silent execute '!curl -fLo ' . autoload_plug_path . '  --create-dirs
+    \ "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"'
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+unlet autoload_plug_path
+
+" }}}
 "
-call plug#begin('$XDG_CONFIG_HOME/nvim/plugged')
+call plug#begin(plug_home)
 "
 " essentials {{{
 Plug 'tpope/vim-commentary'
@@ -123,10 +140,9 @@ if executable("tmux")
 	nnoremap <C-P> :TmuxNavigatePrevious<cr>
 endif
 
-nnoremap <tab>           :bnext<cr>
-nnoremap <s-tab>         :bprevious<cr>
-nnoremap <leader><space> :b#<cr>
-let g:which_key_map['SPC'] = 'previous-buffer'
+" buffers
+nnoremap <S-h> :bprevious<cr>
+nnoremap <S-l> :bnext<cr>
 
 " }}}
 " version control {{{
@@ -141,26 +157,25 @@ let g:which_key_map.M = 'which_key_ignore'
 if isdirectory(".git")
 	let g:magit_enabled=1
 	let g:which_key_map.g  = {
-      \ 'name' : '+git' ,
-      \ 's' : ['MagitOnly',      'status'],
-      \ 't' : ['SignifyToggle',  'toggle-signs'],
-      \ 'u' : ['UndotreeToggle',  'undo-tree'],
-      \ }
-
+		\ 'name' : '+git' ,
+		\ 's' : ['MagitOnly',      'status'],
+		\ 't' : ['SignifyToggle',  'toggle-signs'],
+		\ 'u' : ['UndotreeToggle',  'undo-tree'],
+		\ }
 else
 	let g:magit_enabled=0
 	let g:which_key_map.g  = {
-      \ 'name' : '+versions' ,
-      \ 't' : ['SignifyToggle',  'toggle-signs'],
-      \ 'u' : ['UndotreeToggle',  'undo-tree'],
-      \ }
+		\ 'name' : '+versions' ,
+		\ 't' : ['SignifyToggle',  'toggle-signs'],
+		\ 'u' : ['UndotreeToggle',  'undo-tree'],
+		\ }
 endif
 "}}}
 " fzf {{{
 if executable("fzf")
-    Plug '/usr/local/opt/fzf'
+  Plug '/usr/local/opt/fzf'
 else
-    Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
+  Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
 endif
 Plug 'junegunn/fzf.vim'
 
@@ -168,13 +183,13 @@ let g:fzf_layout = { 'down': '~25%' }
 let g:fzf_action = { 'ctrl-s': 'split', 'ctrl-v': 'vsplit' }
 
 if isdirectory(".git")
-    nmap <leader>p :GitFiles --cached --others --exclude-standard<cr>
+  nmap <leader>p :GitFiles --cached --others --exclude-standard<cr>
 else
-    nmap <leader>p :FZF .<cr>
+  nmap <leader>p :FZF .<cr>
 endif
-let g:which_key_map.p = 'snipe-file'
+let g:which_key_map.p = 'change-file'
 
-nmap <leader>f   :BLines<cr>
+nmap <leader>f :BLines<cr>
 let g:which_key_map.f = 'snipe-line'
 "}}}
 " bookmarks {{{
@@ -184,21 +199,24 @@ let g:bookmark_sign = '##'
 let g:bookmark_annotation_sign = '##'
 
 let g:which_key_map.b = {
-      \ 'name' : '+bookmarks' ,
-      \ 't' : ['BookmarkToggle',   'toggle-bookmark'],
-      \ 'r' : ['BookmarkAnnotate', 'rename-bookmark'],
-      \ 'o' : ['BookmarkShowAll',  'open-bookmark'],
-      \ }
+    \ 'name' : '+bookmarks' ,
+    \ 't' : ['BookmarkToggle',   'toggle-bookmark'],
+    \ 'a' : ['BookmarkAnnotate', 'rename-bookmark'],
+    \ 'b' : ['BookmarkShowAll',  'open-bookmark'],
+    \ }
 
 nnoremap <leader>tb :BookmarkToggle<cr>
 let g:which_key_map.t.b = 'bookmark'
 
 " Shortcuts for frequently accessed files
 command! Vimrc e $MYVIMRC
-command! Zshrc e $XDG_CONFIG_HOME/zsh/.zshrc
-command! J e /Volumes/vikram/planner/app.txt
-command! Brew e $XDG_CONFIG_HOME/brew/config
-command! Env e $XDG_CONFIG_HOME/zsh/.zshenv
+command! Zshrc e $ZDOTDIR/.zshrc
+command! Env   e $ZDOTDIR/.zshenv
+command! Brew  e $HOMEBREW_BUNDLE_FILE
+command! J	   e /Volumes/vikram/planner/app.txt
+
+command! PU PlugUpdate | PlugUpgrade
+
 "}}}
 " file management {{{
 if executable("vifm")
@@ -240,10 +258,10 @@ let g:coc_global_extensions = [
 	\ ]
 
 inoremap <silent><expr> <TAB>
-      \ pumvisible() ? coc#_select_confirm() :
-      \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<cr>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
+  \ pumvisible() ? coc#_select_confirm() :
+  \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<cr>" :
+  \ <SID>check_back_space() ? "\<TAB>" :
+  \ coc#refresh()
 
 function! s:check_back_space() abort
 	let col = col('.') - 1
@@ -282,8 +300,11 @@ omap ic <Plug>(coc-classobj-i)
 xmap ac <Plug>(coc-classobj-a)
 omap ac <Plug>(coc-classobj-a)
 
-" Highlight symbol under cursor on CursorHold
-autocmd CursorHold * silent call CocActionAsync('highlight')
+augroup highlight_under_cursor
+  autocmd!
+  autocmd CursorHold * silent call CocActionAsync('highlight')
+augroup END
+
 
 "" }}}
 " formatters {{{
@@ -299,12 +320,16 @@ let g:prettier#autoformat = 0
 
 
 function! TrimWhitespace()
-    let l:save = winsaveview()
-    keeppatterns %s/\s\+$//e
-    call winrestview(l:save)
+  let l:save = winsaveview()
+  keeppatterns %s/\s\+$//e
+  call winrestview(l:save)
 endfunction
 
-autocmd BufWritePre * :call TrimWhitespace()
+augroup trim_trailing_whitespace
+  autocmd!
+  autocmd BufWritePre * :call TrimWhitespace()
+augroup END
+
 
 """}}}
 " {{{ refactoring
@@ -312,18 +337,21 @@ Plug 'da-x/name-assign.vim'
 
 let g:name_assign_mode_maps = { "settle" : ["jj"] }
 
-nnoremap <leader>x	     *``cgn
-nnoremap <leader>X	     #``cgN
+nnoremap <leader>x	   *``cgn
+nnoremap <leader>X	   #``cgN
 let g:which_key_map.x = 'change-next-forward'
 let g:which_key_map.X = 'change-next-backwards'
 
-" Don't think about when to use percent
-autocmd VimEnter * nnoremap <leader>/ :%s/
-autocmd VimEnter * vnoremap <leader>/ :s/
+augroup vimrc
+  autocmd!
+  autocmd VimEnter * vmap <leader>r <Plug>NameAssign
+  let g:which_key_map.r = 'refactor'
+augroup END
+
+nnoremap <leader>/ :%s/
+vnoremap <leader>/ :s/
 let g:which_key_map['/'] = 'find-&-replace'
 
-autocmd VimEnter * vmap <leader>r <Plug>NameAssign
-let g:which_key_map.r = 'refactor'
 " }}}
 " documentation {{{
 
@@ -356,18 +384,18 @@ Plug 'rhysd/vim-clang-format'
 let g:clang_format#detect_style_file = 1
 
 augroup filetype_c_cpp
-	au!
+	autocmd!
 
 	" tabs
-	au BufNewFile,BufRead *.cpp,*.c  setlocal expandtab
-	au BufNewFile,BufRead *.cpp,*.c  setlocal tabstop=2
-	au BufNewFile,BufRead *.cpp,*.c  setlocal softtabstop=2
-	au BufNewFile,BufRead *.cpp,*.c  setlocal shiftwidth=2
+	autocmd BufNewFile,BufRead *.cpp,*.c  setlocal expandtab
+	autocmd BufNewFile,BufRead *.cpp,*.c  setlocal tabstop=2
+	autocmd BufNewFile,BufRead *.cpp,*.c  setlocal softtabstop=2
+	autocmd BufNewFile,BufRead *.cpp,*.c  setlocal shiftwidth=2
 
 	" format
-	au BufWritePre * :call TrimWhitespace()
-	au FileType c ClangFormatAutoEnable
-	au FileType cpp ClangFormatAutoEnable
+	autocmd BufWritePre * :call TrimWhitespace()
+	autocmd FileType c ClangFormatAutoEnable
+	autocmd FileType cpp ClangFormatAutoEnable
 
 augroup END
 
@@ -376,7 +404,7 @@ augroup END
 " css {{{
 
 augroup filetype_css
-	au!
+	autocmd!
 	autocmd BufWritePre * :call TrimWhitespace()
 	autocmd BufWritePre,TextChanged,InsertLeave *.css,*.less,*.scss PrettierAsync
 augroup END
@@ -401,8 +429,8 @@ Plug 'jparise/vim-graphql'
 autocmd BufWritePre,TextChanged,InsertLeave *.g['['] raphql PrettierAsync
 "}}}
 " haskell {{{
-" Plug 'eagletmt/neco-ghc'
-" Plug 'dag/vim2hs'
+Plug 'eagletmt/neco-ghc'
+Plug 'dag/vim2hs'
 
 "}}}
 "javascript {{{
@@ -410,9 +438,9 @@ Plug 'jelera/vim-javascript-syntax', { 'for': 'javascript' }
 Plug 'yuezk/vim-js'
 Plug 'maxmellon/vim-jsx-pretty'
 
-au BufNewFile,BufRead *.js setlocal tabstop=2
-au BufNewFile,BufRead *.js setlocal softtabstop=2
-au BufNewFile,BufRead *.js setlocal shiftwidth=2
+autocmd BufNewFile,BufRead *.js setlocal tabstop=2
+autocmd BufNewFile,BufRead *.js setlocal softtabstop=2
+autocmd BufNewFile,BufRead *.js setlocal shiftwidth=2
 
 autocmd BufWritePre,TextChanged,InsertLeave *.js,*.jsx PrettierAsync
 
@@ -420,17 +448,20 @@ autocmd BufWritePre,TextChanged,InsertLeave *.js,*.jsx PrettierAsync
 " julia {{{
 Plug 'JuliaEditorSupport/julia-vim', { 'for': 'julia' }
 
-autocmd BufNewFile,BufRead *.jmd set syntax=markdown
-autocmd BufNewFile,BufRead *.jmd set filetype=markdown
-autocmd BufNewFile,BufRead *.jmd setlocal tabstop=4
-autocmd BufNewFile,BufRead *.jmd setlocal softtabstop=4
-autocmd BufNewFile,BufRead *.jmd setlocal shiftwidth=4
-autocmd BufNewFile,BufRead *.jmd setlocal textwidth=79
-autocmd BufNewFile,BufRead *.jmd setlocal expandtab
-autocmd BufNewFile,BufRead *.jmd setlocal autoindent
-autocmd BufNewFile,BufRead *.jmd setlocal nofoldenable
+augroup filetype_julia
+	autocmd BufNewFile,BufRead *.jmd set syntax=markdown
+	autocmd BufNewFile,BufRead *.jmd set filetype=markdown
+	autocmd BufNewFile,BufRead *.jmd setlocal tabstop=4
+	autocmd BufNewFile,BufRead *.jmd setlocal softtabstop=4
+	autocmd BufNewFile,BufRead *.jmd setlocal shiftwidth=4
+	autocmd BufNewFile,BufRead *.jmd setlocal textwidth=79
+	autocmd BufNewFile,BufRead *.jmd setlocal expandtab
+	autocmd BufNewFile,BufRead *.jmd setlocal autoindent
+	autocmd BufNewFile,BufRead *.jmd setlocal nofoldenable
 
-autocmd BufNewFile,BufRead *.tpl set syntax=tex
+	autocmd BufNewFile,BufRead *.tpl set syntax=tex
+augroup END
+
 " }}}
 " latex {{{
 Plug 'lervag/vimtex'
@@ -452,25 +483,19 @@ Plug 'psf/black', { 'tag': '19.10b0', 'for': 'python' }
 
 let g:black_linelength = 100
 
-function! TrimWhitespace()
-    let l:save = winsaveview()
-    keeppatterns %s/\s\+$//e
-    call winrestview(l:save)
-endfunction
-
 augroup filetype_python
-	au!
+	autocmd!
 
 	" indentation
-	au BufNewFile,BufRead *.py setlocal expandtab
-	au BufNewFile,BufRead *.py setlocal tabstop=4
-	au BufNewFile,BufRead *.py setlocal softtabstop=4
-	au BufNewFile,BufRead *.py setlocal shiftwidth=4
-	au BufNewFile,BufRead *.py setlocal autoindent
+	autocmd BufNewFile,BufRead *.py setlocal expandtab
+	autocmd BufNewFile,BufRead *.py setlocal tabstop=4
+	autocmd BufNewFile,BufRead *.py setlocal softtabstop=4
+	autocmd BufNewFile,BufRead *.py setlocal shiftwidth=4
+	autocmd BufNewFile,BufRead *.py setlocal autoindent
 
 	" textwidth
-	au BufNewFile,BufRead *.py setlocal colorcolumn=81
-	au BufNewFile,BufRead *.py setlocal textwidth=79
+	autocmd BufNewFile,BufRead *.py setlocal colorcolumn=81
+	autocmd BufNewFile,BufRead *.py setlocal textwidth=79
 
 	" code folding
 	autocmd BufNewFile,BufRead *.jmd setlocal nofoldenable
@@ -579,33 +604,33 @@ function! GitStats()
 endfunction
 
 let g:lightline = {
-      \ 'colorscheme': 'gruvbox',
-      \ 'active': {
-      \   'left': [ [ 'mode', 'paste' ],
-      \             [ 'filename', 'gitbranch', 'stats', 'currentfunction'],
-      \             ['readonly', 'modified', 'lint' ]
+    \ 'colorscheme': 'gruvbox',
+    \ 'active': {
+    \   'left': [ [ 'mode', 'paste' ],
+    \             [ 'filename', 'gitbranch', 'stats', 'currentfunction'],
+    \             ['readonly', 'modified', 'lint' ]
 	  \   ]
-      \ },
-      \ 'component_function': {
-      \   'currentfunction': 'CurrFunction',
+    \ },
+    \ 'component_function': {
+    \   'currentfunction': 'CurrFunction',
 	  \   'gitbranch': 'FugitiveHead',
-      \   'stats': 'GitStats',
+    \   'stats': 'GitStats',
 	  \   'lint': 'StatusDiagnostic'
-      \ },
-      \ 'mode_map': {
-      \   'n' : 'N',
-      \   'i' : 'I',
-      \   'R' : 'R',
-      \   'v' : 'V',
-      \   'V' : 'VL',
-      \   "\<C-v>": 'VB',
-      \   'c' : 'C',
-      \   's' : 'S',
-      \   'S' : 'SL',
-      \   "\<C-s>": 'SB',
-      \   't': 'T',
-      \ },
-      \ }
+    \ },
+    \ 'mode_map': {
+    \   'n' : 'N',
+    \   'i' : 'I',
+    \   'R' : 'R',
+    \   'v' : 'V',
+    \   'V' : 'VL',
+    \   "\<C-v>": 'VB',
+    \   'c' : 'C',
+    \   's' : 'S',
+    \   'S' : 'SL',
+    \   "\<C-s>": 'SB',
+    \   't': 'T',
+    \ },
+    \ }
 
 function! LightlineReload()
   call lightline#init()
@@ -613,21 +638,22 @@ function! LightlineReload()
   call lightline#update()
 endfunction
 
-" Automatically reload .vimrc file on save
 augroup reload_vimrc
-  au BufWritePost $MYVIMRC call LightlineReload()
+  autocmd!
+  autocmd BufWritePost $MYVIMRC source % | echom "Reloaded " . $MYVIMRC | redraw
+  autocmd BufWritePost $MYVIMRC call LightlineReload()
 augroup END
 
 augroup reload_zshenv
-  au!
-  au BufWritePost .zshenv !source %
-  au BufWritePost .zshenv call LightlineReload()
+  autocmd!
+  autocmd BufWritePost .zshenv !source %
+  autocmd BufWritePost .zshenv call LightlineReload()
 augroup END
 
 augroup reload_zshrc
-  au!
-  au BufWritePost .zshrc  !source %
-  au BufWritePost .zshrc call LightlineReload()
+  autocmd!
+  autocmd BufWritePost .zshrc !source %
+  autocmd BufWritePost .zshrc call LightlineReload()
 augroup END
 
 

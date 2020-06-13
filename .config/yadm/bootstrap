@@ -1,14 +1,11 @@
 #!/bin/sh
 
-is_mac(){
-    [ "$(uname)" = "Darwin" ]
-}
+name="Vikram Venkataranan"
+email="vikram.venkataramanan@mail.utoronto.ca"
+username="viktree"
 
-check_for_command() {
-    command -v "$1" >/dev/null 2>&1
-}
-
-
+is_mac(){ [ "$(uname)" = "Darwin" ] }
+check_for_command() { command -v "$1" >/dev/null 2>&1 }
 
 # Setup XDG Base Directory
 # Having these exported ensures that programs are installed to the correct locations
@@ -16,6 +13,9 @@ export XDG_LOCAL_HOME="$HOME/.local"
 export XDG_DATA_HOME="$XDG_LOCAL_HOME/share"
 export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_CACHE_HOME="$HOME/.cache"
+
+export GITCONFIG_DIR="$XDG_CONFIG_HOME/git"
+
 
 if is_mac
 then
@@ -52,32 +52,9 @@ then
 fi
 
 if check_for_command nvim
-then
-    EDITOR="nvim"
-    if [ ! -f "$XDG_DATA_HOME/nvim/site/autoload/plug.vim" ]
-    then
-        curl -fLo "$XDG_DATA_HOME/nvim/site/autoload/plug.vim" --create-dirs \
-            https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-    fi
-    nvim '+PlugUpdate' '+PlugClean!' '+PlugUpdate' '+qall'
+then nvim '+PlugUpdate' '+PlugClean!' '+PlugUpdate' '+qall'
 fi
 
-if check_for_command vim
-then
-    EDITOR="vim"
-    if [ ! -f "$HOME/.vim/autoload/plug.vim" ]
-    then
-        curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
-            https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-    fi
-    vim '+PlugUpdate' '+PlugClean!' '+PlugUpdate' '+qall'
-fi
-
-name="Vikram Venkataranan"
-email="vikram.venkataramanan@mail.utoronto.ca"
-username="viktree"
-
-GITCONFIG_DIR="$XDG_CONFIG_HOME/git"
 
 git config --global user.name "$name"
 git config --global user.email "$email"
@@ -134,19 +111,4 @@ fi
 if [ -f "$HOME/.gitconfig" ]
 then mv "$HOME/.gitconfig" "$GITCONFIG_DIR/config"
 fi
-
-# if [ $SHELL = "/bin/zsh" ]
-# then
-#     export ZDOTDIR="XDG_CONFIG_HOME/zsh"
-#     if [ ! -d "$ZDOTDIR/.zinit/bin" ]
-#     then
-#         echo "Installing zinit plugin manager for zsh ..."
-#         mkdir -p "$HOME/.config/zsh/.zinit" && chmod g-rwX "$ZDOTDIR/.zinit"
-#         command git clone https://github.com/zdharma/zinit "$ZDOTDIR/.zinit/bin" && \
-#             print -P "%F{33}▓▒░ %F{34}Installation successful.%f" || \
-#             echo "The clone has failed"
-#     fi
-# fi
-
-
 
