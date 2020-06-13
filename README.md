@@ -55,7 +55,12 @@ yadm remote add https://github.com/viktree/dotfiles
 yadm pull
 ```
 
-And cut a new branch
+We can setup the machine by running bootstrap
+```
+yadm bootstrap
+```
+
+Finally, we cut a new branch and push the files
 
 ```
 yadm checkout -b <descriptive-branch-name>
