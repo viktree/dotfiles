@@ -210,12 +210,27 @@ let g:which_key_map.t.b = 'bookmark'
 
 " Shortcuts for frequently accessed files
 command! Vimrc e $MYVIMRC
-command! Zshrc e $ZDOTDIR/.zshrc
-command! Env   e $ZDOTDIR/.zshenv
-command! Brew  e $HOMEBREW_BUNDLE_FILE
-command! J	   e /Volumes/vikram/planner/app.txt
-
 command! PU PlugUpdate | PlugUpgrade
+
+if !empty(glob('/Volumes/vikram/planner/app.txt'))
+	command! J e /Volumes/vikram/planner/app.txt
+endif
+
+if executable('zsh')
+	command! Shell e $ZDOTDIR/.zshrc
+	command! Env   e $ZDOTDIR/.zshenv
+elseif executable('bash')
+	command! Shell e $HOME/.bashrc
+	command! Env   e $HOME/.profile
+endif
+
+if executable('brew')
+	command! Brew  e $HOMEBREW_BUNDLE_FILE
+endif
+
+if executable('yadm')
+	command! Yadm  e $XDG_CONFIG_HOME/yadm/bootstrap
+endif
 
 "}}}
 " file management {{{
@@ -644,18 +659,19 @@ augroup reload_vimrc
   autocmd BufWritePost $MYVIMRC call LightlineReload()
 augroup END
 
-augroup reload_zshenv
+augroup reload_bash
+  autocmd!
+  autocmd BufWritePost .bashrc !source %
+  autocmd BufWritePost .profile !source %
+  autocmd BufWritePost .bashrc call LightlineReload()
+augroup END
+
+augroup reload_zsh
   autocmd!
   autocmd BufWritePost .zshenv !source %
+  autocmd BufWritePost .zshrc !source %
   autocmd BufWritePost .zshenv call LightlineReload()
 augroup END
-
-augroup reload_zshrc
-  autocmd!
-  autocmd BufWritePost .zshrc !source %
-  autocmd BufWritePost .zshrc call LightlineReload()
-augroup END
-
 
 "}}}
 " goyo {{{

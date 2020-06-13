@@ -43,7 +43,8 @@ then
     printf "Install? [y/N]: "
     if read -q
     then
-        echo; zplug install
+        echo
+	zplug install
     fi
 fi
 
