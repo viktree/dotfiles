@@ -115,9 +115,6 @@ let g:which_key_map.d = 'insert-date'
 nnoremap <leader>ts :set spell!<cr>
 let g:which_key_map.t.s = 'spelling'
 
-" cd into current buffer
-nnoremap <leader>cd :cd %:p:h<cr>
-
 nnoremap <silent> <leader> :<c-u>WhichKey '<Space>'<cr>
 vnoremap <silent> <leader> :<c-u>WhichKeyVisual '<Space>'<cr>
 
@@ -143,6 +140,15 @@ endif
 " buffers
 nnoremap <S-h> :bprevious<cr>
 nnoremap <S-l> :bnext<cr>
+
+nnoremap <leader><space> :b#<cr>
+let g:which_key_map['SPC'] = 'previous-buffer'
+
+nnoremap <leader>q :bdelete<cr>
+let g:which_key_map.q = 'quit buffer'
+
+" cd into current buffer
+nnoremap <leader>cd :cd %:p:h<cr>
 
 " }}}
 " version control {{{
