@@ -675,6 +675,14 @@ augroup reload_zsh
   autocmd BufWritePost .zshenv call LightlineReload()
 augroup END
 
+if executable('direnv')
+	augroup reload_direnv
+		autocmd!
+		autocmd BufWritePost .envrc !direnv allow .
+		autocmd BufWritePost .envrc call LightlineReload()
+	augroup END
+endif
+
 "}}}
 " goyo {{{
 Plug 'junegunn/goyo.vim'
