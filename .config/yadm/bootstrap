@@ -4,7 +4,9 @@ name="Vikram Venkataranan"
 email="vikram.venkataramanan@mail.utoronto.ca"
 username="viktree"
 
-is_mac(){ [ "$(uname)" = "Darwin" ] }
+is_mac(){
+    [ "$(uname)" = "Darwin" ]
+}
 
 check_for_command() {
     command -v "$1" >/dev/null 2>&1
@@ -141,7 +143,6 @@ then
     git config --global alias.ia "!git add \$($git_list_files | fzf $fzf_flags"
 fi
 
-# Save password
 if is_mac
 then git config --global credential.helper osxkeychain
 else git config --global credential.helper cache
