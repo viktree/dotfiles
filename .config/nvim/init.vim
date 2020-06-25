@@ -1,7 +1,7 @@
 " vim: fdm=marker foldlevel=0 foldenable sw=2 ts=2 sts=2
 "----------------------------------------------------------------------------------------
-" Title:		Neovim configuration
-" Author:		Vikram Venkataramanan
+" Title:				Neovim configuration
+" Author:				Vikram Venkataramanan
 " Description:  Should work out of the box on most mac/unix machines
 "----------------------------------------------------------------------------------------
 "
@@ -18,16 +18,17 @@ set nobackup
 set nowritebackup
 
 set cmdheight=2            " Give more space for displaying messages
-set noshowcmd			   " don't show last command
+set noshowcmd							 " don't show last command
 set wildmode=longest,list  " get bash-like tab completions
 
 set clipboard+=unnamedplus " map nvim clipboard to system clipboard
 set ffs=unix,dos,mac       " Unix as standard file type
 set updatetime=100         " faster, faster, faster!
-set autoread			   " automatically reload file when underlying files change
+set autoread							 " automatically reload file when underlying files change
 set mouse=a                " sometimes helpful
 set secure                 " disallows :autocmd, shell + write commands in local .vimrc
 set showmatch              " Show matching brackets
+set hidden
 
 set shortmess+=c		   " don't pass messages to |ins-completion-menu|.
 
@@ -37,6 +38,7 @@ set inccommand=nosplit	   " THIS IS AMAZING! :O
 set gdefault			   " by default, swap out all instances in a line
 
 let mapleader = "\<SPACE>"
+let g:maplocalleader = ','
 
 " Sync with system clipboard files
 if has('macunix')
@@ -48,10 +50,18 @@ set number
 set relativenumber
 augroup line_numbers
   autocmd!
+  autocmd TermOpen    * setlocal listchars= nonumber norelativenumber
   autocmd InsertEnter * set norelativenumber
   autocmd InsertLeave * set relativenumber
-  autocmd TermOpen * setlocal listchars= nonumber norelativenumber
+	autocmd BufNewFile,BufRead,InsertLeave *.md setlocal nonumber
+	autocmd BufNewFile,BufRead,InsertLeave *.md setlocal norelativenumber
 augroup END
+
+augroup remember_position
+  autocmd!
+  autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
+augroup END
+
 
 " }}}
 " key mappings {{{
@@ -78,8 +88,6 @@ noremap U <C-R>
 " }}}
 " setup vim-plug {{{
 let autoload_plug_path = stdpath('data') . '/site/autoload/plug.vim'
-let g:plug_home = stdpath('data') . '/plugged'
-
 if !filereadable(autoload_plug_path)
   silent execute '!curl -fLo ' . autoload_plug_path . '  --create-dirs
     \ "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"'
@@ -87,6 +95,7 @@ if !filereadable(autoload_plug_path)
 endif
 unlet autoload_plug_path
 
+let g:plug_home = stdpath('data') . '/plugged'
 " }}}
 "
 call plug#begin(plug_home)
@@ -109,18 +118,27 @@ autocmd! User vim-which-key call which_key#register('<Space>', "g:which_key_map"
 let g:which_key_map.t = { 'name' : '+toggle' }
 nnoremap <leader>t<space> :Buffers<cr>
 
-nnoremap <leader>d :put =strftime('%Y_%b_%d_%a:')<cr>
-let g:which_key_map.d = 'insert-date'
-
 nnoremap <leader>ts :set spell!<cr>
 let g:which_key_map.t.s = 'spelling'
 
 nnoremap <silent> <leader> :<c-u>WhichKey '<Space>'<cr>
 vnoremap <silent> <leader> :<c-u>WhichKeyVisual '<Space>'<cr>
 
+nnoremap <silent> <localleader> :<c-u>WhichKey  ','<CR>
+vnoremap <silent> <localleader> :<c-u>WhichKey  ','<CR>
+
+map <leader>tt :belowright split<cr>:resize 10<cr>:terminal<cr>i
+let g:which_key_map.t.t = 'terminal'
+
+if has('macunix')
+	nnoremap <leader>d :!open ..<cr>
+	let g:which_key_map.d = 'open-directory'
+endif
+
 " }}}
 " navigation + tmux {{{
 Plug 'christoomey/vim-tmux-navigator'
+Plug 'roman/golden-ratio'
 
 let g:tmux_navigator_no_mappings = 1
 
@@ -147,14 +165,12 @@ let g:which_key_map['SPC'] = 'previous-buffer'
 nnoremap <leader>q :bdelete<cr>
 let g:which_key_map.q = 'quit buffer'
 
-" cd into current buffer
-nnoremap <leader>cd :cd %:p:h<cr>
-
 " }}}
 " version control {{{
 Plug 'tpope/vim-fugitive'
 Plug 'jreybert/vimagit'
 Plug 'mhinz/vim-signify'
+Plug 'rhysd/git-messenger.vim'
 Plug 'mbbill/undotree', {'on': 'UndotreeToggle' }
 
 let g:magit_default_show_all_files = 0
@@ -166,7 +182,8 @@ if isdirectory(".git")
 		\ 'name' : '+git' ,
 		\ 's' : ['MagitOnly',      'status'],
 		\ 't' : ['SignifyToggle',  'toggle-signs'],
-		\ 'u' : ['UndotreeToggle',  'undo-tree'],
+		\ 'u' : ['UndotreeToggle', 'undo-tree'],
+		\ 'i' : ['GitMessenger',   'commit-info'],
 		\ }
 else
 	let g:magit_enabled=0
@@ -176,13 +193,15 @@ else
 		\ 'u' : ['UndotreeToggle',  'undo-tree'],
 		\ }
 endif
+
+nnoremap <leader>tu :UndotreeToggle<cr>
+let g:which_key_map.t.u = 'undotree'
+
 "}}}
 " fzf {{{
-if executable("fzf")
-  Plug '/usr/local/opt/fzf'
-else
-  Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
-endif
+let fzf_program_path = stdpath('data') . '/fzf'
+
+Plug 'junegunn/fzf', { 'dir': fzf_program_path, 'do': './install --bin' }
 Plug 'junegunn/fzf.vim'
 
 let g:fzf_layout = { 'down': '~25%' }
@@ -200,8 +219,8 @@ let g:which_key_map.f = 'snipe-line'
 "}}}
 " bookmarks {{{
 Plug 'MattesGroeger/vim-bookmarks'
-let g:bookmark_auto_close = 1
-let g:bookmark_sign = '##'
+let g:bookmark_auto_close      = 1
+let g:bookmark_sign            = '##'
 let g:bookmark_annotation_sign = '##'
 
 let g:which_key_map.b = {
@@ -216,6 +235,7 @@ let g:which_key_map.t.b = 'bookmark'
 
 " Shortcuts for frequently accessed files
 command! Vimrc e $MYVIMRC
+command! InsertDate put =strftime('%Y_%b_%d_%a:')
 command! PU PlugUpdate | PlugUpgrade
 
 if !empty(glob('/Volumes/vikram/planner/app.txt'))
@@ -245,21 +265,18 @@ endif
 if executable("vifm")
   Plug 'vifm/vifm.vim'
   let g:vifm_replace_netrw = 1
-
   nnoremap <bs> :Vifm<cr>
-
 endif
 
 " }}}
 " filetypes {{{
 Plug 'sheerun/vim-polyglot'
-Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
+Plug 'Shougo/neco-vim'
+Plug 'neoclide/coc-neco'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'antoinemadec/coc-fzf'
 Plug 'honza/vim-snippets'
 Plug 'ap/vim-css-color'
-
-if executable('shellcheck')
-	Plug 'itspriddle/vim-shellcheck'
-endif
 
 " coc {{{
 
@@ -275,6 +292,7 @@ let g:coc_global_extensions = [
 	\ 'coc-stylelint',
 	\ 'coc-tslint',
 	\ 'coc-tsserver',
+	\ 'coc-ultisnips',
 	\ 'coc-vimlsp',
 	\ 'coc-vimtex',
 	\ 'coc-yaml',
@@ -365,7 +383,7 @@ nnoremap <leader>X	   #``cgN
 let g:which_key_map.x = 'change-next-forward'
 let g:which_key_map.X = 'change-next-backwards'
 
-augroup vimrc
+augroup refactor
   autocmd!
   autocmd VimEnter * vmap <leader>r <Plug>NameAssign
   let g:which_key_map.r = 'refactor'
@@ -376,30 +394,7 @@ vnoremap <leader>/ :s/
 let g:which_key_map['/'] = 'find-&-replace'
 
 " }}}
-" documentation {{{
 
-if executable("zeal")
-	Plug 'KabbAmine/zeavim.vim'
-endif
-
-if executable("dash")
-	Plug 'rizzatti/dash.vim'
-endif
-
-" }}}
-
-" bash {{{
-Plug 'kovetskiy/vim-bash', { 'for': 'bash' }
-
-augroup filetype_sh
-	autocmd!
-	autocmd BufNewFile,BufRead *.sh setlocal expandtab
-	autocmd BufNewFile,BufRead *.sh setlocal tabstop=4
-	autocmd BufNewFile,BufRead *.sh setlocal softtabstop=4
-	autocmd BufNewFile,BufRead *.sh setlocal shiftwidth=4
-augroup END
-
-" }}}
 " c/cpp {{{
 Plug 'arakashic/chromatica.nvim', { 'for': ['c', 'cpp']}
 Plug 'rhysd/vim-clang-format'
@@ -432,29 +427,44 @@ augroup filetype_css
 	autocmd BufWritePre,TextChanged,InsertLeave *.css,*.less,*.scss PrettierAsync
 augroup END
 
+augroup filetype_stylus
+	autocmd!
+	autocmd BufNewFile,BufRead *.styl setlocal filetype=stylus
+	autocmd BufNewFile,BufRead *.styl setlocal syntax=stylus
+	autocmd Filetype stylus setlocal smarttab
+	autocmd Filetype stylus setlocal expandtab
+	autocmd Filetype stylus setlocal tabstop=2
+	autocmd Filetype stylus setlocal softtabstop=2
+	autocmd Filetype stylus setlocal shiftwidth=2
+	autocmd Filetype stylus setlocal autoindent
+augroup END
 
 " }}}
 " elixir {{{
-Plug 'elixir-editors/vim-elixir',     { 'for': 'elixir' }
-Plug 'carlosgaldino/elixir-snippets', { 'for': 'elixir' }
-Plug 'avdgaag/vim-phoenix',           { 'for': 'elixir' }
-Plug 'mmorearty/elixir-ctags',        { 'for': 'elixir'}
-Plug 'mattreduce/vim-mix',            { 'for': 'elixir'}
-Plug 'BjRo/vim-extest',               { 'for': 'elixir'}
-Plug 'frost/vim-eh-docs',             { 'for': 'elixir'}
-
+if executable('elixir')
+	Plug 'elixir-editors/vim-elixir',     { 'for': 'elixir' }
+	Plug 'carlosgaldino/elixir-snippets', { 'for': 'elixir' }
+	Plug 'avdgaag/vim-phoenix',           { 'for': 'elixir' }
+	Plug 'mmorearty/elixir-ctags',        { 'for': 'elixir'}
+	Plug 'mattreduce/vim-mix',            { 'for': 'elixir'}
+	Plug 'BjRo/vim-extest',               { 'for': 'elixir'}
+	Plug 'frost/vim-eh-docs',             { 'for': 'elixir'}
+endif
 " }}}
 " golang {{{
-Plug 'fatih/vim-go', { 'for': 'go', 'do': ':GoUpdateBinaries'}
+if executable('go')
+	Plug 'fatih/vim-go', { 'for': 'go', 'do': ':GoUpdateBinaries'}
+endif
 " }}}
 " gql{{{
 Plug 'jparise/vim-graphql'
 autocmd BufWritePre,TextChanged,InsertLeave *.g['['] raphql PrettierAsync
 "}}}
 " haskell {{{
-Plug 'eagletmt/neco-ghc'
-Plug 'dag/vim2hs'
-
+if executable('ghc')
+	Plug 'eagletmt/neco-ghc'
+	Plug 'dag/vim2hs'
+endif
 "}}}
 "javascript {{{
 Plug 'jelera/vim-javascript-syntax', { 'for': 'javascript' }
@@ -469,36 +479,47 @@ autocmd BufWritePre,TextChanged,InsertLeave *.js,*.jsx PrettierAsync
 
 "}}}
 " julia {{{
-Plug 'JuliaEditorSupport/julia-vim', { 'for': 'julia' }
-
-augroup filetype_julia
-	autocmd BufNewFile,BufRead *.jmd set syntax=markdown
-	autocmd BufNewFile,BufRead *.jmd set filetype=markdown
-	autocmd BufNewFile,BufRead *.jmd setlocal tabstop=4
-	autocmd BufNewFile,BufRead *.jmd setlocal softtabstop=4
-	autocmd BufNewFile,BufRead *.jmd setlocal shiftwidth=4
-	autocmd BufNewFile,BufRead *.jmd setlocal textwidth=79
-	autocmd BufNewFile,BufRead *.jmd setlocal expandtab
-	autocmd BufNewFile,BufRead *.jmd setlocal autoindent
-	autocmd BufNewFile,BufRead *.jmd setlocal nofoldenable
-
-	autocmd BufNewFile,BufRead *.tpl set syntax=tex
-augroup END
-
+if executable('julia')
+	Plug 'JuliaEditorSupport/julia-vim', { 'for': 'julia' }
+	augroup filetype_julia
+		autocmd BufNewFile,BufRead *.jmd set syntax=markdown
+		autocmd BufNewFile,BufRead *.jmd set filetype=markdown
+		autocmd BufNewFile,BufRead *.jmd setlocal tabstop=4
+		autocmd BufNewFile,BufRead *.jmd setlocal softtabstop=4
+		autocmd BufNewFile,BufRead *.jmd setlocal shiftwidth=4
+		autocmd BufNewFile,BufRead *.jmd setlocal textwidth=79
+		autocmd BufNewFile,BufRead *.jmd setlocal expandtab
+		autocmd BufNewFile,BufRead *.jmd setlocal autoindent
+		autocmd BufNewFile,BufRead *.jmd setlocal nofoldenable
+		autocmd BufNewFile,BufRead *.tpl set syntax=tex
+	augroup END
+endif
 " }}}
 " latex {{{
 Plug 'lervag/vimtex'
+augroup filetype_latex
+	autocmd!
+	autocmd BufRead,BufNewFile *.pgf       set filetype=tex
+	autocmd BufRead,BufNewFile *.tikz      set filetype=tex
+	autocmd BufRead,BufNewFile *.pdf_tex   set filetype=tex
+	autocmd BufRead,BufNewFile .latexmkrc  set filetype=perl
+augroup END
 "}}}
 " markdown {{{
-autocmd BufNewFile,BufRead *.md set filetype=markdown
-autocmd BufNewFile,BufRead *.md set syntax=markdown
-autocmd BufNewFile,BufRead *.md setlocal nonumber
-autocmd BufNewFile,BufRead *.md setlocal nofoldenable
-autocmd BufNewFile,BufRead *.md setlocal spell
+augroup filetype_markdown
+	autocmd!
+	autocmd BufNewFile,BufRead *.md setlocal filetype=markdown
+	autocmd BufNewFile,BufRead *.md setlocal syntax=markdown
+
+	autocmd BufNewFile,BufRead *.md setlocal nofoldenable
+	autocmd BufNewFile,BufRead *.md setlocal spell
+
+	autocmd FileType markdown :iabbrev <buffer> h1 #
+	autocmd FileType markdown :iabbrev <buffer> h2 ##
+	autocmd FileType markdown :iabbrev <buffer> h3 ###
+	autocmd FileType markdown :iabbrev <buffer> h4 ####
+augroup END
 "}}}
-" nix {{{
-Plug 'LnL7/vim-nix', { 'for': 'nix' }
-" }}}
 " python {{{
 Plug 'tmhedberg/SimpylFold', { 'for': 'python' }
 Plug 'raimon49/requirements.txt.vim', {'for': 'requirements'}
@@ -510,6 +531,7 @@ augroup filetype_python
 	autocmd!
 
 	" indentation
+	autocmd BufNewFile,BufRead *.py setlocal smarttab
 	autocmd BufNewFile,BufRead *.py setlocal expandtab
 	autocmd BufNewFile,BufRead *.py setlocal tabstop=4
 	autocmd BufNewFile,BufRead *.py setlocal softtabstop=4
@@ -537,11 +559,27 @@ Plug 'vim-pandoc/vim-pandoc-syntax', { 'for': 'r' }
 autocmd BufNewFile,BufRead *.Rmd setlocal nonumber
 "}}}
 " rust {{{
-Plug 'racer-rust/vim-racer', { 'for': 'rust' }
-Plug 'rust-lang/rust.vim', { 'for': 'rust' }
+if executable('cargo')
+	Plug 'racer-rust/vim-racer', { 'for': 'rust' }
+	Plug 'rust-lang/rust.vim', { 'for': 'rust' }
 
-let g:rustfmt_autosave = 1
+	let g:rustfmt_autosave = 1
+endif
 "  }}}
+" sh {{{
+Plug 'kovetskiy/vim-bash', { 'for': 'bash' }
+if executable('shellcheck')
+	Plug 'itspriddle/vim-shellcheck'
+endif
+
+augroup filetype_sh
+	autocmd!
+	autocmd BufNewFile,BufRead *.sh setlocal expandtab
+	autocmd BufNewFile,BufRead *.sh setlocal tabstop=4
+	autocmd BufNewFile,BufRead *.sh setlocal softtabstop=4
+	autocmd BufNewFile,BufRead *.sh setlocal shiftwidth=4
+augroup END
+" }}}
 " terraform {{{
 Plug 'hashivim/vim-terraform'
 " }}}
@@ -554,6 +592,11 @@ let g:yats_host_keyword = 1
 autocmd BufWritePre,TextChanged,InsertLeave *.ts,*.tsx PrettierAsync
 
 "}}}
+" verilog {{{
+
+Plug 'nachumk/systemverilog.vim'
+
+" }}}
 " vue {{{
 autocmd BufWritePre,TextChanged,InsertLeave *.vue PrettierAsync
 " }}}
@@ -579,11 +622,11 @@ Plug 'morhetz/gruvbox'
 Plug 'luochen1990/rainbow'
 Plug 'mhinz/vim-startify'
 
-colorscheme gruvbox
-
+let g:gruvbox_termcolors=16
 let g:rainbow_active   = 1
 let g:startify_use_env = 1
 
+colorscheme gruvbox
 autocmd User Startified setlocal cursorline
 
 "}}}
@@ -681,58 +724,19 @@ augroup reload_zsh
   autocmd BufWritePost .zshenv call LightlineReload()
 augroup END
 
+if executable('direnv')
+	augroup reload_direnv
+		autocmd!
+		autocmd BufWritePost .envrc !direnv allow .
+		autocmd BufWritePost .envrc call LightlineReload()
+	augroup END
+endif
+
 "}}}
-" goyo {{{
-Plug 'junegunn/goyo.vim'
-let g:vim_markdown_frontmatter = 1
-let g:goyo_width               = "80%"
-let g:goyo_disabled_signify    = 1
-let g:which_key_map.t.g		   = 'goyo'
+" experimental {{{
 
-function! s:goyo_enter()
-	set nonumber
-	set linespace=7
-endfunction
 
-function! s:goyo_leave()
-	set number
-	set linespace=0
-	highlight Folded                       ctermbg=NONE
-	highlight Normal                       ctermbg=NONE
-	highlight SignColumn                   ctermbg=NONE
 
-	highlight SignifyLineAdd               ctermbg=NONE ctermfg=green
-	highlight SignifyLineChange            ctermbg=NONE ctermfg=blue
-	highlight SignifyLineDelete            ctermbg=NONE ctermfg=red
-	highlight SignifyLineDeleteFirstLine   ctermbg=NONE ctermfg=red
-	highlight SignifySignAdd               ctermbg=NONE ctermfg=green
-	highlight SignifySignChange            ctermbg=NONE ctermfg=blue
-	highlight SignifySignDelete            ctermbg=NONE ctermfg=red
-	highlight SignifySignDeleteFirstLine   ctermbg=NONE ctermfg=red
-
-	highlight BookmarkSign                 ctermbg=NONE ctermfg=blue
-	highlight BookmarkLine                 ctermbg=NONE ctermfg=blue
-endfunction
-
-autocmd! User GoyoEnter nested call <SID>goyo_enter()
-autocmd! User GoyoLeave nested call <SID>goyo_leave()
-
-nnoremap <leader>tg :Goyo<cr>
-
-" }}}
-" remember position in file {{{
-augroup vimrc-remember-cursor-position
-  autocmd!
-  autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
-augroup END
-" }}}
-" experimental{{{
-Plug 'tpope/vim-dispatch'
-Plug 'tpope/vim-endwise'
-Plug 'tpope/vim-abolish'
-Plug 'markonm/traces.vim'
-Plug 'wellle/targets.vim'
-Plug 'raghur/vim-ghost', {'do': ':GhostInstall'}
 " }}}
 "
 call plug#end()
