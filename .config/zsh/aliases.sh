@@ -11,6 +11,9 @@ fi
 
 alias magit='nvim -c MagitOnly'
 
+alias mitmproxy="mitmproxy --set confdir=$XDG_CONFIG_HOME/mitmproxy"
+alias mitmweb="mitmweb --set confdir=$XDG_CONFIG_HOME/mitmproxy"
+
 alias truepath='pwd -P'
 alias shrug="echo '¯\_(ツ)_/¯' | pbcopy"
 
