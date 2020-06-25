@@ -22,6 +22,8 @@ export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
 
 # Follow XDG Basedir Spec
 export ATOM_HOME="$XDG_DATA_HOME/atom"
+export AWS_SHARED_CREDENTIALS_FILE="$XDG_CONFIG_HOME/aws/credentials"
+export AWS_CONFIG_FILE="$XDG_CONFIG_HOME/aws/config"
 export CARGO_HOME="$XDG_DATA_HOME/cargo"
 export GNUPGHOME="$XDG_DATA_HOME/gnupg"
 export HISTFILE="$XDG_DATA_HOME/zsh/history"
@@ -39,6 +41,7 @@ local vikram='/Volumes/Vikram'
 local android_build_tool_version="29.0.1"
 local node_version="10"
 local BREW_PREFIX="/usr/local"
+local MACPORT_PREFIX="/opt/local"
 
 export DEFAULT_USER=`whoami`
 export LANG="en_US.UTF-8"
@@ -108,6 +111,10 @@ then
     export FZF_CTRL_T_COMMAND='rg --files --hidden --follow -g "!{.git} !{node_modules}" 2>/dev/null'
 fi
 
+if check_for_command weechat
+then export WEECHAT_HOME="$XDG_CONFIG_HOME/weechat"
+fi
+
 # ---------------------------------------------------------------------------------------
 
 if [[ -d "$vikram" ]]
@@ -146,6 +153,9 @@ PATH_append "$BREW_PREFIX/opt/node@$node_version/bin"
 PATH_append "$BREW_PREFIX/opt/sqlite/bin"
 PATH_append "$BREW_PREFIX/opt/llvm/bin"
 PATH_append "$BREW_PREFIX/Cellar/llvm/10.0.0_3/bin/"
+
+PATH_append "$MACPORT_PREFIX/bin"
+PATH_append "$MACPORT_PREFIX/sbin"
 
 PATH_append "$GOPATH/bin"
 PATH_append "$GRADLE_HOME"
