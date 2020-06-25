@@ -219,10 +219,10 @@ let g:which_key_map.f = 'snipe-line'
 "}}}
 " bookmarks {{{
 Plug 'MattesGroeger/vim-bookmarks'
+
 let g:bookmark_auto_close      = 1
 let g:bookmark_sign            = '##'
 let g:bookmark_annotation_sign = '##'
-
 let g:which_key_map.b = {
     \ 'name' : '+bookmarks' ,
     \ 't' : ['BookmarkToggle',   'toggle-bookmark'],
@@ -230,8 +230,7 @@ let g:which_key_map.b = {
     \ 'b' : ['BookmarkShowAll',  'open-bookmark'],
     \ }
 
-nnoremap <leader>tb :BookmarkToggle<cr>
-let g:which_key_map.t.b = 'bookmark'
+let g:bookmark_auto_save_file = stdpath('data') . '/bookmarks'
 
 " Shortcuts for frequently accessed files
 command! Vimrc e $MYVIMRC
@@ -254,10 +253,18 @@ if executable('brew')
 	command! Brew  e $HOMEBREW_BUNDLE_FILE
 endif
 
+if executable('skhd')
+	command! Keys  e $XDG_CONFIG_HOME/skhd/skhdrc
+endif
+
+if executable('yabai')
+	command! Wm  e $XDG_CONFIG_HOME/yabai/yabairc
+endif
+
 if !empty(glob('$XDG_CONFIG_HOME/yadm/bootstrap'))
-	command! Yadm  e $XDG_CONFIG_HOME/yadm/bootstrap
+	command! Bootstrap  e $XDG_CONFIG_HOME/yadm/bootstrap
 elseif !empty(glob('.yadm/bootstrap'))
-	command! Yadm  e .yadm/bootstrap
+	command! Bootstrap  e .yadm/bootstrap
 endif
 
 "}}}
@@ -698,6 +705,9 @@ let g:lightline = {
     \ },
     \ }
 
+"}}}
+" On save hooks {{{
+
 function! LightlineReload()
   call lightline#init()
   call lightline#colorscheme()
@@ -716,6 +726,20 @@ augroup reload_bash
   autocmd BufWritePost .profile !source %
   autocmd BufWritePost .bashrc call LightlineReload()
 augroup END
+
+augroup reload_wm
+  autocmd!
+  if executable('brew')
+		if executable('skhd')
+			autocmd BufWritePost skhdrc !brew services restart skhd
+		endif
+		if executable('yabai')
+			autocmd BufWritePost yabairc !brew services restart yabai
+		endif
+	endif
+  autocmd BufWritePost .bashrc call LightlineReload()
+augroup END
+
 
 augroup reload_zsh
   autocmd!
