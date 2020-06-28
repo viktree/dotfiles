@@ -235,14 +235,6 @@ let g:bookmark_auto_save_file = stdpath('data') . '/bookmarks'
 " }}}
 " Commands {{{
 
-function! YadmCommit()
-  let curline = getline('.')
-  call inputsave()
-  let message = input('Enter message: ')
-  call inputrestore()
-	execute '!yadm add % && yadm commit -m' . "'" . message . "'"
-endfunction
-
 " Shortcuts for frequently accessed files
 command! Vimrc e $MYVIMRC
 command! InsertDate put =strftime('%Y_%b_%d_%a:')
@@ -269,6 +261,20 @@ if executable('skhd')
 endif
 
 if executable('yabai')
+	function! YadmAdd()
+		execute '!yadm add %'
+	endfunction
+
+	function! YadmCommit()
+		let curline = getline('.')
+		call inputsave()
+		let message = input('Enter message: ')
+		call inputrestore()
+		execute '!yadm commit -m' . "'" . message . "'"
+	endfunction
+
+	command! YadmAdd call YadmAdd()
+	command! YadmCommit call YadmCommit()
 	command! Wm  e $XDG_CONFIG_HOME/yabai/yabairc
 endif
 
