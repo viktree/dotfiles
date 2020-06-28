@@ -62,5 +62,5 @@ alt - p : yabai -m window --toggle sticky &&\
           yabai -m window --toggle pip
 
 # Quicklaunch
-alt - return : /Applications/kitty.app/Contents/MacOS/kitty --single-instance -d ~
+# alt - return : /Applications/kitty.app/Contents/MacOS/kitty --single-instance -d ~
 
