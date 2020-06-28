@@ -33,6 +33,10 @@ export KITTY_CONFIG_DIRECTORY="$XDG_CONFIG_HOME/kitty"
 export LESSHISTFILE="$XDG_CONFIG_HOME/less/history"
 export RUSTUP_HOME="$XDG_DATA_HOME/rustup"
 export WAKATIME_HOME="$XDG_CONFIG_HOME/wakatime"
+
+export ZPLUG_LOADFILE="$ZDOTDIR/packages.zsh"
+export ZPLUG_CACHE_DIR="$XDG_DATA_HOME/zplug/.cache"
+export ZPLUG_REPOS="$XDG_DATA_HOME/zplug/repos"
 export _Z_DATA="$XDG_DATA_HOME/z"
 
 # ---{ PROGRAMS }------------------------------------------------------------------------
