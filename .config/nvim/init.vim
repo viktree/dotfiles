@@ -261,10 +261,6 @@ if executable('skhd')
 endif
 
 if executable('yabai')
-	function! YadmAdd()
-		execute '!yadm add %'
-	endfunction
-
 	function! YadmCommit()
 		let curline = getline('.')
 		call inputsave()
@@ -273,8 +269,10 @@ if executable('yabai')
 		execute '!yadm commit -m' . "'" . message . "'"
 	endfunction
 
-	command! YadmAdd call YadmAdd()
+	command! YadmAdd execute('!yadm add %')
 	command! YadmCommit call YadmCommit()
+	command! YadmPush execute('!yadm push')
+
 	command! Wm  e $XDG_CONFIG_HOME/yabai/yabairc
 endif
 
