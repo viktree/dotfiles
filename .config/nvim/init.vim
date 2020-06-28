@@ -232,6 +232,17 @@ let g:which_key_map.b = {
 
 let g:bookmark_auto_save_file = stdpath('data') . '/bookmarks'
 
+" }}}
+" Commands {{{
+
+function! YadmCommit()
+  let curline = getline('.')
+  call inputsave()
+  let message = input('Enter message: ')
+  call inputrestore()
+	execute '!yadm add % && yadm commit -m' . "'" . message . "'"
+endfunction
+
 " Shortcuts for frequently accessed files
 command! Vimrc e $MYVIMRC
 command! InsertDate put =strftime('%Y_%b_%d_%a:')
@@ -720,10 +731,16 @@ augroup reload_vimrc
   autocmd BufWritePost $MYVIMRC call LightlineReload()
 augroup END
 
-augroup reload_bash
+augroup reload_shell
   autocmd!
-  autocmd BufWritePost .bashrc !source %
-  autocmd BufWritePost .profile !source %
+  if executable('bash')
+		autocmd BufWritePost .bashrc !source %
+		autocmd BufWritePost .profile !source %
+	endif
+	if executable('zsh')
+		autocmd BufWritePost .zshenv !source %
+		autocmd BufWritePost .zshrc !source %
+	endif
   autocmd BufWritePost .bashrc call LightlineReload()
 augroup END
 
@@ -738,14 +755,6 @@ augroup reload_wm
 		endif
 	endif
   autocmd BufWritePost .bashrc call LightlineReload()
-augroup END
-
-
-augroup reload_zsh
-  autocmd!
-  autocmd BufWritePost .zshenv !source %
-  autocmd BufWritePost .zshrc !source %
-  autocmd BufWritePost .zshenv call LightlineReload()
 augroup END
 
 if executable('direnv')
