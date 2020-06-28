@@ -260,7 +260,7 @@ if executable('skhd')
 	command! Keys  e $XDG_CONFIG_HOME/skhd/skhdrc
 endif
 
-if executable('yabai')
+if executable('yadm')
 	function! YadmCommit()
 		let curline = getline('.')
 		call inputsave()
@@ -273,13 +273,15 @@ if executable('yabai')
 	command! YadmCommit call YadmCommit()
 	command! YadmPush execute('!yadm push')
 
-	command! Wm  e $XDG_CONFIG_HOME/yabai/yabairc
+	if !empty(glob('$XDG_CONFIG_HOME/yadm/bootstrap'))
+		command! Bootstrap  e $XDG_CONFIG_HOME/yadm/bootstrap
+	elseif !empty(glob('.yadm/bootstrap'))
+		command! Bootstrap  e .yadm/bootstrap
+	endif
 endif
 
-if !empty(glob('$XDG_CONFIG_HOME/yadm/bootstrap'))
-	command! Bootstrap  e $XDG_CONFIG_HOME/yadm/bootstrap
-elseif !empty(glob('.yadm/bootstrap'))
-	command! Bootstrap  e .yadm/bootstrap
+if executable('yabai')
+	command! Wm  e $XDG_CONFIG_HOME/yabai/yabairc
 endif
 
 "}}}
