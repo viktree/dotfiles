@@ -284,6 +284,10 @@ if executable('yabai')
 	command! Wm  e $XDG_CONFIG_HOME/yabai/yabairc
 endif
 
+if executable('alacritty')
+	command! Term e $XDG_CONFIG_HOME/alacritty/alacritty.yml
+endif
+
 "}}}
 " file management {{{
 if executable("vifm")

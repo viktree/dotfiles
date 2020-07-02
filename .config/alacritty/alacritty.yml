@@ -1,0 +1,74 @@
+# vim:fileencoding=utf-8:ft=conf:foldmethod=marker
+
+# ---------------------------------------------------------------------------------------
+# Title:				Terminal configuration
+# Author:				Vikram Venkataramanan
+# ---------------------------------------------------------------------------------------
+# behaviour {{{
+env:
+  TERM: xterm-256color
+
+shell:
+  program: /bin/zsh
+  args:
+    - -l
+    - -c
+    - "tmuxinator start alacritty"
+
+selection:
+  save_to_clipboard: true
+
+# }}}
+# apperence {{{
+window:
+  dimensions:
+    columns: 80
+    lines: 24
+
+  padding:
+    x: 20
+    y: 20
+
+  decorations: none
+
+background_opacity: 0.95
+
+font:
+  normal:
+    family: Jetbrains Mono
+    style: Regular
+  bold:
+    family: Jetbrains Mono
+    style: Bold
+  italic:
+    family: Jetbrains Mono
+    style: Italic
+  size: 12.0
+  offset:
+    x: 1
+    y: 1
+
+# Colors (Gruvbox dark)
+colors:
+  primary:
+    background: '#272727' # hard contrast: background = '#1d2021'
+    foreground: '#ebdbb2' # soft contrast: background = '#32302f'
+  normal:
+    black:   '#282828'
+    red:     '#cc241d'
+    green:   '#98971a'
+    yellow:  '#d79921'
+    blue:    '#458588'
+    magenta: '#b16286'
+    cyan:    '#689d6a'
+    white:   '#a89984'
+  bright:
+    black:   '#928374'
+    red:     '#fb4934'
+    green:   '#b8bb26'
+    yellow:  '#fabd2f'
+    blue:    '#83a598'
+    magenta: '#d3869b'
+    cyan:    '#8ec07c'
+    white:   '#ebdbb2'
+# }}}
