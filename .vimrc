@@ -29,6 +29,7 @@ set mouse=a                " sometimes helpful
 set secure                 " disallows :autocmd, shell + write commands in local .vimrc
 set showmatch              " Show matching brackets
 
+set signcolumn=yes
 set shortmess+=c		   " don't pass messages to |ins-completion-menu|.
 
 " searching
@@ -39,7 +40,6 @@ let mapleader = "\<SPACE>"
 
 set number
 set relativenumber
-
 augroup line_numbers
   autocmd!
   autocmd InsertEnter *    set norelativenumber
@@ -56,6 +56,7 @@ augroup END
 " Quickly exit insert mode
 ino jj <esc>
 cno jj <c-c>
+tnoremap jj <C-\><C-n>
 
 " why 3 strokes for command mode?
 nnoremap ; :
@@ -88,6 +89,9 @@ Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'editorconfig/editorconfig-vim'
 
+Plug 'xolox/vim-session'
+Plug 'xolox/vim-misc'
+
 let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://.*']
 "}}}
 " leader mappings and which-key {{{
@@ -115,6 +119,7 @@ let g:which_key_map.s.w = 'save-word'
 " }}}
 " navigation + tmux {{{
 Plug 'christoomey/vim-tmux-navigator'
+Plug 'roman/golden-ratio'
 
 let g:tmux_navigator_no_mappings = 1
 
@@ -122,6 +127,11 @@ nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
+
+tnoremap <C-J> jj<C-J>
+tnoremap <C-K> jj<C-K>
+tnoremap <C-L> jj<C-L>
+tnoremap <C-H> jj<C-H>
 
 if executable("tmux")
 	nnoremap <C-H> :TmuxNavigateLeft<cr>
@@ -195,6 +205,7 @@ Plug 'MattesGroeger/vim-bookmarks'
 let g:bookmark_auto_close = 1
 let g:bookmark_sign = '##'
 let g:bookmark_annotation_sign = '##'
+" let g:bookmark_auto_save_file = '$HOME/.vim/bookmarks'
 
 let g:which_key_map.b = {
     \ 'name' : '+bookmarks' ,
@@ -337,7 +348,6 @@ Plug 'junegunn/goyo.vim'
 let g:vim_markdown_frontmatter = 1
 let g:goyo_width               = "80%"
 let g:goyo_disabled_signify    = 1
-let g:which_key_map.t.g        = 'goyo'
 
 function! s:goyo_enter()
 	set nonumber
@@ -361,15 +371,23 @@ function! s:goyo_leave()
 	highlight BookmarkSign                 ctermbg=NONE ctermfg=blue
 	highlight BookmarkLine                 ctermbg=NONE ctermfg=blue
 endfunction
-autocmd! User GoyoEnter nested call <SID>goyo_enter()
-autocmd! User GoyoLeave nested call <SID>goyo_leave()
-nnoremap <leader>tg :Goyo<cr>
 
-augroup filetype_markdown_goyo
+nnoremap <leader>tg :Goyo<cr>
+let g:which_key_map.t.g = 'goyo'
+
+augroup goyo_hooks
 	autocmd!
-	autocmd BufNewFile,BufRead *.md :Goyo
-	autocmd BufLeave *.md           :Goyo
+	autocmd User GoyoEnter nested call <SID>goyo_enter()
+	autocmd User GoyoLeave nested call <SID>goyo_leave()
 augroup END
+
+" augroup filetype_markdown_goyo
+" 	autocmd!
+
+
+" 	autocmd BufNewFile,BufRead *.md :Goyo
+" 	autocmd BufLeave *.md           :Goyo!
+" augroup END
 
 " }}}
 
@@ -428,7 +446,10 @@ augroup END
 "}}}
 " theme {{{
 Plug 'morhetz/gruvbox'
+Plug 'luochen1990/rainbow'
 
+set background=dark
+let g:rainbow_active = 1
 colorscheme gruvbox
 " }}}
 " lightline {{{
@@ -529,7 +550,6 @@ highlight BookmarkLine                 ctermbg=NONE ctermfg=blue
 " }}}
 "
 call plug#end()
-"
 "
 "----------------------------------------------------------------------------------------
 
