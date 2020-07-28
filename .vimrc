@@ -104,6 +104,9 @@ autocmd! User vim-which-key call which_key#register('<Space>', "g:which_key_map"
 let g:which_key_map.t = { 'name' : '+toggle' }
 nnoremap <leader>t<space> :Buffers<cr>
 
+let g:which_key_map['.'] = 'exec-last-cmd'
+nnoremap <leader>. :!!<cr>
+
 nnoremap <leader>d :put =strftime('%Y_%b_%d_%a:')<cr>
 let g:which_key_map.d = 'insert-date'
 
@@ -118,22 +121,29 @@ nnoremap <leader>sw :spellgood!<space>
 let g:which_key_map.s.w = 'save-word'
 " }}}
 " navigation + tmux {{{
-Plug 'christoomey/vim-tmux-navigator'
-Plug 'roman/golden-ratio'
 
-let g:tmux_navigator_no_mappings = 1
+let g:netrw_browse_split = 2
+let g:netrw_banner = 0
+let g:netrw_winsize = 25
 
 nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
 
-tnoremap <C-J> jj<C-J>
-tnoremap <C-K> jj<C-K>
-tnoremap <C-L> jj<C-L>
-tnoremap <C-H> jj<C-H>
+tnoremap <C-J> <C-W><C-J>
+tnoremap <C-K> <C-W><C-K>
+tnoremap <C-L> <C-W><C-L>
+tnoremap <C-H> <C-W><C-H>
+
+" tnoremap <leader>j <down>
+tnoremap <leader>k <up>
+
+tnoremap <C-L> clear<cr>
 
 if executable("tmux")
+	Plug 'christoomey/vim-tmux-navigator'
+	let g:tmux_navigator_no_mappings = 1
 	nnoremap <C-H> :TmuxNavigateLeft<cr>
 	nnoremap <C-J> :TmuxNavigateDown<cr>
 	nnoremap <C-K> :TmuxNavigateUp<cr>
@@ -165,7 +175,8 @@ Plug 'mbbill/undotree', {'on': 'UndotreeToggle' }
 let g:magit_default_show_all_files = 0
 let g:which_key_map.M = 'which_key_ignore'
 
-if isdirectory(".git")
+silent! !git rev-parse --is-inside-work-tree
+if v:shell_error == 0
 	let g:magit_enabled=1
 	let g:which_key_map.g  = {
 		\ 'name' : '+git' ,
@@ -182,6 +193,7 @@ else
 		\ 'u' : ['UndotreeToggle',  'undo-tree'],
 		\ }
 endif
+
 "}}}
 " fzf {{{
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
@@ -190,7 +202,8 @@ Plug 'junegunn/fzf.vim'
 let g:fzf_layout = { 'down': '~25%' }
 let g:fzf_action = { 'ctrl-s': 'split', 'ctrl-v': 'vsplit' }
 
-if isdirectory(".git")
+silent! !git rev-parse --is-inside-work-tree
+if v:shell_error == 0
   nmap <leader>p :GitFiles --cached --others --exclude-standard<cr>
 else
   nmap <leader>p :FZF .<cr>
@@ -221,6 +234,8 @@ let g:which_key_map.t.b = 'bookmark'
 command! Vimrc e $MYVIMRC
 command! PU PlugUpdate | PlugUpgrade
 
+command! SSH e ~/.ssh/config
+
 if !empty(glob('/Volumes/vikram/planner/app.txt'))
 	command! J e /Volumes/vikram/planner/app.txt
 endif
@@ -233,11 +248,24 @@ elseif executable('bash')
 	command! Env   e $HOME/.profile
 endif
 
+if executable('yadm')
+	function! YadmCommit()
+		let curline = getline('.')
+		call inputsave()
+		let message = input('Enter message: ')
+		call inputrestore()
+		execute '!yadm commit -m' . "'" . message . "'"
+	endfunction
 
-if !empty(glob('$XDG_CONFIG_HOME/yadm/bootstrap'))
-	command! Yadm  e $XDG_CONFIG_HOME/yadm/bootstrap
-elseif !empty(glob('.yadm/bootstrap'))
-	command! Yadm  e .yadm/bootstrap
+	command! YadmAdd execute('!yadm add %')
+	command! YadmCommit call YadmCommit()
+	command! YadmPush execute('!yadm push')
+
+	if !empty(glob('$XDG_CONFIG_HOME/yadm/bootstrap'))
+		command! Bootstrap  e $XDG_CONFIG_HOME/yadm/bootstrap
+	elseif !empty(glob('.yadm/bootstrap'))
+		command! Bootstrap  e .yadm/bootstrap
+	endif
 endif
 
 "}}}
@@ -250,6 +278,10 @@ if executable("vifm")
 
 endif
 
+" }}}
+" completions {{{
+Plug 'VundleVim/Vundle.vim'
+Plug 'ycm-core/YouCompleteMe'
 " }}}
 " filetypes {{{
 Plug 'sheerun/vim-polyglot'
@@ -329,6 +361,9 @@ augroup filetype_c_cpp
 	autocmd BufNewFile,BufRead *.cpp,*.c  setlocal softtabstop=2
 	autocmd BufNewFile,BufRead *.cpp,*.c  setlocal shiftwidth=2
 
+	autocmd BufNewFile,BufRead *.cpp,*.c  setlocal foldmethod=syntax
+	autocmd BufNewFile,BufRead *.cpp,*.c  setlocal foldlevelstart=20
+
 	" format
 	autocmd BufWritePre * :call TrimWhitespace()
 	autocmd FileType c ClangFormatAutoEnable
@@ -398,7 +433,6 @@ augroup filetype_markdown
 	autocmd BufNewFile,BufRead *.md setlocal nonumber
 	autocmd BufNewFile,BufRead *.md setlocal nofoldenable
 	autocmd BufNewFile,BufRead *.md setlocal spell
-	autocmd BufNewFile,BufRead *.md setlocal spell
 
 	autocmd BufNewFile,BufRead *.md :TableModeToggle
 	autocmd BufLeave *.md           :TableModeToggle
@@ -442,6 +476,23 @@ augroup filetype_python
 augroup END
 
 " }}}
+" redmine {{{
+Plug 's3rvac/vim-syntax-redminewiki'
+Plug 'falstro/ghost-text-vim'
+
+" Consider all .redmine files as Redmine wiki files.
+
+augroup filetype_redmine
+	autocmd!
+	autocmd BufNewFile,BufRead *.redmine setlocal nonumber
+	autocmd BufNewFile,BufRead *.redmine setlocal nofoldenable
+	autocmd BufNewFile,BufRead *.redmine setlocal spell
+	autocmd BufNewFile,BufRead *.redmine setlocal spell
+  autocmd BufNewFile,BufRead *.redmine set filetype=redminewiki
+
+	autocmd Filetype markdown :iabbrev <buffer> - <space>-
+augroup END
+" }}}
 
 "}}}
 " theme {{{
@@ -477,7 +528,7 @@ function! GitStats()
 endfunction
 
 let g:lightline = {
-	\ 'colorscheme': 'wombat',
+	\ 'colorscheme': 'gruvbox',
 	\ 'active': {
 	\   'left': [ [ 'mode', 'paste' ],
 	\             [ 'filename', 'gitbranch', 'stats'],
@@ -526,7 +577,7 @@ augroup END
 
 "}}}
 " remember position in file {{{
-augroup vimrc-remember-cursor-position
+augroup remember_position
   autocmd!
   autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
 augroup END
@@ -547,6 +598,14 @@ highlight SignifySignDeleteFirstLine   ctermbg=NONE ctermfg=red
 
 highlight BookmarkSign                 ctermbg=NONE ctermfg=blue
 highlight BookmarkLine                 ctermbg=NONE ctermfg=blue
+" }}}
+" experimental {{{
+Plug 'osyo-manga/vim-over'
+Plug 'lfv89/vim-interestingwords'
+Plug 'reedes/vim-wordy'
+
+nnoremap <leader>/ :OverCommandLine<cr>%s/
+vnoremap <leader>/ :OverCommandLine<cr>s/
 " }}}
 "
 call plug#end()
