@@ -44,7 +44,7 @@ augroup line_numbers
   autocmd!
   autocmd InsertEnter       *    set norelativenumber
   autocmd InsertLeave       *    set relativenumber
-autocmd BufEnter,Bufnew *.md set nonumber
+  autocmd BufEnter,Bufnew *.md set nonumber
   autocmd BufEnter,Bufnew *.md set norelativenumber
   autocmd BufLeave *.md set number
   autocmd BufLeave *.md set relativenumber
@@ -206,6 +206,7 @@ endif
 "}}}
 " english {{{
 Plug 'reedes/vim-wordy'
+Plug 'reedes/vim-litecorrect'
 " }}}
 " fzf {{{
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
@@ -230,8 +231,8 @@ let g:which_key_map.f = 'snipe-line'
 " Shortcuts for frequently accessed files
 command! Vimrc e $MYVIMRC
 command! PU PlugUpdate | PlugUpgrade
-
-command! SSH e ~/.ssh/config
+command! Dictonary e $HOME/.vim/spell/en.utf-8.add
+command! SSH e $HOME/.ssh/config
 
 if !empty(glob('/Volumes/vikram/planner/app.txt'))
   command! J e /Volumes/vikram/planner/app.txt
@@ -402,11 +403,11 @@ endfunction
 
 augroup filetype_markdown
   autocmd!
-  autocmd BufNewFile,BufRead *.md set filetype=markdown
-  autocmd BufNewFile,BufRead *.md set syntax=markdown
+  autocmd BufNewFile,BufRead *.md setlocal filetype=markdown
+  autocmd BufNewFile,BufRead *.md setlocal syntax=markdown
   autocmd BufNewFile,BufRead *.md setlocal nonumber
   autocmd BufNewFile,BufRead *.md setlocal nofoldenable
-  autocmd BufNewFile,BufRead *.md setlocal spell
+  " autocmd BufNewFile,BufRead *.md setlocal spell
 
   autocmd BufNewFile,BufRead *.md :TableModeToggle
   autocmd BufLeave *.md           :TableModeToggle
@@ -420,6 +421,7 @@ augroup filetype_markdown
   autocmd FileType markdown setlocal shiftwidth=4
   autocmd FileType markdown setlocal softtabstop=4
 augroup END
+
 "}}}
 " nix {{{
 if executable('nix-env')
@@ -573,7 +575,7 @@ highlight SignifySignDeleteFirstLine   ctermbg=NONE ctermfg=red
 highlight BookmarkSign                 ctermbg=NONE ctermfg=blue
 highlight BookmarkLine                 ctermbg=NONE ctermfg=blue
 
-highlight clear                         SpellBad
+highlight clear                        SpellBad
 highlight SpellBad                     ctermbg=red ctermfg=black
 " }}}
 "
