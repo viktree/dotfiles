@@ -37,6 +37,11 @@ set nohlsearch			   " highlight search results
 set inccommand=nosplit	   " THIS IS AMAZING! :O
 set gdefault			   " by default, swap out all instances in a line
 
+" Default tabs
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
+
 let mapleader = "\<SPACE>"
 let g:maplocalleader = ','
 
@@ -62,6 +67,9 @@ augroup remember_position
   autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
 augroup END
 
+" Spelling
+set spell
+set spelllang=en_us
 
 " }}}
 " key mappings {{{
@@ -499,13 +507,28 @@ Plug 'jelera/vim-javascript-syntax', { 'for': 'javascript' }
 Plug 'yuezk/vim-js'
 Plug 'maxmellon/vim-jsx-pretty'
 
-autocmd BufNewFile,BufRead *.js setlocal tabstop=2
-autocmd BufNewFile,BufRead *.js setlocal softtabstop=2
-autocmd BufNewFile,BufRead *.js setlocal shiftwidth=2
+autocmd BufNewFile,BufRead *.js,*.jsx setlocal tabstop=2
+autocmd BufNewFile,BufRead *.js,*.jsx setlocal softtabstop=2
+autocmd BufNewFile,BufRead *.js,*.jsx setlocal shiftwidth=2
 
 autocmd BufWritePre,TextChanged,InsertLeave *.js,*.jsx PrettierAsync
 
 "}}}
+" json {{{
+augroup filetype_json
+	autocmd!
+	autocmd BufNewFile,BufRead *.eslintrc setlocal filetype=json
+	autocmd BufNewFile,BufRead *.eslintrc setlocal syntax=json
+
+	" tabs
+	autocmd BufNewFile,BufRead *.json,*.eslintrc  setlocal expandtab
+	autocmd BufNewFile,BufRead *.json,*.eslintrc  setlocal tabstop=2
+	autocmd BufNewFile,BufRead *.json,*.eslintrc  setlocal softtabstop=2
+	autocmd BufNewFile,BufRead *.json,*.eslintrc  setlocal shiftwidth=2
+
+augroup END
+
+" }}}}
 " julia {{{
 if executable('julia')
 	Plug 'JuliaEditorSupport/julia-vim', { 'for': 'julia' }
@@ -602,6 +625,8 @@ endif
 
 augroup filetype_sh
 	autocmd!
+	autocmd BufNewFile,BufRead .envrc setlocal filetype=zsh
+	autocmd BufNewFile,BufRead .envrc setlocal syntax=zsh
 	autocmd BufNewFile,BufRead *.sh setlocal expandtab
 	autocmd BufNewFile,BufRead *.sh setlocal tabstop=4
 	autocmd BufNewFile,BufRead *.sh setlocal softtabstop=4
@@ -617,7 +642,17 @@ Plug 'HerringtonDarkholme/yats.vim', { 'for': 'typescipt' }
 
 let g:yats_host_keyword = 1
 
-autocmd BufWritePre,TextChanged,InsertLeave *.ts,*.tsx PrettierAsync
+augroup filetype_typescript
+	autocmd!
+
+	" tabs
+	autocmd BufNewFile,BufRead *.ts  setlocal expandtab
+	autocmd BufNewFile,BufRead *.ts  setlocal tabstop=2
+	autocmd BufNewFile,BufRead *.ts  setlocal softtabstop=2
+	autocmd BufNewFile,BufRead *.ts  setlocal shiftwidth=2
+
+	autocmd BufWritePre,TextChanged,InsertLeave *.ts,*.tsx PrettierAsync
+augroup END
 
 "}}}
 " verilog {{{
