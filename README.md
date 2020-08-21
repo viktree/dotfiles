@@ -51,7 +51,7 @@ Then we need to point it at this repo
 
 ```bash
 # ssh version: git@github.com:viktree/dotfiles.git
-yadm remote add https://github.com/viktree/dotfiles
+yadm remote add origin https://github.com/viktree/dotfiles
 yadm pull
 ```
 
