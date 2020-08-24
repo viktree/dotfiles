@@ -581,12 +581,11 @@ Plug 'morhetz/gruvbox'
 Plug 'luochen1990/rainbow'
 Plug 'mhinz/vim-startify'
 
-colorscheme gruvbox
-
 let g:rainbow_active   = 1
 let g:startify_use_env = 1
 
 autocmd User Startified setlocal cursorline
+autocmd vimenter * colorscheme gruvbox
 
 "}}}
 " lightline {{{
@@ -629,19 +628,6 @@ function! GitStats()
 endfunction
 
 let g:lightline = {
-    \ 'colorscheme': 'gruvbox',
-    \ 'active': {
-    \   'left': [ [ 'mode', 'paste' ],
-    \             [ 'filename', 'gitbranch', 'stats', 'currentfunction'],
-    \             ['readonly', 'modified', 'lint' ]
-	  \   ]
-    \ },
-    \ 'component_function': {
-    \   'currentfunction': 'CurrFunction',
-	  \   'gitbranch': 'FugitiveHead',
-    \   'stats': 'GitStats',
-	  \   'lint': 'StatusDiagnostic'
-    \ },
     \ 'mode_map': {
     \   'n' : 'N',
     \   'i' : 'I',
@@ -699,7 +685,7 @@ augroup vimrc-remember-cursor-position
 augroup END
 " }}}
 " experimental{{{
-Plug 'raghur/vim-ghost', {'do': ':GhostInstall'}
+" Plug 'raghur/vim-ghost', {'do': ':GhostInstall'}
 " }}}
 "
 call plug#end()
