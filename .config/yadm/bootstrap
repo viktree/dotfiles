@@ -133,7 +133,7 @@ git config --global alias.branch-name "rev-parse --abbrev-ref HEAD"
 git config --global alias.new-branch "checkout -b"
 
 # other aliases
-git config --global alias.brief "status -s"
+git config --global alias.ls "status -s"
 git config --global alias.fix "commit -a --amend --no-edit"
 
 if check_for_command fzf
