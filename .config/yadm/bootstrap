@@ -150,6 +150,8 @@ else git config --global credential.helper cache
 fi
 
 if [ -f "$HOME/.gitconfig" ]
-then mv "$HOME/.gitconfig" "$GITCONFIG_DIR/config"
+then
+	mkdir -p "$GITCONFIG_DIR"
+	mv "$HOME/.gitconfig" "$GITCONFIG_DIR/config"
 fi
 
