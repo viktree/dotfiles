@@ -1,0 +1,6 @@
+#!/bin/bash
+
+rmmod wl bcma
+modprobe wl
+
+netctl restart vare4

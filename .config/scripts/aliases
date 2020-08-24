@@ -1,0 +1,4 @@
+
+alias e="$EDITOR"
+alias g="git"
+alias ls="ls --color=auto"
