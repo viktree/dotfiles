@@ -38,7 +38,7 @@ fi
 
 
 
-feh --bg-tile ~/.config/wallpaper/blossom.png
+feh --bg-center ~/.config/wallpaper/blossom.png
 
 compton -b &
 polybar example &
