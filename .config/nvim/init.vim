@@ -269,7 +269,6 @@ let g:coc_global_extensions = [
 	\ 'coc-tslint',
 	\ 'coc-tsserver',
 	\ 'coc-vimlsp',
-	\ 'coc-vimtex',
 	\ 'coc-yaml',
 	\ ]
 
@@ -584,8 +583,27 @@ Plug 'mhinz/vim-startify'
 let g:rainbow_active   = 1
 let g:startify_use_env = 1
 
+function SetColourscheme()
+	colorscheme gruvbox
+	highlight Folded                       ctermbg=NONE
+	highlight Normal                       ctermbg=NONE
+	highlight SignColumn                   ctermbg=NONE
+
+	highlight SignifyLineAdd               ctermbg=NONE ctermfg=green
+	highlight SignifyLineChange            ctermbg=NONE ctermfg=blue
+	highlight SignifyLineDelete            ctermbg=NONE ctermfg=red
+	highlight SignifyLineDeleteFirstLine   ctermbg=NONE ctermfg=red
+	highlight SignifySignAdd               ctermbg=NONE ctermfg=green
+	highlight SignifySignChange            ctermbg=NONE ctermfg=blue
+	highlight SignifySignDelete            ctermbg=NONE ctermfg=red
+	highlight SignifySignDeleteFirstLine   ctermbg=NONE ctermfg=red
+
+	highlight BookmarkSign                 ctermbg=NONE ctermfg=blue
+	highlight BookmarkLine                 ctermbg=NONE ctermfg=blue
+endfunction
+
 autocmd User Startified setlocal cursorline
-autocmd vimenter * colorscheme gruvbox
+autocmd VimEnter * call SetColourscheme()
 
 "}}}
 " lightline {{{
@@ -691,21 +709,6 @@ augroup END
 call plug#end()
 "
 " transparency! {{{
-highlight Folded                       ctermbg=NONE
-highlight Normal                       ctermbg=NONE
-highlight SignColumn                   ctermbg=NONE
-
-highlight SignifyLineAdd               ctermbg=NONE ctermfg=green
-highlight SignifyLineChange            ctermbg=NONE ctermfg=blue
-highlight SignifyLineDelete            ctermbg=NONE ctermfg=red
-highlight SignifyLineDeleteFirstLine   ctermbg=NONE ctermfg=red
-highlight SignifySignAdd               ctermbg=NONE ctermfg=green
-highlight SignifySignChange            ctermbg=NONE ctermfg=blue
-highlight SignifySignDelete            ctermbg=NONE ctermfg=red
-highlight SignifySignDeleteFirstLine   ctermbg=NONE ctermfg=red
-
-highlight BookmarkSign                 ctermbg=NONE ctermfg=blue
-highlight BookmarkLine                 ctermbg=NONE ctermfg=blue
 " }}}
 "
 "----------------------------------------------------------------------------------------
