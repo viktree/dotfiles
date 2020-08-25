@@ -1,5 +1,15 @@
+autologin.blob="K2ca1I5HNfhXYmaD7ez99s191YakWi5jkX6s1GCfoY7vQeGmGl+2eoXSwEYMMBFOP5hvr5NJyYsbRx/KjMxMpS2JzjZDY1NBR2S9J81oK/rlQGevxLZwrKS7t83mgsgxNiB8o0Hsk68S58js4nn7AKtoz1ywdj4kg+63LcFrOgce7TLX2ZIzB14RaUUEkOoEdeokqYDpXVKS0YTjpkIm/Q=="
+autologin.saved_credentials="{\"torvikram\":[\"torvikram\",\"K2ca1I5HNfhXYmaD7ez99s191YakWi5jkX6s1GCfoY7vQeGmGl+2eoXSwEYMMBFOP5hvr5NJyYsbRx/KjMxMpS2JzjZDY1NBR2S9J81oK/rlQGevxLZwrKS7t83mgsgxNiB8o0Hsk68S58js4nn7AKtoz1ywdj4kg+63LcFrOgce7TLX2ZIzB14RaUUEkOoEdeokqYDpXVKS0YTjpkIm/Q==\"]}"
+app.window.position.x=14
+autologin.username="torvikram"
+app.window.position.saved=true
+app.window.position.height=832
 app.autostart-mode=""
+app.window.position.y=54
+autologin.canonical_username="torvikram"
 storage.size=3072
 storage.last-location="/home/captain/.cache/spotify/Storage"
+app.window.position.width=1412
+core.clock_delta=0
 app.last-launched-version="1.1.10.546.ge08ef575"
 app.autostart-configured=true
