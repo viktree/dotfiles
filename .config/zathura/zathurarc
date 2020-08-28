@@ -35,3 +35,15 @@ set recolor                     "true"
 set recolor-keephue "false"
 
 set selection-clipboard "clipboard"
+
+set statusbar-h-padding 0
+set statusbar-v-padding 0
+
+set page-padding 1
+map i scroll half-up
+map u scroll half-down
+map R reload
+map m zoom in
+map n zoom out
+map r recolor
+map P print
