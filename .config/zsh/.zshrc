@@ -64,10 +64,10 @@ source_if_file "$ZDOTDIR/aliases.sh"
 # Alias things quickly and worry about it later.
 # https://news.ycombinator.com/item?id=9869231
 function save() {
-    echo "alias $1='${@:2}'" >> "$ZDOTDIR/aliases.sh"
+    echo "alias $1='${@:2}'" >> "$XDG_CONFIG_HOME/scripts/aliases"
     echo "made alias:"
     echo "alias $1='${@:2}'"
-    source "$ZDOTDIR/aliases.sh"
+    source "$XDG_CONFIG_HOME/scripts/aliases"
 }
 
 # ---{ Path Utils }----------------------------------------------------------------------
