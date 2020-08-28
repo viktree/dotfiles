@@ -8,7 +8,7 @@ super + Return
 
 # program launcher
 super + @space
-	rofi -combi-modi window\,run -show combi -modi combi
+	rofi -combi-modi window\,drun -show combi -modi combi
 
 # make sxhkd reload its configuration files:
 super + Escape
@@ -16,22 +16,7 @@ super + Escape
 
 # better lockscreen
 super + x
-	betterlockscreen -l dim
-
-# make sxhkd reload its configuration files:
-super + shift + Escape
-	kill -9 $(ps -ef | rofi -dmenu -p "Select a program to kill" | awk '{print $2}')
-
-
-super + shift + s
-	maim -s ~/screenshots/$(date +%F-%T).png
-
-# Volume up and down
-XF86AudioLowerVolume
-	amixer sset Master 3-
-
-XF86AudioRaiseVolume
-	amixer sset Master 3+
+	rofi_system
 
 #
 # bspwm hotkeys

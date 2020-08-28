@@ -1,0 +1,57 @@
+#!/bin/bash
+
+open="Open"
+song_next="Next Song"
+song_previous="Previous Song"
+song_play_pause="Toggle Music"
+lock="Lock"
+restart_proc="Restart process"
+kill_prog="Kill process"
+screenshot_selection="Screenshot Selection"
+screenshot_full_page="Screenshot Full"
+
+
+chosen=`rofi -i -dmenu <<- EOM
+	$song_play_pause
+	$song_next
+	$song_previous
+	$screenshot_full_page
+	$screenshot_selection
+	$restart_proc
+	$lock
+	$kill_prog
+	$open
+EOM`
+
+case $chosen in
+	$open)
+		rofi -show drun
+	;;
+	$song_previous)
+		playerctl previous
+	;;
+	$song_next)
+		playerctl next
+	;;
+	$song_play_pause)
+		playerctl play-pause
+	;;
+	$lock)
+		betterlockscreen -l dim
+	;;
+	$kill_prog)
+		prog_pid=$(ps -ef | rofi -dmenu | awk '{print $2}')
+		kill -9 $prog_pid
+	;;
+	$screenshot_selection)
+		maim -s $HOME/screenshots/$(date +%F-%T).png
+	;;
+	$restart_proc)
+		rofi_restart
+	;;
+	$screenshot_page)
+		maim $HOME/screenshots/$(date +%F-%T).png
+	;;
+esac
+
+
