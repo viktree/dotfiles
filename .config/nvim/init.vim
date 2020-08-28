@@ -198,22 +198,6 @@ nmap <leader>f :BLines<cr>
 let g:which_key_map.f = 'snipe-line'
 "}}}
 " bookmarks {{{
-Plug 'MattesGroeger/vim-bookmarks'
-let g:bookmark_auto_close = 1
-let g:bookmark_sign = '##'
-let g:bookmark_annotation_sign = '##'
-
-let g:which_key_map.b = {
-    \ 'name' : '+bookmarks' ,
-    \ 't' : ['BookmarkToggle',   'toggle-bookmark'],
-    \ 'a' : ['BookmarkAnnotate', 'rename-bookmark'],
-    \ 'b' : ['BookmarkShowAll',  'open-bookmark'],
-    \ }
-
-nnoremap <leader>tb :BookmarkToggle<cr>
-let g:which_key_map.t.b = 'bookmark'
-
-" Shortcuts for frequently accessed files
 command! Vimrc e $MYVIMRC
 command! PU PlugUpdate | PlugUpgrade
 
