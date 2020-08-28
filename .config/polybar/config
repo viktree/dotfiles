@@ -64,9 +64,9 @@ font-0 = fixed:pixelsize=10;1
 font-1 = unifont:fontformat=truetype:size=8:antialias=false;0
 font-2 = siji:pixelsize=10;1
 
-modules-left = bspwm i3
+modules-left = bspwm
 modules-center = spotify
-modules-right = xbacklight alsa pulseaudio wlan eth battery date powermenu
+modules-right = xbacklight alsa pulseaudio wlan eth bluetooth battery date powermenu updates-aurhelper
 
 tray-position = right
 tray-padding = 2
@@ -113,6 +113,18 @@ label-mounted = %{F#0a81f5}%mountpoint%%{F-}: %percentage_used%%
 label-unmounted = %mountpoint% not mounted
 label-unmounted-foreground = ${colors.foreground-alt}
 
+[module/updates-aurhelper]
+type = custom/script
+label-padding = 2
+label-margin = 0
+
+format-overline = ${colors.background}
+format-underline = ${colors.background}
+format-foreground = ${colors.background}
+format-background = ${colors.yellow}
+exec = echo "# $(yay -Qum 2> /dev/null | wc -l)"
+interval = 600
+
 [module/bspwm]
 type = internal/bspwm
 
@@ -124,7 +136,7 @@ label-focused-padding = 2
 label-occupied = %index%
 label-occupied-padding = 2
 
-label-urgent = %index%!
+label-urgent = %index%
 label-urgent-background = ${colors.alert}
 label-urgent-padding = 2
 
@@ -397,6 +409,12 @@ ramp-0 = 
 ramp-1 = 
 ramp-2 = 
 ramp-foreground = ${colors.foreground-alt}
+
+[module/bluetooth]
+type = custom/script
+exec = $XDG_CONFIG_HOME/polybar/scripts/system-bluetooth-bluetoothctl.sh
+tail = true
+click-left = ~/.config/polybar/scripts/system-bluetooth-bluetoothctl.sh --toggle &
 
 [module/powermenu]
 type = custom/menu
