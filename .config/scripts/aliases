@@ -1,4 +1,19 @@
+#!/bin/sh
+
+function check_for_command(){ command -v $1 >/dev/null 2>&1 }
 
 alias e="$EDITOR"
 alias g="git"
 alias ls="ls --color=auto"
+
+if check_for_command xsel
+then
+	alias pbcopy='xsel --clipboard --input'
+	alias pbpaste='xsel --clipboard --output'
+fi
+
+if check_for_command mitmproxy
+then
+	alias mitmproxy="mitmproxy --set confdir=$XDG_CONFIG_HOME/mitmproxy"
+	alias mitmweb="mitmweb --set confdir=$XDG_CONFIG_HOME/mitmproxy"
+fi
