@@ -43,7 +43,7 @@ height = 27
 ;offset-x = 1%
 ;offset-y = 1%
 ; radius = 6.0
-fixed-center = false
+fixed-center = true
 
 background = ${colors.background}
 foreground = ${colors.foreground}
@@ -65,20 +65,17 @@ font-1 = unifont:fontformat=truetype:size=8:antialias=false;0
 font-2 = siji:pixelsize=10;1
 
 modules-left = bspwm i3
-modules-center = mpd
-modules-right = xbacklight alsa pulseaudio memory cpu wlan eth battery date powermenu
+modules-center = spotify
+modules-right = xbacklight alsa pulseaudio wlan eth battery date powermenu
 
 tray-position = right
 tray-padding = 2
-;tray-background = #0063ff
+tray-background = ${colors.background-alt}
 
 ;wm-restack = bspwm
 ;wm-restack = i3
 
 ;override-redirect = true
-
-;scroll-up = bspwm-desknext
-;scroll-down = bspwm-deskprev
 
 ;scroll-up = i3wm-wsnext
 ;scroll-down = i3wm-wsprev
@@ -135,6 +132,8 @@ label-empty = %index%
 label-empty-foreground = ${colors.foreground-alt}
 label-empty-padding = 2
 
+scroll-up = bspwm-desknext
+scroll-down = bspwm-deskprev
 ; Separator in between workspaces
 ; label-separator = |
 
@@ -175,6 +174,17 @@ label-urgent-padding = 2
 ; Separator in between workspaces
 ; label-separator = |
 
+;
+[module/spotify]
+type = custom/script
+interval = 1
+format-prefix = ""
+format = <label>
+exec = [ $(playerctl status --format "{{ uc(status) }}") = 'PLAYING' ] && playerctl metadata --format "{{ artist }} - {{ title }}"
+format-underline = ${colors.green}
+scroll-up = playerctl previous
+scroll-down = playerctl next
+click = playerctl play-pause
 
 [module/mpd]
 type = internal/mpd
