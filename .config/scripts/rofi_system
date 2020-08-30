@@ -9,6 +9,7 @@ restart_proc="Restart process"
 kill_prog="Kill process"
 screenshot_selection="Screenshot Selection"
 screenshot_full_page="Screenshot Full"
+color_picker="Colour Picker"
 
 
 chosen=`rofi -i -dmenu <<- EOM
@@ -20,6 +21,7 @@ chosen=`rofi -i -dmenu <<- EOM
 	$restart_proc
 	$lock
 	$kill_prog
+	$color_picker
 	$open
 EOM`
 
@@ -42,6 +44,10 @@ case $chosen in
 	$kill_prog)
 		prog_pid=$(ps -ef | rofi -dmenu | awk '{print $2}')
 		kill -9 $prog_pid
+	;;
+	$color_picker)
+		colour=$(chameleon)
+		echo $colour | xsel --clipboard --input
 	;;
 	$screenshot_selection)
 		maim -s $HOME/screenshots/$(date +%F-%T).png
