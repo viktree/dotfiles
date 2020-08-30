@@ -40,6 +40,7 @@ fi
 
 feh --bg-fill ~/.config/wallpaper/blossom.png
 
+clipmenud &
 compton -b &
 polybar example &
 parcellite &

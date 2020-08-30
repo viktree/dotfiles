@@ -18,6 +18,8 @@ super + Escape
 super + x
 	rofi_system
 
+super + v
+	CM_LAUNCHER=rofi clipmenu
 #
 # bspwm hotkeys
 #
