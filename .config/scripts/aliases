@@ -17,3 +17,8 @@ then
 	alias mitmproxy="mitmproxy --set confdir=$XDG_CONFIG_HOME/mitmproxy"
 	alias mitmweb="mitmweb --set confdir=$XDG_CONFIG_HOME/mitmproxy"
 fi
+
+if check_for_command gpg
+then
+	alias import_keys="gpg --keyserver hkp://keys.gnupg.net:80 --recv-keys"
+fi
