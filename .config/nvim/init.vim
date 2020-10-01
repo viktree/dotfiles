@@ -12,6 +12,11 @@ set encoding=utf-8
 set fileencoding=utf-8
 set fileencodings=utf-8
 
+" Default tabs
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
+
 " no more swap files
 set noswapfile
 set nobackup
@@ -411,7 +416,7 @@ endif
 " }}}
 " golang {{{
 if executable('go')
-	Plug 'fatih/vim-go', { 'for': 'go', 'do': ':GoUpdateBinaries'}
+	Plug 'fatih/vim-go', { 'for': 'go' }
 endif
 " }}}
 " gql{{{
@@ -564,6 +569,7 @@ Plug 'morhetz/gruvbox'
 Plug 'luochen1990/rainbow'
 Plug 'mhinz/vim-startify'
 
+let g:gruvbox_termcolors=16
 let g:rainbow_active   = 1
 let g:startify_use_env = 1
 
@@ -630,46 +636,66 @@ function! GitStats()
 endfunction
 
 let g:lightline = {
-    \ 'mode_map': {
-    \   'n' : 'N',
-    \   'i' : 'I',
-    \   'R' : 'R',
-    \   'v' : 'V',
-    \   'V' : 'VL',
-    \   "\<C-v>": 'VB',
-    \   'c' : 'C',
-    \   's' : 'S',
-    \   'S' : 'SL',
-    \   "\<C-s>": 'SB',
-    \   't': 'T',
-    \ },
-    \ }
+	\ 'colorscheme': 'wombat',
+	\ 'active': {
+	\   'left': [ [ 'mode', 'paste' ],
+	\             [ 'filename', 'gitbranch', 'stats', 'currentfunction'],
+	\             ['readonly', 'modified', 'lint' ]
+	\   ]
+	\ },
+	\ 'component_function': {
+	\   'currentfunction': 'CurrFunction',
+	\   'gitbranch': 'FugitiveHead',
+	\   'stats': 'GitStats',
+	\   'lint': 'StatusDiagnostic'
+	\ },
+	\ 'mode_map': {
+	\   'n' : 'N',
+	\   'i' : 'I',
+	\   'R' : 'R',
+	\   'v' : 'V',
+	\   'V' : 'VL',
+	\   "\<C-v>": 'VB',
+	\   'c' : 'C',
+	\   's' : 'S',
+	\   'S' : 'SL',
+	\   "\<C-s>": 'SB',
+	\   't': 'T',
+	\ },
+	\ }
 
 function! LightlineReload()
   call lightline#init()
   call lightline#colorscheme()
   call lightline#update()
+  redraw
 endfunction
 
 augroup reload_vimrc
   autocmd!
   autocmd BufWritePost $MYVIMRC source % | echom "Reloaded " . $MYVIMRC | redraw
-  autocmd BufWritePost $MYVIMRC call LightlineReload()
 augroup END
 
+autocmd BufReadPost * call LightlineReload()
+autocmd BufWritePost * call LightlineReload()
+
+if executable('bash')
 augroup reload_bash
   autocmd!
   autocmd BufWritePost .bashrc !source %
   autocmd BufWritePost .profile !source %
   autocmd BufWritePost .bashrc call LightlineReload()
 augroup END
+endif
 
+if executable('zsh')
 augroup reload_zsh
   autocmd!
   autocmd BufWritePost .zshenv !source %
   autocmd BufWritePost .zshrc !source %
   autocmd BufWritePost .zshenv call LightlineReload()
 augroup END
+endif
 
 if executable('direnv')
 	augroup reload_direnv
@@ -688,6 +714,8 @@ augroup END
 " }}}
 " experimental{{{
 " Plug 'raghur/vim-ghost', {'do': ':GhostInstall'}
+Plug 'ncm2/float-preview.nvim'
+let g:float_preview#docked = 1
 " }}}
 "
 call plug#end()
