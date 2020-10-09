@@ -1,4 +1,4 @@
-" vim: fdm=marker foldlevel=0 foldenable sw=2 ts=2 sts=2
+" nvim: fdm=marker foldlevel=0 foldenable sw=2 ts=2 sts=2
 "----------------------------------------------------------------------------------------
 "
 " general {{{
@@ -258,7 +258,345 @@ if executable("vifm")
 endif
 " }}}
 " filetypes {{{
+Plug 'sheerun/vim-polyglot'
+Plug 'Shougo/neco-vim'
+Plug 'neoclide/coc-neco'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'antoinemadec/coc-fzf'
+Plug 'honza/vim-snippets'
+Plug 'ap/vim-css-color'
+
+" coc {{{
+
+let g:coc_global_extensions = [
+	\ 'coc-css',
+	\ 'coc-clangd',
+	\ 'coc-eslint',
+	\ 'coc-html',
+	\ 'coc-json',
+	\ 'coc-sh',
+	\ 'coc-snippets',
+	\ 'coc-ultisnips',
+	\ 'coc-vimlsp',
+	\ 'coc-vimtex',
+	\ 'coc-yaml',
+	\ ]
+
+inoremap <silent><expr> <TAB>
+  \ pumvisible() ? coc#_select_confirm() :
+  \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<cr>" :
+  \ <SID>check_back_space() ? "\<TAB>" :
+  \ coc#refresh()
+
+function! s:check_back_space() abort
+	let col = col('.') - 1
+	return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+let g:coc_snippet_next = '<tab>'
+
+imap <C-e> <Plug>(coc-snippets-expand)
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+let g:which_key_map.c  = { 'name' : '+coc' }
+nmap <leader>cp <Plug>(coc-diagnostic-prev)
+let g:which_key_map.c.p = 'jump-out'
+nmap <leader>cn <Plug>(coc-diagnostic-next)
+let g:which_key_map.c.n  = 'jump-in'
+nmap <leader>cd <Plug>(coc-definition)
+let g:which_key_map.c.d  = 'definition'
+nmap <leader>cy <Plug>(coc-type-definition)
+let g:which_key_map.c.y  = 'type-definition'
+nmap <leader>ci <Plug>(coc-implementation)
+let g:which_key_map.c.i  = 'implementation'
+nmap <leader>cr <Plug>(coc-references)
+let g:which_key_map.c.r  = 'references'
+nmap <leader>cf  <Plug>(coc-fix-current)
+let g:which_key_map.c.f  = 'fix'
+
+" Map function and class text objects
+" NOTE: Requires 'textDocument.documentSymbol' support from the language server.
+xmap if <Plug>(coc-funcobj-i)
+omap if <Plug>(coc-funcobj-i)
+xmap af <Plug>(coc-funcobj-a)
+omap af <Plug>(coc-funcobj-a)
+xmap ic <Plug>(coc-classobj-i)
+omap ic <Plug>(coc-classobj-i)
+xmap ac <Plug>(coc-classobj-a)
+omap ac <Plug>(coc-classobj-a)
+
+augroup highlight_under_cursor
+  autocmd!
+  autocmd CursorHold * silent call CocActionAsync('highlight')
+augroup END
+
+
+"" }}}
+" formatters {{{
+Plug 'ntpeters/vim-better-whitespace'
+Plug 'Raimondi/delimitMate'
+Plug 'godlygeek/tabular'
+Plug 'prettier/vim-prettier', {
+  \ 'do': 'yarn install',
+  \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'vue', 'yaml', 'html'] }
+
+let g:prettier#quickfix_enabled = 0
+let g:prettier#autoformat = 0
+
+
+function! TrimWhitespace()
+  let l:save = winsaveview()
+  keeppatterns %s/\s\+$//e
+  call winrestview(l:save)
+endfunction
+
+augroup trim_trailing_whitespace
+  autocmd!
+  autocmd BufWritePre * :call TrimWhitespace()
+augroup END
+
+
+"""}}}
+" {{{ refactoring
+let g:name_assign_mode_maps = { "settle" : ["jj"] }
+
+nnoremap <leader>x	   *``cgn
+nnoremap <leader>X	   #``cgN
+let g:which_key_map.x = 'change-next-forward'
+let g:which_key_map.X = 'change-next-backwards'
+
+augroup refactor
+  autocmd!
+  autocmd VimEnter * vmap <leader>r <Plug>NameAssign
+  let g:which_key_map.r = 'refactor'
+augroup END
+
+nnoremap <leader>/ :%s/
+vnoremap <leader>/ :s/
+let g:which_key_map['/'] = 'find-&-replace'
+
 " }}}
+
+" c/cpp {{{
+Plug 'arakashic/chromatica.nvim', { 'for': ['c', 'cpp']}
+Plug 'rhysd/vim-clang-format'
+
+let g:clang_format#detect_style_file = 1
+
+augroup filetype_c_cpp
+	autocmd!
+
+	" tabs
+	autocmd BufNewFile,BufRead *.cpp,*.c  setlocal expandtab
+	autocmd BufNewFile,BufRead *.cpp,*.c  setlocal tabstop=2
+	autocmd BufNewFile,BufRead *.cpp,*.c  setlocal softtabstop=2
+	autocmd BufNewFile,BufRead *.cpp,*.c  setlocal shiftwidth=2
+
+	" format
+	autocmd BufWritePre * :call TrimWhitespace()
+	autocmd FileType c ClangFormatAutoEnable
+	autocmd FileType cpp ClangFormatAutoEnable
+
+augroup END
+
+
+"}}}
+" css {{{
+
+augroup filetype_css
+	autocmd!
+	autocmd BufWritePre * :call TrimWhitespace()
+	autocmd BufWritePre,TextChanged,InsertLeave *.css,*.less,*.scss PrettierAsync
+augroup END
+
+" }}}
+" elixir {{{
+if executable('elixir')
+	Plug 'elixir-editors/vim-elixir',     { 'for': 'elixir' }
+	Plug 'carlosgaldino/elixir-snippets', { 'for': 'elixir' }
+	Plug 'avdgaag/vim-phoenix',           { 'for': 'elixir' }
+	Plug 'mmorearty/elixir-ctags',        { 'for': 'elixir'}
+	Plug 'mattreduce/vim-mix',            { 'for': 'elixir'}
+	Plug 'BjRo/vim-extest',               { 'for': 'elixir'}
+	Plug 'frost/vim-eh-docs',             { 'for': 'elixir'}
+endif
+" }}}
+" golang {{{
+if executable('go')
+	Plug 'fatih/vim-go', { 'for': 'go', 'do': ':GoUpdateBinaries'}
+endif
+" }}}
+" haskell {{{
+if executable('ghc')
+	Plug 'eagletmt/neco-ghc'
+	Plug 'dag/vim2hs'
+endif
+"}}}
+"javascript {{{
+" Plug 'jelera/vim-javascript-syntax', { 'for': 'javascript' }
+" Plug 'yuezk/vim-js'
+" Plug 'maxmellon/vim-jsx-pretty'
+
+autocmd BufNewFile,BufRead *.js,*.jsx setlocal tabstop=2
+autocmd BufNewFile,BufRead *.js,*.jsx setlocal softtabstop=2
+autocmd BufNewFile,BufRead *.js,*.jsx setlocal shiftwidth=2
+
+autocmd BufWritePre,TextChanged,InsertLeave *.js,*.jsx PrettierAsync
+
+"}}}
+" json {{{
+augroup filetype_json
+	autocmd!
+	autocmd BufNewFile,BufRead *.eslintrc setlocal filetype=json
+	autocmd BufNewFile,BufRead *.eslintrc setlocal syntax=json
+
+	" tabs
+	autocmd BufNewFile,BufRead *.json,*.eslintrc  setlocal expandtab
+	autocmd BufNewFile,BufRead *.json,*.eslintrc  setlocal tabstop=2
+	autocmd BufNewFile,BufRead *.json,*.eslintrc  setlocal softtabstop=2
+	autocmd BufNewFile,BufRead *.json,*.eslintrc  setlocal shiftwidth=2
+
+augroup END
+
+" }}}}
+" julia {{{
+if executable('julia')
+	Plug 'JuliaEditorSupport/julia-vim', { 'for': 'julia' }
+	augroup filetype_julia
+		autocmd BufNewFile,BufRead *.jmd set syntax=markdown
+		autocmd BufNewFile,BufRead *.jmd set filetype=markdown
+		autocmd BufNewFile,BufRead *.jmd setlocal tabstop=4
+		autocmd BufNewFile,BufRead *.jmd setlocal softtabstop=4
+		autocmd BufNewFile,BufRead *.jmd setlocal shiftwidth=4
+		autocmd BufNewFile,BufRead *.jmd setlocal textwidth=79
+		autocmd BufNewFile,BufRead *.jmd setlocal expandtab
+		autocmd BufNewFile,BufRead *.jmd setlocal autoindent
+		autocmd BufNewFile,BufRead *.jmd setlocal nofoldenable
+		autocmd BufNewFile,BufRead *.tpl set syntax=tex
+	augroup END
+endif
+" }}}
+" latex {{{
+Plug 'lervag/vimtex'
+augroup filetype_latex
+	autocmd!
+	autocmd BufRead,BufNewFile *.pgf       set filetype=tex
+	autocmd BufRead,BufNewFile *.tikz      set filetype=tex
+	autocmd BufRead,BufNewFile *.pdf_tex   set filetype=tex
+	autocmd BufRead,BufNewFile .latexmkrc  set filetype=perl
+augroup END
+"}}}
+" markdown {{{
+augroup filetype_markdown
+	autocmd!
+	autocmd BufNewFile,BufRead *.md setlocal filetype=markdown
+	autocmd BufNewFile,BufRead *.md setlocal syntax=markdown
+
+	autocmd BufNewFile,BufRead *.md setlocal nofoldenable
+	autocmd BufNewFile,BufRead *.md setlocal spell
+
+	autocmd FileType markdown :iabbrev <buffer> h1 #
+	autocmd FileType markdown :iabbrev <buffer> h2 ##
+	autocmd FileType markdown :iabbrev <buffer> h3 ###
+	autocmd FileType markdown :iabbrev <buffer> h4 ####
+augroup END
+"}}}
+" python {{{
+Plug 'tmhedberg/SimpylFold', { 'for': 'python' }
+Plug 'raimon49/requirements.txt.vim', {'for': 'requirements'}
+Plug 'psf/black', { 'tag': '19.10b0', 'for': 'python' }
+
+let g:black_linelength = 100
+
+augroup filetype_python
+	autocmd!
+
+	" indentation
+	autocmd BufNewFile,BufRead *.py setlocal smarttab
+	autocmd BufNewFile,BufRead *.py setlocal expandtab
+	autocmd BufNewFile,BufRead *.py setlocal tabstop=4
+	autocmd BufNewFile,BufRead *.py setlocal softtabstop=4
+	autocmd BufNewFile,BufRead *.py setlocal shiftwidth=4
+	autocmd BufNewFile,BufRead *.py setlocal autoindent
+
+	" textwidth
+	autocmd BufNewFile,BufRead *.py setlocal colorcolumn=81
+	autocmd BufNewFile,BufRead *.py setlocal textwidth=79
+
+	" code folding
+	autocmd BufNewFile,BufRead *.jmd setlocal nofoldenable
+
+	" format on save
+	autocmd BufWritePre * :call TrimWhitespace()
+	autocmd BufWritePre *.py execute ':Black'
+augroup END
+
+" }}}
+" rust {{{
+if executable('cargo')
+	Plug 'racer-rust/vim-racer', { 'for': 'rust' }
+	Plug 'rust-lang/rust.vim', { 'for': 'rust' }
+
+	let g:rustfmt_autosave = 1
+endif
+"  }}}
+" sh {{{
+Plug 'kovetskiy/vim-bash', { 'for': 'bash' }
+if executable('shellcheck')
+	Plug 'itspriddle/vim-shellcheck'
+endif
+
+augroup filetype_sh
+	autocmd!
+	autocmd BufNewFile,BufRead .envrc setlocal filetype=zsh
+	autocmd BufNewFile,BufRead .envrc setlocal syntax=zsh
+	autocmd BufNewFile,BufRead *.sh setlocal expandtab
+	autocmd BufNewFile,BufRead *.sh setlocal tabstop=4
+	autocmd BufNewFile,BufRead *.sh setlocal softtabstop=4
+	autocmd BufNewFile,BufRead *.sh setlocal shiftwidth=4
+augroup END
+" }}}
+" terraform {{{
+if executable('terraform')
+	Plug 'hashivim/vim-terraform'
+endif
+" }}}
+" typscript {{{
+if executable('tsc')
+	Plug 'leafgarland/typescript-vim', { 'for': 'typescript' }
+	Plug 'HerringtonDarkholme/yats.vim', { 'for': 'typescipt' }
+
+	let g:yats_host_keyword = 1
+
+	augroup filetype_typescript
+		autocmd!
+
+		" tabs
+		autocmd BufNewFile,BufRead *.ts  setlocal expandtab
+		autocmd BufNewFile,BufRead *.ts  setlocal tabstop=2
+		autocmd BufNewFile,BufRead *.ts  setlocal softtabstop=2
+		autocmd BufNewFile,BufRead *.ts  setlocal shiftwidth=2
+
+		autocmd BufWritePre,TextChanged,InsertLeave *.ts,*.tsx PrettierAsync
+	augroup END
+endif
+
+"}}}
+" verilog {{{
+Plug 'nachumk/systemverilog.vim'
+" }}}
+" vue {{{
+autocmd BufWritePre,TextChanged,InsertLeave *.vue PrettierAsync
+" }}}
+" webgl {{{
+" Plug 'petrbroz/vim-glsl', { 'for': 'glsl' }
+"}}}
+" yaml {{{
+Plug 'avakhov/vim-yaml'
+autocmd BufWritePre,TextChanged,InsertLeave *.yaml PrettierAsync
+" }}}
+
+"}}}
 " english better {{{
 Plug 'reedes/vim-lexical'          " better spellcheck mappings
 Plug 'reedes/vim-litecorrect'      " better autocorrections
@@ -276,8 +614,9 @@ let g:gruvbox_termcolors=16
 let g:rainbow_active   = 1
 let g:startify_use_env = 1
 
-function FixColours()
-  highlight Folded                       ctermbg=NONE
+function SetColours()
+  colorscheme gruvbox
+  highlight Folded                       ctermbg=NONE term=NONE
   highlight Normal                       ctermbg=NONE
   highlight SignColumn                   ctermbg=NONE
   highlight SignifyLineAdd               ctermbg=NONE ctermfg=green
@@ -292,8 +631,8 @@ function FixColours()
   highlight BookmarkLine                 ctermbg=NONE ctermfg=blue
 endfunction
 
-autocmd vimenter * colorscheme gruvbox
-autocmd vimenter * call FixColours()
+set termguicolors
+autocmd VimEnter * call SetColours()
 autocmd User Startified setlocal cursorline
 
 "}}}
@@ -370,7 +709,7 @@ let g:lightline = {
 	\ }
 	\ }
 
-autocmd vimenter,BufWritePost $MYVIMRC call LightlineReload()
+autocmd VimEnter,BufWritePost $MYVIMRC call LightlineReload()
 "}}}
 " On save hooks {{{
 
@@ -378,17 +717,18 @@ augroup reload_vimrc
   autocmd!
   autocmd BufWritePost $MYVIMRC source % | echom "Reloaded " . $MYVIMRC | redraw
   autocmd BufWritePost $MYVIMRC call LightlineReload()
+  autocmd BufWritePost $MYVIMRC call SetColours()
 augroup END
 
 augroup reload_shell
   autocmd!
   if executable('bash')
-		autocmd BufWritePost .bashrc,.profile !source %
-	endif
-	if executable('zsh')
-		autocmd BufWritePost .zshenv,.zshrc !source %
-	endif  
-	autocmd BufWritePost $MYVIMRC call LightlineReload()
+	autocmd BufWritePost .bashrc,.profile !source %
+  endif
+  if executable('zsh')
+  	autocmd BufWritePost .zshenv,.zshrc !source %
+  endif
+  autocmd BufWritePost $MYVIMRC call SetColours()
 augroup END
 
 "}}}
