@@ -91,7 +91,16 @@ then
 fi
 
 if check_for_command nvim
-then nvim '+PlugUpdate' '+PlugClean!' '+PlugUpdate' '+qall'
+then
+    if [ -f "$XDG_DATA_HOME/nvim/site/autoload/plug.vim" ]
+    then nvim '+PlugUpdate' '+PlugClean!' '+PlugUpdate' '+qall'
+    else
+       if check_for_command curl 
+       then curl -fLo $XDG_DATA_HOME/nvim/site/autoload/plug.vim --create-dirs \
+           https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+       else echo "nvim exists, curl doesn't cannot install vim-plug"
+       fi
+    fi
 fi
 
 
