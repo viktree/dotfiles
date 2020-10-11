@@ -17,7 +17,11 @@ Right now, the configuration for each computer is managed using a separate branc
 
 1. [mac/tintinux](https://github.com/viktree/dotfiles/tree/mac/tintinux) The main operating system on my personal macbook that I use for most things
 
-2. [ubuntu-jetson/alcazar](https://github.com/viktree/dotfiles/tree/ubuntu-jetson/alcazar) This is a nvidia jetson that I have sitting on my desk at home.
+2. [arch/haddock](https://github.com/viktree/dotfiles/tree/arch/haddock) some dabblings in archlinux
+
+3. [arch/pv-workstation](https://github.com/viktree/dotfiles/tree/arch/pv-workstation) and [ubuntu/pv-laptop](https://github.com/viktree/dotfiles/tree/ubuntu/pv-laptop) are machines I use for work
+
+4. [ubuntu/alcazar](https://github.com/viktree/dotfiles/tree/ubuntu/jetson-nano) This is a nvidia jetson that I have sitting on my desk at home.
 
 
 
