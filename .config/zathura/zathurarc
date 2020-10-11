@@ -1,5 +1,6 @@
 set font                        "Fira Code 8"
-set default-bg 			"#282828" #00
+
+set default-bg					"#282828" #00
 set default-fg                  "#ebdbb2" #01
 
 set statusbar-fg                "#ebdbb2" #04
@@ -40,10 +41,13 @@ set statusbar-h-padding 0
 set statusbar-v-padding 0
 
 set page-padding 1
-map i scroll half-up
-map u scroll half-down
+
+# enable incremental search
+set incremental-search true
+
+map <C-i> zoom in
+map <C-o> zoom out
+
 map R reload
-map m zoom in
-map n zoom out
 map r recolor
 map P print
