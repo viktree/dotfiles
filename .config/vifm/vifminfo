@@ -1,0 +1,801 @@
+# You can edit this file by hand, but it's recommended not to do that.
+
+# Marks:
+'H
+	/home/captain/
+	..
+1598240608
+'b
+	/home/captain/bin/
+	..
+1598240608
+'h
+	/home/captain/
+	..
+1598240608
+'z
+	/home/captain/.config/vifm
+	..
+1598240608
+
+# Bookmarks:
+b/mnt/mac/root/Users/tintinux/
+	tintinux
+	1599426741
+b/home/captain/documents/
+	documents
+	1599426760
+b/home/captain/
+	home
+	1599426774
+
+# TUI:
+al
+q0
+v2
+ov
+m-1
+l2
+r2
+
+# Left window history (oldest to newest):
+d/home
+	captain
+1
+d/home/captain
+	documents
+6
+d/home/captain/documents
+	banking
+5
+d/home/captain/documents/banking
+	rbc
+2
+d/home/captain/documents
+	banking
+5
+d/home/captain/documents/banking
+	rbc
+2
+d/home/captain/documents/banking/rbc
+	debit
+2
+d/home/captain/documents/banking/rbc/debit
+	..
+0
+d/home/captain/documents/banking/rbc
+	credit
+1
+d/home/captain/documents/banking/rbc/credit
+	2020
+2
+d/home/captain/documents/banking/rbc/credit/2020
+	..
+0
+d/home/captain/documents/banking/rbc/credit
+	2020
+2
+d/home/captain/documents/banking/rbc
+	credit
+1
+d/home/captain/documents/banking/rbc/credit
+	2020
+2
+d/home/captain/documents/banking/rbc/credit/2020
+	451015XXXXXX6172-2020Jun13-2020Jul13.pdf
+8
+d/home/captain/documents/banking/rbc/credit
+	2020
+2
+d/home/captain/documents/banking/rbc
+	debit
+2
+d/home/captain/documents/banking/rbc/debit
+	..
+0
+d/home/captain/documents/banking/rbc
+	debit
+2
+d/home/captain/documents/banking
+	scotiabank
+3
+d/home/captain/documents/banking/scotiabank
+	September 2020 e-Statement.pdf
+1
+d/home/captain/documents/banking
+	wealthsimple
+5
+d/home/captain/documents/banking/wealthsimple
+	2020
+3
+d/home/captain/documents/banking/wealthsimple/2020
+	June 2020 Performance Report.pdf
+4
+d/home/captain/documents/banking/wealthsimple
+	2020
+3
+d/home/captain/documents/banking
+	rbc
+2
+d/home/captain/documents/banking/rbc
+	credit
+1
+d/home/captain/documents/banking/rbc/credit
+	2020
+2
+d/home/captain/documents/banking/rbc/credit/2020
+	451015XXXXXX6172-2020Jul14-2020Aug12.pdf
+7
+d/home/captain/documents/banking/rbc/credit
+	2020
+2
+d/home/captain/documents/banking/rbc
+	debit
+2
+d/home/captain/documents/banking/rbc/debit
+	2020
+2
+d/home/captain/documents/banking/rbc/debit/2020
+	..
+0
+d/home/captain/documents/banking/rbc/debit
+	2020
+2
+d/home/captain/documents/banking/rbc
+	debit
+2
+d/home/captain/documents/banking
+	simplii-financial
+4
+d/home/captain/documents/banking/simplii-financial
+	savings
+2
+d/home/captain/documents/banking/simplii-financial/savings
+	2020
+2
+d/home/captain/documents/banking/simplii-financial/savings/2020
+	..
+0
+d/home/captain/documents/banking/simplii-financial/savings
+	2020
+2
+d/home/captain/documents/banking/simplii-financial
+	savings
+2
+d/home/captain/documents/banking
+	wealthsimple
+5
+d/home/captain/documents/banking/wealthsimple
+	2020
+3
+d/home/captain/documents/banking/wealthsimple/2020
+	March 2020 Performance Report.pdf
+7
+d/home/captain/documents/banking/wealthsimple
+	2020
+3
+d/home/captain/documents/banking
+	simplii-financial
+4
+d/home/captain/documents/banking/simplii-financial
+	savings
+2
+d/home/captain/documents/banking/simplii-financial/savings
+	2020
+2
+d/home/captain/documents/banking/simplii-financial/savings/2020
+	2020-07.pdf
+7
+d/home/captain/documents/banking/simplii-financial/savings
+	2020
+2
+d/home/captain/documents/banking/simplii-financial
+	checkings
+1
+d/home/captain/documents/banking/simplii-financial/checkings
+	2020
+2
+d/home/captain/documents/banking/simplii-financial/checkings/2020
+	2020-07.pdf
+7
+d/home/captain/documents/banking/simplii-financial/checkings
+	2020
+2
+d/home/captain/documents/banking/simplii-financial
+	savings
+2
+d/home/captain/documents/banking
+	scotiabank
+3
+d/home/captain/documents/banking/scotiabank
+	checkings
+1
+d/home/captain/documents/banking/scotiabank/checkings
+	August 2020 e-Statement.pdf
+2
+d/home/captain/documents/banking/scotiabank
+	checkings
+1
+d/home/captain/documents/banking
+	wealthsimple
+5
+d/home/captain/documents/banking/wealthsimple
+	cash-account
+4
+d/home/captain/documents/banking/wealthsimple/cash-account
+	Aug_2020_Performance_Report.pdf
+1
+d/home/captain/documents/banking/wealthsimple
+	cash-account
+4
+d/home/captain/documents/banking
+	scotiabank
+3
+d/home/captain/documents/banking/scotiabank
+	checkings
+1
+d/home/captain/documents/banking/scotiabank/checkings
+	August 2020 e-Statement.pdf
+2
+d/home/captain/documents/banking/scotiabank
+	credit
+2
+d/home/captain/documents/banking/scotiabank/credit
+	August 2020 e-Statement.pdf
+1
+d/home/captain/documents/banking/scotiabank
+	credit
+2
+d/home/captain/documents/banking/scotiabank/credit
+	September 2020 e-Statement.pdf
+2
+d/home/captain/documents/banking/scotiabank
+	credit
+2
+d/home/captain/documents/banking/scotiabank/credit
+	September 2020 e-Statement.pdf
+2
+d/home/captain/documents/banking/scotiabank
+	checkings
+1
+d/home/captain/documents/banking/scotiabank/checkings
+	August 2020 e-Statement.pdf
+2
+d/home/captain/documents/banking/scotiabank
+	credit
+2
+d/home/captain/documents/banking/scotiabank/credit
+	September 2020 e-Statement.pdf
+2
+d/home/captain/documents/banking/scotiabank
+	savings
+3
+d/home/captain/documents/banking/scotiabank/savings
+	..
+0
+d/home/captain/documents/banking/scotiabank
+	savings
+3
+d/home/captain/documents/banking
+	rbc
+2
+d/home/captain/documents/banking/rbc
+	debit
+2
+d/home/captain/documents/banking/rbc/debit
+	2020
+2
+d/home/captain/documents/banking/rbc/debit/2020
+	06542XXX7506-2020Jul24-2020Aug24.pdf
+6
+d/home/captain/documents/banking/rbc/debit
+	2020
+2
+d/home/captain/documents/banking/rbc
+	debit
+2
+d/home/captain/documents/banking
+	rbc
+2
+d/home/captain/documents
+	hobbies
+9
+d/home/captain
+	Calibre Library
+2
+d/home/captain/Calibre Library
+	..
+0
+d/home/captain
+	documents
+6
+d/home/captain/documents
+	hobbies
+9
+d/home/captain
+	documents
+5
+d/home/captain/documents
+	hobbies
+9
+d/home/captain
+	Dropbox
+2
+d/home/captain/Dropbox
+	twiki.html
+6
+d/home/captain
+	calibre
+5
+d/home/captain/calibre
+	..
+0
+d/home/captain
+	calibre
+5
+d/home/captain/calibre
+	metadata.db
+1
+d/home/captain
+	calibre
+5
+d
+
+# Right window history (oldest to newest):
+D/mnt
+	mac
+1
+D/
+	mnt
+10
+D/mnt
+	vikram
+2
+D/mnt/vikram
+	..
+0
+D/mnt
+	vikram
+2
+D/home/captain
+	programming
+8
+D/home/captain/programming
+	python
+17
+D/home/captain
+	ottokar-sceptre
+7
+D/home/captain/ottokar-sceptre
+	documents
+2
+D/home/captain/ottokar-sceptre/documents
+	tofile
+1
+D/home/captain/ottokar-sceptre/documents/tofile
+	..
+0
+D/home/captain/ottokar-sceptre/documents
+	tofile
+1
+D/home/captain/ottokar-sceptre
+	programming
+2
+D/home/captain/ottokar-sceptre/programming
+	c
+1
+D/home/captain/ottokar-sceptre/programming/c
+	sockets
+1
+D/home/captain/ottokar-sceptre/programming/c/sockets
+	..
+0
+D/home/captain/ottokar-sceptre/programming/c
+	sockets
+1
+D/home/captain/ottokar-sceptre/programming
+	c
+1
+D/home/captain/ottokar-sceptre
+	programming
+2
+D/home/captain/ottokar-sceptre/programming
+	c
+1
+D/home/captain/ottokar-sceptre/programming/c
+	sockets
+1
+D/home/captain/ottokar-sceptre/programming/c/sockets
+	..
+0
+D/home/captain/ottokar-sceptre/programming/c
+	..
+0
+D/home/captain/ottokar-sceptre/programming
+	c
+1
+D/home/captain/ottokar-sceptre
+	programming
+2
+D/home/captain/ottokar-sceptre/programming
+	..
+0
+D/home/captain/ottokar-sceptre
+	sites
+3
+D/home/captain/ottokar-sceptre/sites
+	viktree.netlify.app
+1
+D/home/captain/ottokar-sceptre/sites/viktree.netlify.app
+	src
+1
+D/home/captain/ottokar-sceptre/sites
+	viktree.netlify.app
+1
+D/home/captain/ottokar-sceptre/sites/viktree.netlify.app
+	src
+1
+D/home/captain/ottokar-sceptre/sites/viktree.netlify.app/src
+	..
+0
+D/home/captain/ottokar-sceptre/sites/viktree.netlify.app
+	src
+1
+D/home/captain/ottokar-sceptre/sites
+	viktree.netlify.app
+1
+D/home/captain/ottokar-sceptre
+	..
+0
+D/home/captain
+	ottokar-sceptre
+7
+D/home/captain/ottokar-sceptre
+	..
+0
+D/home/captain
+	ottokar-sceptre
+7
+D/home
+	captain
+1
+D/
+	home
+5
+D/home
+	captain
+1
+D/home/captain
+	ottokar-sceptre
+7
+D/home/captain/ottokar-sceptre
+	..
+0
+D/home/captain
+	ottokar-sceptre
+7
+D/home
+	captain
+1
+D/home/captain
+	documents
+6
+D/home/captain/documents
+	banking
+5
+D/home/captain/documents/banking
+	scotiabank
+3
+D/home/captain/documents/banking/scotiabank
+	checkings
+1
+D/home/captain/documents/banking/scotiabank/checkings
+	July 2020 e-Statement .pdf
+2
+D/home/captain/documents/banking/scotiabank
+	checkings
+1
+D/home/captain/documents/banking
+	scotiabank
+3
+D/home/captain/documents
+	banking
+5
+D/home/captain
+	Desktop
+3
+D/home/captain/Desktop
+	..
+0
+D/home/captain
+	Dropbox
+3
+D/home/captain/Dropbox
+	Camera Uploads
+1
+D/home/captain/Dropbox/Camera Uploads
+	..
+0
+D/home/captain/Dropbox
+	Photos
+2
+D/home/captain/Dropbox/Photos
+	..
+0
+D/home/captain/Dropbox
+	camera
+3
+D/home/captain/Dropbox/camera
+	..
+0
+D/home/captain/Dropbox
+	notes
+4
+D/home/captain/Dropbox/notes
+	..
+0
+D/home/captain/Dropbox
+	screenshots
+5
+D/home/captain/Dropbox/screenshots
+	..
+0
+D/home/captain/Dropbox
+	twiki.html
+6
+D/home/captain
+	R
+4
+D/home/captain/R
+	..
+0
+D/home/captain
+	archives
+5
+D/home/captain/archives
+	..
+0
+D/home/captain
+	documents
+6
+D/home/captain/documents
+	other-people
+10
+D/home/captain
+	downloads
+7
+D/home/captain/downloads
+	..
+0
+D/home/captain
+	ottokar-sceptre
+8
+D/home/captain/ottokar-sceptre
+	..
+0
+D/home/captain
+	programming
+9
+D/home/captain/programming
+	python
+17
+D/home/captain/programming/python
+	..
+0
+D/home/captain/programming
+	python
+17
+D/home/captain
+	sites
+11
+D/home
+	captain
+1
+D/
+	media
+9
+D/media
+	captain
+1
+D/media/captain
+	macos
+1
+D/media/captain/macos
+	..
+0
+D/media/captain
+	vikram
+2
+D/media/captain/vikram
+	..
+0
+D/media/captain
+	vikram
+2
+D/media
+	captain
+1
+D/
+	mnt
+10
+D/mnt
+	vikram
+2
+D/
+	boot
+1
+D/home/captain
+	sites
+11
+D/mnt/mac/root/Users/tintinux
+	Desktop
+3
+D/mnt/mac/root/Users/tintinux/Desktop
+	calibre
+2
+D/mnt/mac/root/Users/tintinux/Desktop/calibre
+	..
+0
+D/mnt/mac/root/Users/tintinux/Desktop
+	calibre
+2
+D/mnt/mac
+	..
+0
+D
+
+# Command line history (oldest to newest):
+:chmod
+:mkcd webapps
+:mkcd hackathons
+:mkcd archives
+:!extract
+:!unzip %
+:mkdir tools
+:mkcd secrets
+:cp
+:cp defaults.css
+:copy defaults.css
+:touch defaults.css
+:!aria2c https://raw.githubusercontent.com/viktree/scaling-enigma/master/src/components/Sidebar/toronto.js
+:w
+:Home
+:exit
+:mv downloads
+:!mv downloads
+:rename grey-sky.jpg
+:!sxiv -t .
+:rename tintin.jpg
+:rename portland-material.jpg
+:rename andy-holmes.jpg
+:rename town-square.jpg
+:rename pink-black-cityscape.jpg
+:rename documents-old
+:mkcd documents
+:unzip
+:!unzip
+:!bmarks
+:bmark tintinux
+:bmark documents
+:bmark home
+:q
+:bmark
+:mkdir credit
+:mkdir savings
+:rename July 2020 e-Statement .pdf
+:rename "July 2020 e-Statement .pdf"
+:home
+:rename calibre
+:bmarks
+
+# Search history (oldest to newest):
+/.confi
+/poly
+/sx
+/pol
+/.config
+/.conf
+/mnt
+/tow
+/down
+/config
+
+# Prompt history (oldest to newest):
+
+# Local filter history (oldest to newest):
+
+# Registers:
+""/mnt/mac/root/Users/tintinux/Desktop/calibre
+
+# Directory stack (oldest to newest):
+
+# Trash content:
+t/home/captain/.local/share/vifm/Trash/000_PragmataPro.ttf
+	/home/captain/downloads/PragmataPro.ttf
+t/home/captain/.local/share/vifm/Trash/000_downloads
+	/home/captain/documents/downloads
+t/home/captain/.local/share/vifm/Trash/000_Downloads
+	/home/captain/Downloads
+t/home/captain/.local/share/vifm/Trash/001_Desktop
+	/home/captain/Desktop
+t/home/captain/.local/share/vifm/Trash/000_https:%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2F32cbb7d5-6065-4695-96ab-98a53e3d3254_585x585.png
+	/home/captain/https:%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2F32cbb7d5-6065-4695-96ab-98a53e3d3254_585x585.png
+t/home/captain/.local/share/vifm/Trash/000_q-pass.pdf
+	/home/captain/downloads/q-pass.pdf
+t/home/captain/.local/share/vifm/Trash/000_twiki.html_backup
+	/home/captain/Dropbox/twiki.html_backup
+t/home/captain/.local/share/vifm/Trash/000_programming
+	/home/captain/programming
+t/home/captain/.local/share/vifm/Trash/000_alcazar
+	/home/captain/programming/alcazar
+t/home/captain/.local/share/vifm/Trash/000_node_modules
+	/home/captain/programming/work/ecobee/beehive-api/node_modules
+t/home/captain/.local/share/vifm/Trash/001_node_modules
+	/home/captain/programming/work/ecobee/graphql-external-api/node_modules
+t/home/captain/.local/share/vifm/Trash/002_node_modules
+	/home/captain/programming/webapps/dashboard/node_modules
+t/home/captain/.local/share/vifm/Trash/003_node_modules
+	/home/captain/programming/webapps/book-manager/node_modules
+t/home/captain/.local/share/vifm/Trash/004_node_modules
+	/home/captain/programming/webapps/dThree/node_modules
+t/home/captain/.local/share/vifm/Trash/000_yarn-error.log
+	/home/captain/programming/webapps/dThree/yarn-error.log
+t/home/captain/.local/share/vifm/Trash/005_node_modules
+	/home/captain/programming/webapps/family-tree/node_modules
+t/home/captain/.local/share/vifm/Trash/006_node_modules
+	/home/captain/programming/webapps/my-reading-tracker/node_modules
+t/home/captain/.local/share/vifm/Trash/007_node_modules
+	/home/captain/programming/webapps/reading-tracker/node_modules
+t/home/captain/.local/share/vifm/Trash/008_node_modules
+	/home/captain/programming/startpage/node_modules
+t/home/captain/.local/share/vifm/Trash/009_node_modules
+	/home/captain/programming/typescript/quickstart/node_modules
+t/home/captain/.local/share/vifm/Trash/010_node_modules
+	/home/captain/programming/quickstart/node_modules
+t/home/captain/.local/share/vifm/Trash/000_quickstart
+	/home/captain/programming/quickstart
+t/home/captain/.local/share/vifm/Trash/011_node_modules
+	/home/captain/programming/image-manipulation/calendAR/node_modules
+t/home/captain/.local/share/vifm/Trash/012_node_modules
+	/home/captain/programming/elixir/gallery/assets/node_modules
+t/home/captain/.local/share/vifm/Trash/013_node_modules
+	/home/captain/programming/alexa/hello_world/node_modules
+t/home/captain/.local/share/vifm/Trash/000_MyApplication
+	/home/captain/programming/IDEs/andriod-studio-projects/MyApplication
+t/home/captain/.local/share/vifm/Trash/000_MyFirstApplication
+	/home/captain/programming/IDEs/andriod-studio-projects/MyFirstApplication
+t/home/captain/.local/share/vifm/Trash/000_MyFirstApplication2
+	/home/captain/programming/IDEs/andriod-studio-projects/MyFirstApplication2
+t/home/captain/.local/share/vifm/Trash/000_kali-linux-2020.1b-installer-amd64.iso
+	/home/captain/archives/iso/kali-linux-2020.1b-installer-amd64.iso
+t/home/captain/.local/share/vifm/Trash/000_transactions-from-a-bakery.zip
+	/home/captain/archives/transactions-from-a-bakery.zip
+t/home/captain/.local/share/vifm/Trash/000_documents
+	/home/captain/ottokar-sceptre/documents
+t/home/captain/.local/share/vifm/Trash/000_sockets
+	/home/captain/ottokar-sceptre/programming/c/sockets
+t/home/captain/.local/share/vifm/Trash/000_c
+	/home/captain/ottokar-sceptre/programming/c
+t/home/captain/.local/share/vifm/Trash/000_sites
+	/home/captain/ottokar-sceptre/sites
+t/home/captain/.local/share/vifm/Trash/000_451015XXXXXX6172-2020Jun13-2020Jul13 (1).pdf
+	/home/captain/documents/banking/rbc/credit/2020/451015XXXXXX6172-2020Jun13-2020Jul13 (1).pdf
+t/home/captain/.local/share/vifm/Trash/000_451015XXXXXX6172-2020Feb13-2020Mar12-2.pdf
+	/home/captain/documents/banking/rbc/credit/2020/451015XXXXXX6172-2020Feb13-2020Mar12-2.pdf
+t/home/captain/.local/share/vifm/Trash/000_May 2020 Performance Report.pdf
+	/home/captain/documents/banking/wealthsimple/cash-account/May 2020 Performance Report.pdf
+t/home/captain/.local/share/vifm/Trash/000_August 2020 e-Statement.pdf
+	/home/captain/documents/banking/scotiabank/August 2020 e-Statement.pdf
+t/home/captain/.local/share/vifm/Trash/000_calibre
+	/home/captain/calibre
+
+# State:
+f
+i1
+[.1
+[F
+F
+I1
+].1
+]F
+s0
