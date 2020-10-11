@@ -54,8 +54,9 @@ line-color = #f00
 ; border-size = 4
 ; border-color = #00000000
 
-padding-left = 0
-padding-right = 2
+; padding-left = 0
+; padding-right = 2
+padding = 2
 
 module-margin-left = 1
 module-margin-right = 2
@@ -66,19 +67,15 @@ font-2 = siji:pixelsize=10;1
 
 modules-left = bspwm
 modules-center = spotify
-modules-right = xbacklight alsa pulseaudio wlan eth bluetooth battery date powermenu updates-aurhelper
+modules-right = xbacklight alsa pulseaudio wlan eth bluetooth battery date powermenu
 
 tray-position = right
 tray-padding = 2
 tray-background = ${colors.background-alt}
 
-;wm-restack = bspwm
-;wm-restack = i3
+wm-restack = bspwm
 
 ;override-redirect = true
-
-;scroll-up = i3wm-wsnext
-;scroll-down = i3wm-wsprev
 
 cursor-click = pointer
 cursor-scroll = ns-resize
@@ -149,51 +146,12 @@ scroll-down = bspwm-deskprev
 ; Separator in between workspaces
 ; label-separator = |
 
-[module/i3]
-type = internal/i3
-format = <label-state> <label-mode>
-index-sort = true
-wrapping-scroll = false
-
-; Only show workspaces on the same output as the bar
-;pin-workspaces = true
-
-label-mode-padding = 2
-label-mode-foreground = #000
-label-mode-background = ${colors.primary}
-
-; focused = Active workspace on focused monitor
-label-focused = %index%
-label-focused-background = ${colors.background-alt}
-label-focused-underline= ${colors.primary}
-label-focused-padding = 2
-
-; unfocused = Inactive workspace on any monitor
-label-unfocused = %index%
-label-unfocused-padding = 2
-
-; visible = Active workspace on unfocused monitor
-label-visible = %index%
-label-visible-background = ${self.label-focused-background}
-label-visible-underline = ${self.label-focused-underline}
-label-visible-padding = ${self.label-focused-padding}
-
-; urgent = Workspace with urgency hint set
-label-urgent = %index%
-label-urgent-background = ${colors.alert}
-label-urgent-padding = 2
-
-; Separator in between workspaces
-; label-separator = |
-
-;
 [module/spotify]
 type = custom/script
 interval = 1
 format-prefix = ""
 format = <label>
-exec = [ $(playerctl status --format "{{ uc(status) }}") = 'PLAYING' ] && playerctl metadata --format "{{ artist }} - {{ title }}"
-format-underline = ${colors.green}
+exec = $XDG_CONFIG_HOME/scripts/spotify_status.py -f '{artist} - {song}'
 scroll-up = playerctl previous
 scroll-down = playerctl next
 click = playerctl play-pause
