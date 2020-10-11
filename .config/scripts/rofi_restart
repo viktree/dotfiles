@@ -1,5 +1,17 @@
 #!/bin/bash
 
+set -u
+set -e
+
+declare -A PROGRAM_TO_RESTART
+
+PROGRAM_TO_RESTART=(
+	["polybar"]="Bar (polybar)"
+	["sxhkd"]="Window Key Manager (sxhkd)"
+	["feh"]="Wallpaper (feh)"
+	["bspwm"]="Window Manager (bspwm)"
+)
+
 prog_polybar="Bar (polybar)"
 prog_sxhkd="Window Key Manager (sxhkd)"
 prog_feh="Wallpaper (feh)"
@@ -20,7 +32,7 @@ case $chosen in
 		pkill -USR1 -x sxhkd
 	;;
 	$prog_feh)
-		wallpapers="$XDG_CONFIG_HOME/wallpaper"
+		wallpapers="$XDG_DATA_HOME/wallpaper"
 		bg_image=$(ls $wallpapers | rofi -dmenu)
 		feh --bg-fill $wallpapers/$bg_image
 	;;

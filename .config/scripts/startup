@@ -1,6 +1,12 @@
 #!/bin/bash
 
-rmmod wl bcma
-modprobe wl
+USERNAME="captain"
 
-netctl restart vare4
+# wifi modules
+sudo rmmod wl bcma
+sudo modprobe wl
+sudo netctl restart vare4
+
+# external storage
+mkdir -p /mnt/mac
+#sudo apfs-fuse -o allow_other /dev/sda2 /mnt/mac

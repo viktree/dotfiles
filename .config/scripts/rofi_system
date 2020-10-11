@@ -1,28 +1,37 @@
 #!/bin/bash
 
-open="Open"
-song_next="Next Song"
-song_previous="Previous Song"
-song_play_pause="Toggle Music"
-lock="Lock"
-restart_proc="Restart process"
-kill_prog="Kill process"
-screenshot_selection="Screenshot Selection"
-screenshot_full_page="Screenshot Full"
+bluetooth="Configure Bluetooth"
 color_picker="Colour Picker"
-
+emoji="Select Emoji"
+kill_prog="Kill process"
+lock="Lock"
+open="Open"
+restart_proc="Restart process"
+screenshot_full_page="Screenshot Full"
+screenshot_proof="Screenshot Proof"
+screenshot_selection="Screenshot Selection"
+song_next="Next Song"
+song_play_pause="Toggle Music"
+song_previous="Previous Song"
+watch_ball="Watch Basketball"
+auto_xrandr="Auto xrandr"
 
 chosen=`rofi -i -dmenu <<- EOM
-	$song_play_pause
-	$song_next
-	$song_previous
-	$screenshot_full_page
-	$screenshot_selection
-	$restart_proc
-	$lock
-	$kill_prog
+	$bluetooth
 	$color_picker
+	$emoji
+	$kill_prog
+	$lock
 	$open
+	$restart_proc
+	$screenshot_full_page
+	$screenshot_proof
+	$screenshot_selection
+	$song_next
+	$song_play_pause
+	$song_previous
+	$watch_ball
+	$auto_xrandr
 EOM`
 
 case $chosen in
@@ -39,7 +48,7 @@ case $chosen in
 		playerctl play-pause
 	;;
 	$lock)
-		betterlockscreen -l dim
+		slock
 	;;
 	$kill_prog)
 		prog_pid=$(ps -ef | rofi -dmenu | awk '{print $2}')
@@ -50,13 +59,33 @@ case $chosen in
 		echo $colour | xsel --clipboard --input
 	;;
 	$screenshot_selection)
-		maim -s $HOME/screenshots/$(date +%F-%T).png
+		maim -s $HOME/Dropbox/screenshots/$(date +%F-%T).png
+	;;
+	$screenshot_proof)
+		maim -s $HOME/documents/proof/banking/$(date +%F-%T).png
 	;;
 	$restart_proc)
 		rofi_restart
 	;;
 	$screenshot_page)
 		maim $HOME/screenshots/$(date +%F-%T).png
+	;;
+	$watch_ball)
+		mimeo https://sportsurge.net/#/groups/19
+	;;
+	$bluetooth)
+		rofi_bt
+	;;
+	$emoji)
+		rofi_emoji
+	;;
+	$auto_xrandr)
+		wallpapers="$XDG_DATA_HOME/wallpaper"
+		view=$(autorandr | rofi -dmenu)
+		bg_image=$(ls $wallpapers | rofi -dmenu)
+		autorandr -l $view
+		feh --bg-fill $wallpapers/$bg_image
+		pkill -USR1 -x polybar
 	;;
 esac
 
