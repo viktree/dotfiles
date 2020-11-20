@@ -15,9 +15,9 @@ Right now, the configuration for each computer is managed using a separate branc
 
 ### Active development environments
 
-1. [mac/tintinux](https://github.com/viktree/dotfiles/tree/mac/tintinux) The main operating system on my personal macbook that I use for most things
+1. [arch/rastapopoulos](https://github.com/viktree/dotfiles/tree/arch/rastapopoulos) The main operating system on my home desktop. I use this for most things.
 
-2. [arch/haddock](https://github.com/viktree/dotfiles/tree/arch/haddock) some dabblings in archlinux
+2. [mac/tintinux](https://github.com/viktree/dotfiles/tree/mac/tintinux) The main operating system on my personal macbook, it's slow but reliable
 
 3. [arch/pv-workstation](https://github.com/viktree/dotfiles/tree/arch/pv-workstation) and [ubuntu/pv-laptop](https://github.com/viktree/dotfiles/tree/ubuntu/pv-laptop) are machines I use for work
 
@@ -30,6 +30,8 @@ Right now, the configuration for each computer is managed using a separate branc
 1. [mac/ecobee-web](https://github.com/viktree/dotfiles/tree/mac/ecobee-web) This was the laptop I was using while at ecobee
 
 2. [uoftcs/wolf](https://github.com/viktree/dotfiles/tree/uoftcs/wolf) Some of the configuration files from U of T's computer science server. Not quite sure why it was called wolf.
+
+3. [arch/haddock](https://github.com/viktree/dotfiles/tree/arch/haddock) some earlier dabblings in archlinux before my current setup
 
 
 ## Setting up a new computer
