@@ -1,0 +1,12 @@
+#!/bin/bash
+
+USERNAME="captain"
+
+# wifi modules
+sudo rmmod wl bcma
+sudo modprobe wl
+sudo netctl restart vare4
+
+# external storage
+mkdir -p /mnt/mac
+#sudo apfs-fuse -o allow_other /dev/sda2 /mnt/mac

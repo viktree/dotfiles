@@ -1,0 +1,22 @@
+#!/bin/bash
+
+set -u
+set -e
+
+declare -A PROGRAM_TO_RESTART
+
+PROGRAM_TO_RESTART=(
+	["polybar"]="Bar (polybar)"
+	["sxhkd"]="Window Key Manager (sxhkd)"
+	["feh"]="Wallpaper (feh)"
+	["bspwm"]="Window Manager (bspwm)"
+)
+
+
+chosen=`rofi -i -dmenu <<- EOM
+EOM`
+
+case $chosen in
+esac
+
+

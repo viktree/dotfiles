@@ -1,0 +1,30 @@
+#!/bin/bash
+
+info="View package info"
+orphaned="Remove orphaned packages"
+uninstall="Uninstall packages"
+
+chosen=`rofi -i -dmenu <<- EOM
+	$info
+	$orphaned
+	$uninstall
+EOM`
+
+
+
+case $chosen in
+	$info)
+		PKG=$(yay -Qq | rofi -dmenu)
+		PKG_INFO=$(yay -Qil $PGK)
+		kitty "$PKG_INFO | less"
+	;;
+	$orphaned)
+		ORPHANED=$(yay -Qtdq)
+		[[ -n $ORPHANED ]] && kitty "yay -Rns  $ORPHANED"
+	;;
+	$uninstall)
+		target=$(yay -Qq | rofi -dmenu)
+		kitty "/usr/bin/yay -Rsc $target" && \
+			notify-send "$target uninstalled!" -t 5000
+	;;
+esac
