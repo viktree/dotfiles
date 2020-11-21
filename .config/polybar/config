@@ -120,8 +120,9 @@ format-overline = ${colors.background}
 format-underline = ${colors.background}
 format-background = ${colors.background}
 format-foreground = ${colors.yellow}
-exec = echo "AUR $(yay -Qum 2> /dev/null | wc -l)"
+exec = echo "AUR $(checkupdates | wc -l)"
 interval = 600
+click = kitty yadm bootstrap
 
 [module/bspwm]
 type = internal/bspwm
