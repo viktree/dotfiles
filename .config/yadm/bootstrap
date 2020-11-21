@@ -1,4 +1,34 @@
 #!/bin/sh
 
-yay
-home-manager switch
+check_for_command() {
+    command -v "$1" >/dev/null 2>&1
+}
+
+
+is_mac(){
+    [ "$(uname)" = "Darwin" ]
+}
+
+
+# Setup XDG Base Directory
+# Having these exported ensures that programs are installed to the correct locations
+export XDG_LOCAL_HOME="$HOME/.local"
+export XDG_DATA_HOME="$XDG_LOCAL_HOME/share"
+export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_CACHE_HOME="$HOME/.cache"
+export GITCONFIG_DIR="$XDG_CONFIG_HOME/git"
+
+if check_for_command yay
+then
+    yay -Syu
+    yay -Qqe > pacman-installed.txt
+fi
+
+if check_for_command nix-env
+then
+    home-manager switch
+fi
+
+if check_for_command nvim
+then nvim '+PlugUpdate' '+PlugClean!' '+PlugUpdate' '+qall'
+fi
