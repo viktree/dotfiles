@@ -27,8 +27,8 @@ SITES=(
     ["github"]="https://www.github.com/search?q="
     ["youtube"]="https://www.youtube.com/results?search_query="
     ["superuser"]="https://www.superuser.com/search?q="
-	["aur"]="https://aur.archlinux.org/packages/?K="
-	["archwiki"]="https://wiki.archlinux.org/index.php?search="
+    ["aur"]="https://aur.archlinux.org/packages/?K="
+    ["archwiki"]="https://wiki.archlinux.org/index.php?search="
 )
 
 # Show usage for the script.
@@ -148,7 +148,7 @@ main()
             query=$(echo "$(gen_queries_list $SITE_TO_USE)" | rofi -dmenu -p "Search ($SITE_TO_USE)")
             handle_query "$SITE_TO_USE" "$query"
         else
-            site=$(echo "$(gen_sites_list)" | rofi -dmenu -p "🔍" -no-custom)
+            site=$(echo "$(gen_sites_list)" | rofi -dmenu -p "Search Engine" -no-custom)
             query=$(echo "$(gen_queries_list $site)" | rofi -dmenu -p "Search ($site)")
 
             handle_query "$site" "$query"
