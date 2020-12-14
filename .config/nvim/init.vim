@@ -1,85 +1,83 @@
-" nvim: fdm=marker foldlevel=0 foldenable sw=2 ts=2 sts=2
+" vim: fdm=marker foldlevel=0 foldenable sw=2 ts=2 sts=2
 "----------------------------------------------------------------------------------------
 "
 " general {{{
-
-" encodings
+" Always support UTF-8
 set encoding=utf-8
 set fileencoding=utf-8
 set fileencodings=utf-8
 
-" no more swap files
+" I'll handle backups myself, thank you
 set noswapfile
 set nobackup
 set nowritebackup
 
-set cmdheight=2            " Give more space for displaying messages
-set noshowcmd							 " don't show last command
+" More modern view
+set cmdheight=2            " give more space for displaying messages
+set noshowcmd              " don't show last command
 set wildmode=longest,list  " get bash-like tab completions
-
-set clipboard+=unnamedplus " map nvim clipboard to system clipboard
-set ffs=unix,dos,mac       " Unix as standard file type
-set updatetime=100         " faster, faster, faster!
-set autoread							 " automatically reload file when underlying files change
-set mouse=a                " sometimes helpful
-set secure                 " disallows :autocmd, shell + write commands in local .vimrc
-set showmatch              " Show matching brackets
-set hidden
-
-set shortmess+=c		   " don't pass messages to |ins-completion-menu|.
+set shortmess+=c           " don't pass messages to |ins-completion-menu|.
 
 " searching
-set nohlsearch			   " highlight search results
-set inccommand=nosplit	   " THIS IS AMAZING! :O
-set gdefault			   " by default, swap out all instances in a line
-
-" Default tabs
-set tabstop=4
-set softtabstop=4
-set shiftwidth=4
-
-let mapleader = "\<SPACE>"
-let g:maplocalleader = ','
-
-" Sync with system clipboard files
-if has('macunix')
-	vmap <C-x> :!pbcopy<cr>
-	vmap <C-c> :w !pbcopy<cr><cr>
-endif
-
-set number
-set relativenumber
-augroup line_numbers
-  autocmd!
-  autocmd TermOpen    * setlocal listchars= nonumber norelativenumber
-  autocmd InsertEnter * set norelativenumber
-  autocmd InsertLeave * set relativenumber
-	autocmd BufNewFile,BufRead,InsertLeave *.md setlocal nonumber
-	autocmd BufNewFile,BufRead,InsertLeave *.md setlocal norelativenumber
-augroup END
-
-augroup remember_position
-  autocmd!
-  autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
-augroup END
-
-" Spelling
-set spell
-set spelllang=en_us
+set incsearch
+set nohlsearch	           " highlight search results
+set inccommand=nosplit     " THIS IS AMAZING! :O
+set gdefault               " by default, swap out all instances in a line
 
 " }}}
-" key mappings {{{
+" setup vim-plug {{{
+let g:ale_disable_lsp = 1
+let autoload_plug_path = stdpath('data') . '/site/autoload/plug.vim'
+let g:plug_home = stdpath('data') . '/plugged'
+
+if !filereadable(autoload_plug_path)
+  silent execute '!curl -fLo ' . autoload_plug_path . '  --create-dirs
+    \ "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"'
+  PlugInstall --sync | source $MYVIMRC
+endif
+unlet autoload_plug_path
+
+" }}}
 "
+call plug#begin(plug_home)
+"
+" clipboards {{{
+set clipboard+=unnamedplus " map nvim clipboard to system clipboard
+
+" Sync with system clipboard files
+if has('macunix') && executable("pbcopy")
+  vmap <C-x> :!pbcopy<CR>
+  vmap <C-c> :w !pbcopy<CR><cr>
+endif
+" }}}
+" text objects {{{
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-repeat'
+Plug 'kristijanhusak/vim-multiple-cursors'
+" }}}
+" tabs {{{
+"
+" Set 'tabstop' and 'shiftwidth' to whatever you prefer and use 'expandtab'. 
+" This way you will always insert spaces. The formatting will never be 
+" messed up when 'tabstop' is changed.
+set expandtab autoindent smartindent
+
+function! SetTabSize(size)
+  execute "setlocal tabstop=".a:size
+  execute "setlocal shiftwidth=".a:size
+endfunction
+
+" }}}
+" keybindings {{{
+
 " Quickly exit insert mode
 ino jj <esc>
 cno jj <c-c>
 
-" why 3 strokes for command mode?
 nnoremap ; :
+vnoremap ; :
 
 " Easier moving of code blocks
-nnoremap <Tab>   >>
-nnoremap <S-Tab> <<
 vnoremap <Tab>   >><Esc>gv
 vnoremap <S-Tab> <<<Esc>gv
 
@@ -89,121 +87,97 @@ vnoremap Q :normal @q
 
 " Redo with U instead of Ctrl+R
 noremap U <C-R>
-" }}}
-"
-let g:plug_home = stdpath('data') . '/plugged'
-call plug#begin(plug_home)
-"
-" essentials {{{
-Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-repeat'
-Plug 'tpope/vim-surround'
-Plug 'editorconfig/editorconfig-vim'
 
-let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://.*']
-"}}}
-" leader mappings and which-key {{{
-Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!'] }
-
-let g:which_key_map =  {}
-
-autocmd! User vim-which-key call which_key#register('<Space>', "g:which_key_map")
-
-let g:which_key_map.t = { 'name' : '+toggle' }
-nnoremap <leader>t<space> :Buffers<cr>
-
-nnoremap <leader>ts :set spell!<cr>
-let g:which_key_map.t.s = 'spelling'
-
-nnoremap <silent> <leader> :<c-u>WhichKey '<Space>'<cr>
-vnoremap <silent> <leader> :<c-u>WhichKeyVisual '<Space>'<cr>
-
-nnoremap <silent> <localleader> :<c-u>WhichKey  ','<CR>
-vnoremap <silent> <localleader> :<c-u>WhichKey  ','<CR>
-
-map <leader>tt :belowright split<cr>:resize 10<cr>:terminal<cr>i
-let g:which_key_map.t.t = 'terminal'
-
-if has('macunix')
-	nnoremap <leader>d :!open ..<cr>
-	let g:which_key_map.d = 'open-directory'
-endif
-
-" }}}
-" navigation {{{
+" Splits
 nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
 
-" buffers
-nnoremap <S-h> :bprevious<cr>
-nnoremap <S-l> :bnext<cr>
+" Buffers
+nnoremap <S-h> :bprevious<CR>
+nnoremap <S-l> :bnext<CR>
 
-nnoremap <leader><space> :b#<cr>
-let g:which_key_map['SPC'] = 'previous-buffer'
+" }}}
+" leader mappings {{{
+Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!'] }
 
-nnoremap <leader>q :bdelete<cr>
-let g:which_key_map.q = 'quit buffer'
+let mapleader      = "\<SPACE>"
+let maplocalleader = "\\"
+
+let g:leader_key_map      =  {}
+let g:localleader_key_map =  {}
+
+autocmd! User vim-which-key call which_key#register('<Space>', "g:leader_key_map")
+autocmd! User vim-which-key call which_key#register('\', "g:localleader_key_map")
+
+nnoremap <silent> <leader>      :<c-u>WhichKey       '<space>'<CR>
+vnoremap <silent> <leader>      :<c-u>WhichKeyVisual '<space>'<CR>
+nnoremap <silent> <localleader> :<c-u>WhichKey       '\'<CR>
+vnoremap <silent> <localleader> :<c-u>WhichKeyVisual '\'<CR>
+
+let g:leader_key_map.t = {
+	\ 'name' : '+toggle' ,
+	\	's' : ['set !spell', 'spelling'],
+	\ }
+
+
+nnoremap <leader><space> :b#<CR>
+let g:leader_key_map['SPC'] = 'previous-buffer'
+
+nnoremap <leader>/ :%s/
+vnoremap <leader>/ :s/
+let g:leader_key_map['/'] = 'find-&-replace'
+
+autocmd! FileType which_key
+autocmd  FileType which_key set laststatus=0 noshowmode noruler
+  \| autocmd BufLeave <buffer> set laststatus=2 showmode ruler
 
 " }}}
 " version control {{{
 Plug 'tpope/vim-fugitive'
 Plug 'jreybert/vimagit'
 Plug 'mhinz/vim-signify'
-Plug 'rhysd/git-messenger.vim'
-Plug 'mbbill/undotree', {'on': 'UndotreeToggle' }
 
-let g:magit_default_show_all_files = 0
-let g:which_key_map.M = 'which_key_ignore'
+let g:signify_mapping_next_hunk = '<leader>gn'
+let g:signify_mapping_prev_hunk = '<leader>gp'
 
-if isdirectory(".git")
-	let g:magit_enabled=1
-	let g:which_key_map.g  = {
-		\ 'name' : '+git' ,
-		\ 's' : ['MagitOnly',      'status'],
-		\ 't' : ['SignifyToggle',  'toggle-signs'],
-		\ 'u' : ['UndotreeToggle', 'undo-tree'],
-		\ 'i' : ['GitMessenger',   'commit-info'],
-		\ }
-else
-	let g:magit_enabled=0
-	let g:which_key_map.g  = {
-		\ 'name' : '+versions' ,
-		\ 't' : ['SignifyToggle',  'toggle-signs'],
-		\ 'u' : ['UndotreeToggle',  'undo-tree'],
-		\ }
-endif
+let g:signify_sign_add               = '|'
+let g:signify_sign_delete            = '|'
+let g:signify_sign_change            = '|'
+let g:signify_sign_change_delete     = '|'
+let g:signify_sign_delete_first_line = '|'
 
-nnoremap <leader>tu :UndotreeToggle<cr>
-let g:which_key_map.t.u = 'undotree'
+let g:magit_default_fold_level = 0
+let g:leader_key_map.M = 'which_key_ignore'
+noremap <leader>gs :MagitOnly<CR>
 
-"}}}
-" fzf {{{
-let fzf_program_path = stdpath('data') . '/fzf'
+let g:leader_key_map.g = {
+    \ 'name' : '+git' ,
+		\	's'    : ['MagitOnly', 'status'],
+    \ }
 
-Plug 'junegunn/fzf', { 'dir': fzf_program_path, 'do': './install --bin' }
-Plug 'junegunn/fzf.vim'
+" }}}
+" bookmarks {{{
+Plug 'MattesGroeger/vim-bookmarks'
+let g:bookmark_auto_close = 1
+let g:bookmark_sign = '##'
+let g:bookmark_annotation_sign = '##'
 
-let g:fzf_layout = { 'down': '~25%' }
-let g:fzf_action = { 'ctrl-s': 'split', 'ctrl-v': 'vsplit' }
-
-if isdirectory(".git")
-  nmap <leader>p :GitFiles --cached --others --exclude-standard<cr>
-else
-  nmap <leader>p :FZF .<cr>
-endif
-let g:which_key_map.p = 'change-file'
-
-nmap <leader>f :BLines<cr>
-let g:which_key_map.f = 'snipe-line'
-"}}}
-" commands {{{
+let g:leader_key_map.b = {
+    \ 'name' : '+bookmarks' ,
+    \ 't' : ['BookmarkToggle',   'toggle-bookmark'],
+    \ 'a' : ['BookmarkAnnotate', 'rename-bookmark'],
+    \ 'b' : ['BookmarkShowAll',  'open-bookmark'],
+    \ }
 
 " Shortcuts for frequently accessed files
 command! Vimrc e $MYVIMRC
-command! InsertDate put =strftime('%Y_%b_%d_%a:')
 command! PU PlugUpdate | PlugUpgrade
+
+if !empty(glob('/Volumes/vikram/planner/app.txt'))
+	command! J e /Volumes/vikram/planner/app.txt
+endif
 
 if executable('zsh')
 	command! Shell e $ZDOTDIR/.zshrc
@@ -217,66 +191,201 @@ if executable('brew')
 	command! Brew  e $HOMEBREW_BUNDLE_FILE
 endif
 
-if executable('skhd')
-	command! Keys  e $XDG_CONFIG_HOME/skhd/skhdrc
+if !empty(glob('$XDG_CONFIG_HOME/yadm/bootstrap'))
+	command! Yadm  e $XDG_CONFIG_HOME/yadm/bootstrap
+elseif !empty(glob('.yadm/bootstrap'))
+	command! Yadm  e .yadm/bootstrap
 endif
 
-if executable('yadm')
-	function! YadmCommit()
-		let curline = getline('.')
-		call inputsave()
-		let message = input('Enter message: ')
-		call inputrestore()
-		execute '!yadm commit -m' . "'" . message . "'"
-	endfunction
+"}}}
+" remember position {{{
+augroup remember_position
+  autocmd!
+  autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
+augroup END
+" }}}
 
-	command! YadmAdd execute('!yadm add %')
-	command! YadmCommit call YadmCommit()
-	command! YadmPush execute('!yadm push')
+" elixir {{{
+Plug 'elixir-editors/vim-elixir',     { 'for': 'elixir' }
+Plug 'carlosgaldino/elixir-snippets', { 'for': 'elixir' }
+Plug 'avdgaag/vim-phoenix',           { 'for': 'elixir' }
+Plug 'mmorearty/elixir-ctags',        { 'for': 'elixir'}
+Plug 'mattreduce/vim-mix',            { 'for': 'elixir'}
+Plug 'BjRo/vim-extest',               { 'for': 'elixir'}
+Plug 'frost/vim-eh-docs',             { 'for': 'elixir'}
+" }}}
+" golang {{{
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 
-	if !empty(glob('$XDG_CONFIG_HOME/yadm/bootstrap'))
-		command! Bootstrap  e $XDG_CONFIG_HOME/yadm/bootstrap
-	elseif !empty(glob('.yadm/bootstrap'))
-		command! Bootstrap  e .yadm/bootstrap
-	endif
-endif
+" syntax highlighting
+let g:go_highlight_fields = 1
+let g:go_highlight_functions = 1
+let g:go_highlight_function_calls = 1
+let g:go_highlight_extra_types = 1
+let g:go_highlight_operators = 1
 
-if executable('yabai')
-	command! Wm  e $XDG_CONFIG_HOME/yabai/yabairc
-endif
+" Auto formatting and importing
+let g:go_fmt_autosave = 1
+let g:go_fmt_command = "goimports"
 
-if executable('alacritty')
-	command! Term e $XDG_CONFIG_HOME/alacritty/alacritty.yml
-endif
+" Status line types/signatures
+let g:go_auto_type_info = 1
+
+" Run :GoBuild or :GoTestCompile based on the go file
+function! s:build_go_files()
+  let l:file = expand('%')
+  if l:file =~# '^\f\+_test\.go$'
+    call go#test#Test(0, 1)
+  elseif l:file =~# '^\f\+\.go$'
+    call go#cmd#Build(0)
+  endif
+endfunction
+
+let golang_linters = ['gofmt', 'govet']
+let golang_key_map = {
+  \ '\' : ['TestLast', '+rerun_test'],
+  \ 't' : ['TestNearest', '+test'],
+  \ 'c' : ['Tags', '+c-tags'],
+  \ 'i' : ['GoInfo', '+info'],
+  \ 'l' : ['GoLint', '+lint'],
+  \ 'r' : ['GoRun', '+run'],
+  \ 'b' : '+build',
+  \ 'd' : '+goto_definition',
+  \ }
+
+augroup golang_settings
+  autocmd!
+  autocmd Filetype go nnoremap <buffer> <localleader>b :<C-u>call <SID>build_go_files()<CR>
+  autocmd Filetype go nnoremap <buffer> <localleader>d :sp <CR>:exe "GoDef"<CR>
+augroup END
+" }}}
+" haskell {{{
+Plug 'eagletmt/neco-ghc'
+Plug 'dag/vim2hs'
+" }}}
+" latex {{{
+Plug 'lervag/vimtex'
+augroup filetype_latex
+	autocmd!
+	autocmd BufRead,BufNewFile *.pgf       set filetype=tex
+	autocmd BufRead,BufNewFile *.tikz      set filetype=tex
+	autocmd BufRead,BufNewFile *.pdf_tex   set filetype=tex
+	autocmd BufRead,BufNewFile .latexmkrc  set filetype=perl
+augroup END
+" }}}
+" markdown {{{
+Plug 'dhruvasagar/vim-table-mode'
+augroup filetype_markdown
+	autocmd!
+	autocmd filetype markdown :iabbrev <buffer> h1 #
+	autocmd FileType markdown :iabbrev <buffer> h2 ##
+	autocmd FileType markdown :iabbrev <buffer> h3 ###
+	autocmd FileType markdown :iabbrev <buffer> h4 ####
+augroup END
+"}}}
+" python {{{
+Plug 'tmhedberg/SimpylFold', { 'for': 'python' }
+" }}}
+" rust {{{
+Plug 'racer-rust/vim-racer', { 'for': 'rust' }
+Plug 'rust-lang/rust.vim', { 'for': 'rust' }
+
+let g:rustfmt_autosave = 1
+"  }}}
+"  terraform {{{
+Plug 'hashivim/vim-terraform'
+"  }}}
+" typescript {{{
+Plug 'leafgarland/typescript-vim', { 'for': 'typescript' }
+Plug 'HerringtonDarkholme/yats.vim', { 'for': 'typescipt' }
+
+let g:yats_host_keyword = 1
+
+augroup filetype_typescript
+	autocmd!
+	autocmd BufWritePre,TextChanged,InsertLeave *.ts,*.tsx PrettierAsync
+augroup END
 
 " }}}
-" file management {{{
-if executable("vifm")
-  Plug 'vifm/vifm.vim'
-  let g:vifm_replace_netrw = 1
-  nnoremap <bs> :Vifm<cr>
-endif
-" }}}
-" filetypes {{{
+
+" filetype_settings {{{
 Plug 'sheerun/vim-polyglot'
-Plug 'Shougo/neco-vim'
-Plug 'neoclide/coc-neco'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'antoinemadec/coc-fzf'
-Plug 'honza/vim-snippets'
-Plug 'ap/vim-css-color'
 
+augroup filetype_typescript
+	autocmd!
+	autocmd BufRead,BufNewFile *.md       setlocal filetype=markdown   syntax =markdown
+
+	autocmd BufRead,BufNewFile *.ts       setlocal filetype=typescript syntax =typescript
+
+	autocmd BufRead,BufNewFile *.pgf      setlocal filetype=tex        syntax =tex
+	autocmd BufRead,BufNewFile *.tikz     setlocal filetype=tex        syntax =tex
+	autocmd BufRead,BufNewFile *.pdf_tex  setlocal filetype=tex        syntax =tex
+	autocmd BufRead,BufNewFile .latexmkrc setlocal filetype=perl       syntax =perl
+augroup END
+
+augroup filetype_settings
+  autocmd!
+  autocmd Filetype c call SetTabSize(4)
+  autocmd Filetype c let g:localleader_key_map = {}
+
+  autocmd Filetype cpp call SetTabSize(4)
+  autocmd Filetype cpp let g:localleader_key_map = {}
+
+  autocmd Filetype go call SetTabSize(4)
+  autocmd Filetype go let g:localleader_key_map = golang_key_map
+
+  autocmd Filetype make call SetTabSize(4)
+  autocmd Filetype make let g:localleader_key_map = {}
+
+	autocmd Filetype markdown setlocal spell nofoldenable
+
+  autocmd Filetype python call SetTabSize(4)
+  autocmd FileType python setlocal textwidth=79 colorcolumn=81
+  autocmd Filetype python let g:localleader_key_map = {}
+
+  autocmd Filetype typescript call SetTabSize(2)
+  autocmd Filetype typescript let g:localleader_key_map = {}
+
+  autocmd Filetype vim call SetTabSize(2)
+  autocmd Filetype vim let g:localleader_key_map = {}
+
+augroup END
+" }}}
+
+" ale {{{
+Plug 'dense-analysis/ale'
+
+let g:ale_set_highlights = 0
+let g:ale_sign_error = '|E'
+let g:ale_sign_warning = '|W'
+
+let g:ale_linters = {
+  \ 'go': golang_linters,
+  \ }
+
+" }}}
 " coc {{{
+
+if executable("python") && executable("yarn")
+	Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
+endif
 
 let g:coc_global_extensions = [
 	\ 'coc-css',
 	\ 'coc-clangd',
 	\ 'coc-eslint',
+	\ 'coc-elixir',
+	\ 'coc-go',
 	\ 'coc-html',
 	\ 'coc-json',
+	\ 'coc-rls',
 	\ 'coc-sh',
 	\ 'coc-snippets',
-	\ 'coc-ultisnips',
+	\ 'coc-stylelint',
+	\ 'coc-tslint',
+	\ 'coc-tsserver',
+  \ 'coc-snippets',
+  \ 'coc-ultisnips',
 	\ 'coc-vimlsp',
 	\ 'coc-vimtex',
 	\ 'coc-yaml',
@@ -284,7 +393,7 @@ let g:coc_global_extensions = [
 
 inoremap <silent><expr> <TAB>
   \ pumvisible() ? coc#_select_confirm() :
-  \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<cr>" :
+  \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
   \ <SID>check_back_space() ? "\<TAB>" :
   \ coc#refresh()
 
@@ -298,24 +407,23 @@ let g:coc_snippet_next = '<tab>'
 imap <C-e> <Plug>(coc-snippets-expand)
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
-let g:which_key_map.c  = { 'name' : '+coc' }
+let g:leader_key_map.c  = { 'name' : '+coc' }
 nmap <leader>cp <Plug>(coc-diagnostic-prev)
-let g:which_key_map.c.p = 'jump-out'
+let g:leader_key_map.c.p = 'jump-out'
 nmap <leader>cn <Plug>(coc-diagnostic-next)
-let g:which_key_map.c.n  = 'jump-in'
+let g:leader_key_map.c.n  = 'jump-in'
 nmap <leader>cd <Plug>(coc-definition)
-let g:which_key_map.c.d  = 'definition'
+let g:leader_key_map.c.d  = 'definition'
 nmap <leader>cy <Plug>(coc-type-definition)
-let g:which_key_map.c.y  = 'type-definition'
+let g:leader_key_map.c.y  = 'type-definition'
 nmap <leader>ci <Plug>(coc-implementation)
-let g:which_key_map.c.i  = 'implementation'
+let g:leader_key_map.c.i  = 'implementation'
 nmap <leader>cr <Plug>(coc-references)
-let g:which_key_map.c.r  = 'references'
+let g:leader_key_map.c.r  = 'references'
 nmap <leader>cf  <Plug>(coc-fix-current)
-let g:which_key_map.c.f  = 'fix'
+let g:leader_key_map.c.f  = 'fix'
 
 " Map function and class text objects
-" NOTE: Requires 'textDocument.documentSymbol' support from the language server.
 xmap if <Plug>(coc-funcobj-i)
 omap if <Plug>(coc-funcobj-i)
 xmap af <Plug>(coc-funcobj-a)
@@ -325,300 +433,101 @@ omap ic <Plug>(coc-classobj-i)
 xmap ac <Plug>(coc-classobj-a)
 omap ac <Plug>(coc-classobj-a)
 
-augroup highlight_under_cursor
-  autocmd!
-  autocmd CursorHold * silent call CocActionAsync('highlight')
-augroup END
+" Use K for show documentation in preview window
+nnoremap <silent> K :call <SID>show_documentation()<CR>
 
-
-"" }}}
-" formatters {{{
-Plug 'ntpeters/vim-better-whitespace'
-Plug 'Raimondi/delimitMate'
-Plug 'godlygeek/tabular'
-Plug 'prettier/vim-prettier', {
-  \ 'do': 'yarn install',
-  \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'vue', 'yaml', 'html'] }
-
-let g:prettier#quickfix_enabled = 0
-let g:prettier#autoformat = 0
-
-
-function! TrimWhitespace()
-  let l:save = winsaveview()
-  keeppatterns %s/\s\+$//e
-  call winrestview(l:save)
+function! s:show_documentation()
+  if &filetype == 'vim'
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
 endfunction
 
-augroup trim_trailing_whitespace
-  autocmd!
-  autocmd BufWritePre * :call TrimWhitespace()
-augroup END
-
-
-"""}}}
-" {{{ refactoring
-let g:name_assign_mode_maps = { "settle" : ["jj"] }
-
-nnoremap <leader>x	   *``cgn
-nnoremap <leader>X	   #``cgN
-let g:which_key_map.x = 'change-next-forward'
-let g:which_key_map.X = 'change-next-backwards'
-
-augroup refactor
-  autocmd!
-  autocmd VimEnter * vmap <leader>r <Plug>NameAssign
-  let g:which_key_map.r = 'refactor'
-augroup END
-
-nnoremap <leader>/ :%s/
-vnoremap <leader>/ :s/
-let g:which_key_map['/'] = 'find-&-replace'
-
 " }}}
-
-" c/cpp {{{
-Plug 'arakashic/chromatica.nvim', { 'for': ['c', 'cpp']}
-Plug 'rhysd/vim-clang-format'
-
-let g:clang_format#detect_style_file = 1
-
-augroup filetype_c_cpp
-	autocmd!
-
-	" tabs
-	autocmd BufNewFile,BufRead *.cpp,*.c  setlocal expandtab
-	autocmd BufNewFile,BufRead *.cpp,*.c  setlocal tabstop=2
-	autocmd BufNewFile,BufRead *.cpp,*.c  setlocal softtabstop=2
-	autocmd BufNewFile,BufRead *.cpp,*.c  setlocal shiftwidth=2
-
-	" format
-	autocmd BufWritePre * :call TrimWhitespace()
-	autocmd FileType c ClangFormatAutoEnable
-	autocmd FileType cpp ClangFormatAutoEnable
-
-augroup END
-
-
-"}}}
-" css {{{
-
-augroup filetype_css
-	autocmd!
-	autocmd BufWritePre * :call TrimWhitespace()
-	autocmd BufWritePre,TextChanged,InsertLeave *.css,*.less,*.scss PrettierAsync
-augroup END
-
+" editor-config {{{
+Plug 'editorconfig/editorconfig-vim'
+let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://.*']
 " }}}
-" elixir {{{
-if executable('elixir')
-	Plug 'elixir-editors/vim-elixir',     { 'for': 'elixir' }
-	Plug 'carlosgaldino/elixir-snippets', { 'for': 'elixir' }
-	Plug 'avdgaag/vim-phoenix',           { 'for': 'elixir' }
-	Plug 'mmorearty/elixir-ctags',        { 'for': 'elixir'}
-	Plug 'mattreduce/vim-mix',            { 'for': 'elixir'}
-	Plug 'BjRo/vim-extest',               { 'for': 'elixir'}
-	Plug 'frost/vim-eh-docs',             { 'for': 'elixir'}
+" fzf {{{
+if executable("fzf")
+  Plug '/usr/local/opt/fzf'
+else
+	let fzf_program_path = stdpath('data') . '/fzf'
+  Plug 'junegunn/fzf', { 'dir': fzf_program_path, 'do': './install --bin' }
 endif
-" }}}
-" golang {{{
-if executable('go')
-	Plug 'fatih/vim-go', { 'for': 'go', 'do': ':GoUpdateBinaries'}
-endif
-" }}}
-" haskell {{{
-if executable('ghc')
-	Plug 'eagletmt/neco-ghc'
-	Plug 'dag/vim2hs'
-endif
-"}}}
-"javascript {{{
-" Plug 'jelera/vim-javascript-syntax', { 'for': 'javascript' }
-" Plug 'yuezk/vim-js'
-" Plug 'maxmellon/vim-jsx-pretty'
+Plug 'junegunn/fzf.vim'
 
-autocmd BufNewFile,BufRead *.js,*.jsx setlocal tabstop=2
-autocmd BufNewFile,BufRead *.js,*.jsx setlocal softtabstop=2
-autocmd BufNewFile,BufRead *.js,*.jsx setlocal shiftwidth=2
+let $FZF_DEFAULT_COMMAND="find * --path=*/* -prune -o -path 'node_modules/**' -prune -o -path 'target/**' -prune -o -path 'dist/**' -prune -o  -type f -print -o -type l -print 2> /dev/null"
+let $FZF_DEFAULT_OPTS=' --layout=reverse  --margin=1,4'
+function! FloatingFZF()
+  let buf = nvim_create_buf(v:false, v:true)
+  call setbufvar(buf, '&signcolumn', 'no')
 
-autocmd BufWritePre,TextChanged,InsertLeave *.js,*.jsx PrettierAsync
+  let height = float2nr(20)
+  let width = float2nr(80)
+  let horizontal = float2nr((&columns - width) / 2)
+  let vertical = 1
 
-"}}}
-" json {{{
-augroup filetype_json
-	autocmd!
-	autocmd BufNewFile,BufRead *.eslintrc setlocal filetype=json
-	autocmd BufNewFile,BufRead *.eslintrc setlocal syntax=json
+  let opts = {
+        \ 'relative': 'editor',
+        \ 'row': vertical,
+        \ 'col': horizontal,
+        \ 'width': width,
+        \ 'height': height,
+        \ 'style': 'minimal'
+        \ }
 
-	" tabs
-	autocmd BufNewFile,BufRead *.json,*.eslintrc  setlocal expandtab
-	autocmd BufNewFile,BufRead *.json,*.eslintrc  setlocal tabstop=2
-	autocmd BufNewFile,BufRead *.json,*.eslintrc  setlocal softtabstop=2
-	autocmd BufNewFile,BufRead *.json,*.eslintrc  setlocal shiftwidth=2
+  call nvim_open_win(buf, v:true, opts)
+endfunction
 
-augroup END
+let g:fzf_layout = { 'window': 'call FloatingFZF()' }
+let g:fzf_action = { 'ctrl-s': 'split', 'ctrl-v': 'vsplit' }
 
-" }}}}
-" julia {{{
-if executable('julia')
-	Plug 'JuliaEditorSupport/julia-vim', { 'for': 'julia' }
-	augroup filetype_julia
-		autocmd BufNewFile,BufRead *.jmd set syntax=markdown
-		autocmd BufNewFile,BufRead *.jmd set filetype=markdown
-		autocmd BufNewFile,BufRead *.jmd setlocal tabstop=4
-		autocmd BufNewFile,BufRead *.jmd setlocal softtabstop=4
-		autocmd BufNewFile,BufRead *.jmd setlocal shiftwidth=4
-		autocmd BufNewFile,BufRead *.jmd setlocal textwidth=79
-		autocmd BufNewFile,BufRead *.jmd setlocal expandtab
-		autocmd BufNewFile,BufRead *.jmd setlocal autoindent
-		autocmd BufNewFile,BufRead *.jmd setlocal nofoldenable
-		autocmd BufNewFile,BufRead *.tpl set syntax=tex
-	augroup END
-endif
-" }}}
-" latex {{{
-Plug 'lervag/vimtex'
-augroup filetype_latex
-	autocmd!
-	autocmd BufRead,BufNewFile *.pgf       set filetype=tex
-	autocmd BufRead,BufNewFile *.tikz      set filetype=tex
-	autocmd BufRead,BufNewFile *.pdf_tex   set filetype=tex
-	autocmd BufRead,BufNewFile .latexmkrc  set filetype=perl
-augroup END
-"}}}
-" markdown {{{
-augroup filetype_markdown
-	autocmd!
-	autocmd BufNewFile,BufRead *.md setlocal filetype=markdown
-	autocmd BufNewFile,BufRead *.md setlocal syntax=markdown
-
-	autocmd BufNewFile,BufRead *.md setlocal nofoldenable
-	autocmd BufNewFile,BufRead *.md setlocal spell
-
-	autocmd FileType markdown :iabbrev <buffer> h1 #
-	autocmd FileType markdown :iabbrev <buffer> h2 ##
-	autocmd FileType markdown :iabbrev <buffer> h3 ###
-	autocmd FileType markdown :iabbrev <buffer> h4 ####
-augroup END
-"}}}
-" python {{{
-Plug 'tmhedberg/SimpylFold', { 'for': 'python' }
-Plug 'raimon49/requirements.txt.vim', {'for': 'requirements'}
-Plug 'psf/black', { 'tag': '19.10b0', 'for': 'python' }
-
-let g:black_linelength = 100
-
-augroup filetype_python
-	autocmd!
-
-	" indentation
-	autocmd BufNewFile,BufRead *.py setlocal smarttab
-	autocmd BufNewFile,BufRead *.py setlocal expandtab
-	autocmd BufNewFile,BufRead *.py setlocal tabstop=4
-	autocmd BufNewFile,BufRead *.py setlocal softtabstop=4
-	autocmd BufNewFile,BufRead *.py setlocal shiftwidth=4
-	autocmd BufNewFile,BufRead *.py setlocal autoindent
-
-	" textwidth
-	autocmd BufNewFile,BufRead *.py setlocal colorcolumn=81
-	autocmd BufNewFile,BufRead *.py setlocal textwidth=79
-
-	" code folding
-	autocmd BufNewFile,BufRead *.jmd setlocal nofoldenable
-
-	" format on save
-	autocmd BufWritePre * :call TrimWhitespace()
-	autocmd BufWritePre *.py execute ':Black'
-augroup END
-
-" }}}
-" rust {{{
-if executable('cargo')
-	Plug 'racer-rust/vim-racer', { 'for': 'rust' }
-	Plug 'rust-lang/rust.vim', { 'for': 'rust' }
-
-	let g:rustfmt_autosave = 1
-endif
-"  }}}
-" sh {{{
-Plug 'kovetskiy/vim-bash', { 'for': 'bash' }
-if executable('shellcheck')
-	Plug 'itspriddle/vim-shellcheck'
+if isdirectory(".git")
+  nmap <leader>p :GitFiles --cached --others --exclude-standard <CR>
+else
+  nmap <leader>p :call fzf#vim#files('.', {'options': '--prompt ""'})<CR>
 endif
 
-augroup filetype_sh
-	autocmd!
-	autocmd BufNewFile,BufRead .envrc setlocal filetype=zsh
-	autocmd BufNewFile,BufRead .envrc setlocal syntax=zsh
-	autocmd BufNewFile,BufRead *.sh setlocal expandtab
-	autocmd BufNewFile,BufRead *.sh setlocal tabstop=4
-	autocmd BufNewFile,BufRead *.sh setlocal softtabstop=4
-	autocmd BufNewFile,BufRead *.sh setlocal shiftwidth=4
-augroup END
-" }}}
-" terraform {{{
-if executable('terraform')
-	Plug 'hashivim/vim-terraform'
-endif
-" }}}
-" typscript {{{
-if executable('tsc')
-	Plug 'leafgarland/typescript-vim', { 'for': 'typescript' }
-	Plug 'HerringtonDarkholme/yats.vim', { 'for': 'typescipt' }
+noremap <leader>f :BLines<CR>
 
-	let g:yats_host_keyword = 1
 
-	augroup filetype_typescript
-		autocmd!
+let g:leader_key_map.p = '+change-file'
+let g:leader_key_map.f = ['BLines', '+snipe-line']
+" let g:localleader_key_map.t = ['Tags', '+c-tags']
 
-		" tabs
-		autocmd BufNewFile,BufRead *.ts  setlocal expandtab
-		autocmd BufNewFile,BufRead *.ts  setlocal tabstop=2
-		autocmd BufNewFile,BufRead *.ts  setlocal softtabstop=2
-		autocmd BufNewFile,BufRead *.ts  setlocal shiftwidth=2
-
-		autocmd BufWritePre,TextChanged,InsertLeave *.ts,*.tsx PrettierAsync
-	augroup END
+"}}}
+" file management {{{
+if executable("vifm")
+  Plug 'vifm/vifm.vim'
+  let g:vifm_replace_netrw = 1
+  nnoremap <bs> :Vifm<CR>
 endif
 
-"}}}
-" verilog {{{
-Plug 'nachumk/systemverilog.vim'
 " }}}
-" vue {{{
-autocmd BufWritePre,TextChanged,InsertLeave *.vue PrettierAsync
-" }}}
-" webgl {{{
-" Plug 'petrbroz/vim-glsl', { 'for': 'glsl' }
-"}}}
-" yaml {{{
-Plug 'avakhov/vim-yaml'
-autocmd BufWritePre,TextChanged,InsertLeave *.yaml PrettierAsync
-" }}}
-
-"}}}
-" english better {{{
-Plug 'reedes/vim-lexical'          " better spellcheck mappings
-Plug 'reedes/vim-litecorrect'      " better autocorrections
-Plug 'reedes/vim-textobj-sentence' " treat sentences as text objects
-Plug 'reedes/vim-wordy'            " weasel words and passive voice
-Plug 'Ron89/thesaurus_query.vim'   " use better words
-Plug 'sedm0784/vim-you-autocorrect'
-"}}}
-" colour scheme {{{
-Plug 'morhetz/gruvbox'
+" colorscheme {{{
 Plug 'luochen1990/rainbow'
-Plug 'mhinz/vim-startify'
-
-let g:gruvbox_termcolors=16
+Plug 'morhetz/gruvbox'
 let g:rainbow_active   = 1
-let g:startify_use_env = 1
 
-function SetColours()
-  colorscheme gruvbox
-  highlight Folded                       ctermbg=NONE term=NONE
+function SetColors(theme)
+  execute "colorscheme ".a:theme
+  let g:lightline.colorscheme = a:theme
+
+  highlight clear ALEErrorSign
+  highlight clear ALEWarningSign
+  highlight clear Folded
+	highlight clear SignColumn
+  highlight clear WhichKeyFloating
+
+  highlight ALEErrorSign                 ctermbg=NONE ctermfg=red
+  highlight ALEWarningSign               ctermbg=NONE ctermfg=yellow
+  highlight Folded                       ctermbg=NONE ctermfg=gray
+  highlight LineNr                       ctermbg=NONE ctermfg=gray
   highlight Normal                       ctermbg=NONE
-  highlight SignColumn                   ctermbg=NONE
+  highlight NonText                      ctermbg=NONE
+
   highlight SignifyLineAdd               ctermbg=NONE ctermfg=green
   highlight SignifyLineChange            ctermbg=NONE ctermfg=blue
   highlight SignifyLineDelete            ctermbg=NONE ctermfg=red
@@ -627,17 +536,15 @@ function SetColours()
   highlight SignifySignChange            ctermbg=NONE ctermfg=blue
   highlight SignifySignDelete            ctermbg=NONE ctermfg=red
   highlight SignifySignDeleteFirstLine   ctermbg=NONE ctermfg=red
+
   highlight BookmarkSign                 ctermbg=NONE ctermfg=blue
   highlight BookmarkLine                 ctermbg=NONE ctermfg=blue
 endfunction
 
-set termguicolors
-autocmd VimEnter * call SetColours()
-autocmd User Startified setlocal cursorline
-
 "}}}
-" light line {{{
+" lightline {{{
 Plug 'itchyny/lightline.vim'
+Plug 'maximbaz/lightline-ale'
 
 function! LightlineReload()
   call lightline#init()
@@ -647,19 +554,6 @@ endfunction
 
 function! CurrFunction()
 	return get(b:, 'coc_current_function', '')
-endfunction
-
-function! StatusDiagnostic() abort
-	let info = get(b:, 'coc_diagnostic_info', {})
-	if empty(info) | return '' | endif
-	let msgs = []
-	if get(info, 'error', 0)
-		call add(msgs, 'E' . info['error'])
-	endif
-	if get(info, 'warning', 0)
-		call add(msgs, 'W' . info['warning'])
-	endif
-	return join(msgs, ' ')
 endfunction
 
 function! GitStats()
@@ -684,15 +578,20 @@ endfunction
 let g:lightline = {
 	\ 'active': {
 	\   'left': [ [ 'mode', 'paste' ],
-	\             [ 'filename', 'gitbranch', 'stats', 'currentfunction'],
-	\             ['readonly', 'modified', 'lint' ]
-	\   ]
+	\             [ 'filename', 'readonly', 'modified'],
+	\             [ 'gitbranch', 'stats', 'cocstatus'],
+	\   ],
+  \   'right' : [ [ 'lineinfo' ],
+  \               [ 'percent' ],
+  \               [ 'linter_checking', 'linter_errors', 'linter_warnings', 'linter_infos', 'linter_ok' ],
+  \               [ 'filetype' ],
+  \   ],
 	\ },
 	\ 'component_function': {
 	\   'currentfunction': 'CurrFunction',
 	\   'gitbranch': 'FugitiveHead',
 	\   'stats': 'GitStats',
-	\   'lint': 'StatusDiagnostic'
+	\   'cocstatus': 'coc#status',
 	\ },
 	\ 'mode_map': {
 	\   'n' : 'N',
@@ -709,31 +608,39 @@ let g:lightline = {
 	\ }
 	\ }
 
-autocmd VimEnter,BufWritePost $MYVIMRC call LightlineReload()
-"}}}
-" On save hooks {{{
+" let g:lightline.colorscheme = 'seoul256'
 
-augroup reload_vimrc
-  autocmd!
-  autocmd BufWritePost $MYVIMRC source % | echom "Reloaded " . $MYVIMRC | redraw
-  autocmd BufWritePost $MYVIMRC call LightlineReload()
-  autocmd BufWritePost $MYVIMRC call SetColours()
-augroup END
+let g:lightline.component_expand = {
+  \ 'linter_checking' : 'lightline#ale#checking',
+  \ 'linter_infos'    : 'lightline#ale#infos',
+  \ 'linter_warnings' : 'lightline#ale#warnings',
+  \ 'linter_errors'   : 'lightline#ale#errors',
+  \ 'linter_ok'       : 'lightline#ale#ok',
+  \ }
 
-augroup reload_shell
-  autocmd!
-  if executable('bash')
-	autocmd BufWritePost .bashrc,.profile !source %
-  endif
-  if executable('zsh')
-  	autocmd BufWritePost .zshenv,.zshrc !source %
-  endif
-  autocmd BufWritePost $MYVIMRC call SetColours()
-augroup END
+let g:lightline.component_type = {
+  \ 'linter_checking' : 'right',
+  \ 'linter_infos'    : 'right',
+  \ 'linter_warnings' : 'warning',
+  \ 'linter_errors'   : 'error',
+  \ 'linter_ok'       : 'right',
+  \ }
 
-"}}}
+
+autocmd User CocStatusChange,CocDiagnosticChange call lightline#update()
+autocmd VimEnter,BufWritePost * call LightlineReload()
+
+" }}}
+" tabular {{{
+Plug 'godlygeek/tabular'
+" }}}
+" testing {{{
+Plug 'vim-test/vim-test'
+" }}}
 "
 call plug#end()
-"
+call SetColors('gruvbox')
 "
 "----------------------------------------------------------------------------------------
+
+
