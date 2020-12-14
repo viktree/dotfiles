@@ -1,0 +1,21 @@
+
+# dotfiles manager
+yadm
+
+# development environment
+neovim
+vifm
+ctags
+
+# nodejs tools for byosdr
+nodejs
+npm
+yarn
+
+kitty      # alternative terminal
+curl       # for testing network requests
+aria2c     # wget alternative
+parcellite # clipboard manager
+
+pandoc  # markdown compiler of sorts
+typora  # markdown editor
