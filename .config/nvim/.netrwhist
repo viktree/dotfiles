@@ -1,0 +1,8 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhistcnt =6
+let g:netrw_dirhist_6='/home/vikster/dev/elixir/lmx2595/lib'
+let g:netrw_dirhist_5='/home/vikster/dev/elixir/lmx2595'
+let g:netrw_dirhist_4='/home/vikster/.config/nvim'
+let g:netrw_dirhist_3='/home/vikster/.config/powerpill'
+let g:netrw_dirhist_2='/etc/powerpill'
+let g:netrw_dirhist_1='/home/vikster/.config/pacman'

@@ -24,6 +24,8 @@ set nohlsearch	           " highlight search results
 set inccommand=nosplit     " THIS IS AMAZING! :O
 set gdefault               " by default, swap out all instances in a line
 
+set signcolumn=yes
+
 " }}}
 " setup vim-plug {{{
 let g:ale_disable_lsp = 1
@@ -138,15 +140,16 @@ autocmd  FileType which_key set laststatus=0 noshowmode noruler
 Plug 'tpope/vim-fugitive'
 Plug 'jreybert/vimagit'
 Plug 'mhinz/vim-signify'
+Plug 'junegunn/gv.vim'
 
 let g:signify_mapping_next_hunk = '<leader>gn'
 let g:signify_mapping_prev_hunk = '<leader>gp'
 
-let g:signify_sign_add               = '|'
-let g:signify_sign_delete            = '|'
-let g:signify_sign_change            = '|'
-let g:signify_sign_change_delete     = '|'
-let g:signify_sign_delete_first_line = '|'
+let g:signify_sign_add               = '▏'
+let g:signify_sign_delete            = '┊'
+let g:signify_sign_change            = '▏'
+let g:signify_sign_change_delete     = '▏'
+let g:signify_sign_delete_first_line = '▏'
 
 let g:magit_default_fold_level = 0
 let g:leader_key_map.M = 'which_key_ignore'
@@ -161,8 +164,8 @@ let g:leader_key_map.g = {
 " bookmarks {{{
 Plug 'MattesGroeger/vim-bookmarks'
 let g:bookmark_auto_close = 1
-let g:bookmark_sign = '##'
-let g:bookmark_annotation_sign = '##'
+let g:bookmark_sign = '♥'
+let g:bookmark_annotation_sign = '☰'
 
 let g:leader_key_map.b = {
     \ 'name' : '+bookmarks' ,
@@ -274,6 +277,7 @@ augroup filetype_latex
 augroup END
 " }}}
 " markdown {{{
+Plug 'plasticboy/vim-markdown'
 augroup filetype_markdown
 	autocmd!
 	autocmd filetype markdown :iabbrev <buffer> h1 #
@@ -333,7 +337,7 @@ augroup filetype_settings
   autocmd Filetype go call SetTabSize(4)
   autocmd Filetype go let g:localleader_key_map = golang_key_map
 
-  autocmd Filetype make call SetTabSize(4)
+  autocmd Filetype make call SetTabSize(8)
   autocmd Filetype make let g:localleader_key_map = {}
 
 	autocmd Filetype markdown setlocal spell nofoldenable
@@ -355,13 +359,16 @@ augroup END
 Plug 'dense-analysis/ale'
 
 let g:ale_set_highlights = 0
-let g:ale_sign_error = '|E'
-let g:ale_sign_warning = '|W'
+let g:ale_sign_error = 'e'
+let g:ale_sign_warning = 'w'
 
 let g:ale_linters = {
   \ 'go': golang_linters,
   \ }
 
+" }}}
+" async {{{
+Plug 'skywind3000/asyncrun.vim'
 " }}}
 " coc {{{
 
@@ -457,7 +464,7 @@ else
 endif
 Plug 'junegunn/fzf.vim'
 
-let $FZF_DEFAULT_COMMAND="find * --path=*/* -prune -o -path 'node_modules/**' -prune -o -path 'target/**' -prune -o -path 'dist/**' -prune -o  -type f -print -o -type l -print 2> /dev/null"
+" let $FZF_DEFAULT_COMMAND="find * --path=*/* -prune -o -path 'node_modules/**' -prune -o -path 'target/**' -prune -o -path 'dist/**' -prune -o  -type f -print -o -type l -print 2> /dev/null"
 let $FZF_DEFAULT_OPTS=' --layout=reverse  --margin=1,4'
 function! FloatingFZF()
   let buf = nvim_create_buf(v:false, v:true)
@@ -486,7 +493,7 @@ let g:fzf_action = { 'ctrl-s': 'split', 'ctrl-v': 'vsplit' }
 if isdirectory(".git")
   nmap <leader>p :GitFiles --cached --others --exclude-standard <CR>
 else
-  nmap <leader>p :call fzf#vim#files('.', {'options': '--prompt ""'})<CR>
+  nmap <leader>p :Rg<CR>
 endif
 
 noremap <leader>f :BLines<CR>
@@ -505,14 +512,20 @@ if executable("vifm")
 endif
 
 " }}}
+" formatters {{{
+Plug 'sbdchd/neoformat'
+Plug 'godlygeek/tabular'
+" }}}
 " colorscheme {{{
 Plug 'luochen1990/rainbow'
-Plug 'morhetz/gruvbox'
+Plug 'lifepillar/vim-gruvbox8'
+Plug 'psliwka/vim-smoothie'
 let g:rainbow_active   = 1
+let ayucolor="dark"
 
-function SetColors(theme)
+function SetColors(theme, lltheme)
   execute "colorscheme ".a:theme
-  let g:lightline.colorscheme = a:theme
+  let g:lightline.colorscheme = a:lltheme
 
   highlight clear ALEErrorSign
   highlight clear ALEWarningSign
@@ -520,7 +533,7 @@ function SetColors(theme)
 	highlight clear SignColumn
   highlight clear WhichKeyFloating
 
-  highlight ALEErrorSign                 ctermbg=NONE ctermfg=red
+  highlight ALEErrorSign                 ctermbg=red  ctermfg=red
   highlight ALEWarningSign               ctermbg=NONE ctermfg=yellow
   highlight Folded                       ctermbg=NONE ctermfg=gray
   highlight LineNr                       ctermbg=NONE ctermfg=gray
@@ -529,8 +542,8 @@ function SetColors(theme)
 
   highlight SignifyLineAdd               ctermbg=NONE ctermfg=green
   highlight SignifyLineChange            ctermbg=NONE ctermfg=blue
-  highlight SignifyLineDelete            ctermbg=NONE ctermfg=red
-  highlight SignifyLineDeleteFirstLine   ctermbg=NONE ctermfg=red
+  highlight SignifyLineDelete            ctermbg=black ctermfg=red
+  highlight SignifyLineDeleteFirstLine   ctermbg=black ctermfg=red
   highlight SignifySignAdd               ctermbg=NONE ctermfg=green
   highlight SignifySignChange            ctermbg=NONE ctermfg=blue
   highlight SignifySignDelete            ctermbg=NONE ctermfg=red
@@ -630,16 +643,11 @@ autocmd User CocStatusChange,CocDiagnosticChange call lightline#update()
 autocmd VimEnter,BufWritePost * call LightlineReload()
 
 " }}}
-" tabular {{{
-Plug 'godlygeek/tabular'
-" }}}
 " testing {{{
 Plug 'vim-test/vim-test'
 " }}}
 "
 call plug#end()
-call SetColors('gruvbox')
+call SetColors('gruvbox8', 'seoul256')
 "
 "----------------------------------------------------------------------------------------
-
-
