@@ -25,11 +25,14 @@
       bat
       direnv
       exa
+      fd
       gotop
       neofetch
       neovim
       niv
+      nixfmt
       ripgrep
+      ripgrep-all
       yadm
     ];
 
@@ -62,7 +65,9 @@
     #   dotDir = ".config/zsh";
     #   enableAutosuggestions = true;
     #   enableCompletion = true;
-    #   shellAliases = {};
+    #   shellAliases = {
+    #     cat = "bat --paging=never";
+    #   };
     #   history = {
     #     expireDuplicatesFirst = true;
     #     ignoreDups = true;
