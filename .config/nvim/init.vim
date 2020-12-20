@@ -369,6 +369,7 @@ let g:ale_linters = {
 " }}}
 " async {{{
 Plug 'skywind3000/asyncrun.vim'
+Plug 'albertomontesg/lightline-asyncrun'
 " }}}
 " coc {{{
 
@@ -591,7 +592,7 @@ let g:lightline = {
 	\ 'active': {
 	\   'left': [ [ 'mode', 'paste' ],
 	\             [ 'filename', 'readonly', 'modified'],
-	\             [ 'gitbranch', 'stats', 'cocstatus'],
+	\             [ 'gitbranch', 'stats', 'cocstatus', 'asyncrun_status'],
 	\   ],
   \   'right' : [ [ 'lineinfo' ],
   \               [ 'percent' ],
@@ -599,13 +600,16 @@ let g:lightline = {
   \               [ 'filetype' ],
   \   ],
 	\ },
-	\ 'component_function': {
+	\ }
+
+let g:lightline.component_function = {
 	\   'currentfunction': 'CurrFunction',
 	\   'gitbranch': 'FugitiveHead',
 	\   'stats': 'GitStats',
 	\   'cocstatus': 'coc#status',
-	\ },
-	\ 'mode_map': {
+	\ }
+
+let g:lightline.mode_map = {
 	\   'n' : 'N',
 	\   'i' : 'I',
 	\   'R' : 'R',
@@ -618,9 +622,6 @@ let g:lightline = {
 	\   "\<C-s>": 'SB',
 	\   't': 'T',
 	\ }
-	\ }
-
-" let g:lightline.colorscheme = 'seoul256'
 
 let g:lightline.component_expand = {
   \ 'linter_checking' : 'lightline#ale#checking',
@@ -628,6 +629,7 @@ let g:lightline.component_expand = {
   \ 'linter_warnings' : 'lightline#ale#warnings',
   \ 'linter_errors'   : 'lightline#ale#errors',
   \ 'linter_ok'       : 'lightline#ale#ok',
+  \ 'asyncrun_status' : 'lightline#asyncrun#status',
   \ }
 
 let g:lightline.component_type = {
@@ -638,6 +640,7 @@ let g:lightline.component_type = {
   \ 'linter_ok'       : 'right',
   \ }
 
+let g:lightline#asyncrun#indicator_none = ''
 
 autocmd User CocStatusChange,CocDiagnosticChange call lightline#update()
 autocmd VimEnter,BufWritePost * call LightlineReload()
