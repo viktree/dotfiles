@@ -1,0 +1,7 @@
+[Default Applications]
+x-scheme-handler/jetbrains=jetbrains-toolbox.desktop;
+x-scheme-handler/kite=kite-copilot.desktop;
+[Added Associations]
+application/epub+zip=org.pwmt.zathura-pdf-mupdf.desktop;
+application/pdf=org.pwmt.zathura.desktop;
+
