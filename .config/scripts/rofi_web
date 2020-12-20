@@ -29,6 +29,8 @@ SITES=(
     ["superuser"]="https://www.superuser.com/search?q="
     ["aur"]="https://aur.archlinux.org/packages/?K="
     ["archwiki"]="https://wiki.archlinux.org/index.php?search="
+    ["nixpkgs"]="https://search.nixos.org/packages?query="
+    ["nixwiki"]="https://nixos.wiki/index.php?search="
 )
 
 # Show usage for the script.
