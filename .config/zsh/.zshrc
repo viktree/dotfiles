@@ -58,8 +58,6 @@ fi
 
 # ---{ Aliases }-------------------------------------------------------------------------
 
-alias cat='bat --paging=never --style=plain'
-
 source_if_file "$ZDOTDIR/aliases.sh"
 
 # Alias things quickly and worry about it later.
@@ -184,6 +182,13 @@ alias pac='pacman_program="sudo -u #$UID $HOME/.local/bin/yay --pacman powerpill
 
 
 source /etc/profile.d/nix{,daemon}.sh
+
+# ---{ bindings }------------------------------------------------------------------------
+
+bindkey -e # e for emacs, v for vim
+
+autoload -U compinit
+compinit
 
 # ---{ hooks }---------------------------------------------------------------------------
 
