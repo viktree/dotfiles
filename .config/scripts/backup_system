@@ -1,0 +1,22 @@
+#!/bin/bash
+
+BACKUPS_DIR="$HOME/backups"
+PACMAN_DATABASE="/var/lib/pacman/local"
+PACMAN_LOCKFILE="/var/lib/pacman/db.lck"
+
+keep_days=60 # ~ 2 months
+
+#
+# Bacup local pacman database
+#
+
+# 0. Create backup folder
+mkdir -p $BACKUPS_DIR
+# 1. Create backup
+tar -cjf $BACKUPS_DIR/pacman_db-$(date +%Y-%m-%d-%H%M%S).tar.bz2 \
+	 $PACMAN_DATABASE
+# 2. backup can be restored with: tar -xjvf pacman_database.tar.bz2
+# 3. cleanup old files
+if [ -n "$keep_days" ]; then
+find -H $BACKUPS_DIR -name 'pacman_db-*.tar.xz' -type f -mtime +$keep_days -exec rm -v {} +
+fi;

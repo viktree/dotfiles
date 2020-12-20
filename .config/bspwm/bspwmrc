@@ -15,12 +15,15 @@ bspc config borderless_monocle   true
 bspc config gapless_monocle      true
 
 # Rules
-bspc rule --add feh state=fullscreen
-bspc rule --add Zathura state=tiled
+bspc rule --add feh     state =fullscreen
+bspc rule --add Zathura state =tiled
+bspc rule --add Peek    state =floating
 
 # Dropdowns
-bspc rule --add dropdown sticky=on state=floating hidden=on
-$TERMINAL --class dropdown &
+bspc rule   --add dropdown    sticky=on state=floating hidden=on
+bspc rule   --add filemanager sticky=on state=floating hidden=on
+bspc rule   --add pavuctl     sticky=on state=floating hidden=on
 
-bspc rule --add filemanager sticky=on state=floating hidden=on
-$TERMINAL --class filemanager vifm $HOME &
+$TERMINAL   --class dropdown &
+thunar      --class filemanager &
+pavucontrol --class pavuctl &
