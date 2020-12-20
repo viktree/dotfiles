@@ -120,9 +120,11 @@ format-overline = ${colors.background}
 format-underline = ${colors.background}
 format-background = ${colors.background}
 format-foreground = ${colors.yellow}
-exec = echo "AUR $(checkupdates | wc -l)"
+exec = echo "Updates: $(checkupdates | wc -l) AUR"
 interval = 600
-click = kitty yadm bootstrap
+click = $XDG_CONFIG_HOME/scripts/rofi_yay
+click-left = $XDG_CONFIG_HOME/scripts/rofi_yay
+click-right = $XDG_CONFIG_HOME/scripts/rofi_yay
 
 [module/bspwm]
 type = internal/bspwm
