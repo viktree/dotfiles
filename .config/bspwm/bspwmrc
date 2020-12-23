@@ -1,7 +1,6 @@
 #! /bin/sh
 
 TERMINAL="kitty"
-MAIN_BAR="example"
 
 pgrep -x sxhkd > /dev/null || sxhkd &
 

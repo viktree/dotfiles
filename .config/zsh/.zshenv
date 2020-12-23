@@ -38,6 +38,8 @@ export ZPLUG_LOADFILE="$ZDOTDIR/packages.zsh"
 export ZPLUG_REPOS="$XDG_DATA_HOME/zplug/repos"
 export _Z_DATA="$XDG_DATA_HOME/z"
 
+export _JAVA_AWT_WM_NONREPARENTING="1"
+
 export XINITRC="$XDG_CONFIG_HOME/X11/xinitrc"
 export XSERVERRC="$XDG_CONFIG_HOME/X11/xserverrc"
 
@@ -78,6 +80,8 @@ PATH_append "$XDG_DATA_HOME/bin"
 PATH_append "$GOPATH/bin"
 PATH_append "$HOME/.cabal/bin"
 PATH_append "$HOME/.local/bin"
+
+PATH_append "$HOME/.platformio/penv/bin"
 
 export TERMINAL="kitty"
 

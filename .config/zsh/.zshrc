@@ -37,6 +37,8 @@ then
   zplug load
 fi
 
+export PS1="%{$fg[red]%}%n%{$reset_color%}@%{$fg[blue]%}%m %{$fg[yellow]%}%~ %{$reset_color%}%% "
+
 # ---{ Souce completions }---------------------------------------------------------------
 
 function source_if_file(){ [[ -f $1 ]] && source $1 }
