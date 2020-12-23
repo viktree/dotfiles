@@ -3,15 +3,15 @@
 PACKAGE_MANAGER='pacman_program="sudo -u #$UID $HOME/.local/bin/yay --pacman powerpill" pacmatic'
 
 info="View package info"
-orphaned="Remove orphaned packages"
-uninstall="Uninstall packages"
-upgrade="Upgrade existing package"
+uninstall="Uninstall / Remove packages"
+upgrade="Upgrade / Sync existing package"
+switch="Home-manager Switch"
 
 chosen=`rofi -i -dmenu <<- EOM
 	$info
-	$orphaned
 	$uninstall
 	$upgrade
+	$switch
 EOM`
 
 
@@ -28,5 +28,8 @@ case $chosen in
 	$upgrade)
 		target=$(checkupdates | awk '{print $1}' | rofi -dmenu)
 		kitty sh -c "$PACKAGE_MANAGER -S $target"
+	;;
+	$switch)
+		kitty sh -c "cd $HOME && home-manager switch"
 	;;
 esac

@@ -18,7 +18,7 @@ BROWSER="firefox"
 
 SITES=(
     ["google"]="https://www.google.com/search?q="
-    ["libgen"]="https://libgen.lc/search.php?q="
+    ["libgen"]="https://libgen.lc/search.php?phrase=1&view=simple&column=def&sort=extension&sortmode=DESC&req="
     ["stackoverflow"]="https://www.stackoverflow.com/search?q="
     ["stackexchange"]="https://stackexchange.com/search?q="
     ["superuser"]="https://superuser.com/search?q="
