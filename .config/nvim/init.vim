@@ -24,6 +24,10 @@ set nohlsearch	           " highlight search results
 set inccommand=nosplit     " THIS IS AMAZING! :O
 set gdefault               " by default, swap out all instances in a line
 
+set signcolumn=yes
+
+set mouse=a
+
 " }}}
 " setup vim-plug {{{
 let g:ale_disable_lsp = 1
@@ -349,6 +353,11 @@ augroup filetype_settings
   autocmd Filetype vim call SetTabSize(2)
   autocmd Filetype vim let g:localleader_key_map = {}
 
+  autocmd Filetype Jenkinsfile call SetTabSize(2)
+  autocmd Filetype Jenkinsfile let g:localleader_key_map = {}
+
+  autocmd Filetype sh call SetTabSize(2)
+  autocmd Filetype sh let g:localleader_key_map = {}
 augroup END
 " }}}
 
@@ -366,9 +375,11 @@ let g:ale_linters = {
 " }}}
 " coc {{{
 
-if executable("python") && executable("yarn")
-	Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
-endif
+" Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
+
+" if executable("python") && executable("yarn")
+" 	Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
+" endif
 
 let g:coc_global_extensions = [
 	\ 'coc-css',
@@ -391,11 +402,11 @@ let g:coc_global_extensions = [
 	\ 'coc-yaml',
 	\ ]
 
-inoremap <silent><expr> <TAB>
-  \ pumvisible() ? coc#_select_confirm() :
-  \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
-  \ <SID>check_back_space() ? "\<TAB>" :
-  \ coc#refresh()
+" inoremap <silent><expr> <TAB>
+"   \ pumvisible() ? coc#_select_confirm() :
+"   \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
+"   \ <SID>check_back_space() ? "\<TAB>" :
+"   \ coc#refresh()
 
 function! s:check_back_space() abort
 	let col = col('.') - 1
@@ -458,7 +469,7 @@ else
 endif
 Plug 'junegunn/fzf.vim'
 
-let $FZF_DEFAULT_COMMAND="find * --path=*/* -prune -o -path 'node_modules/**' -prune -o -path 'target/**' -prune -o -path 'dist/**' -prune -o  -type f -print -o -type l -print 2> /dev/null"
+" let $FZF_DEFAULT_COMMAND="find * --path=*/* -prune -o -path 'node_modules/**' -prune -o -path 'target/**' -prune -o -path 'dist/**' -prune -o  -type f -print -o -type l -print 2> /dev/null"
 let $FZF_DEFAULT_OPTS=' --layout=reverse  --margin=1,4'
 function! FloatingFZF()
   let buf = nvim_create_buf(v:false, v:true)
