@@ -68,9 +68,9 @@ font-0 = "Iosevka Nerd Font:pixelsize=10;1"
 ; font-1 = unifont:fontformat=truetype:size=8:antialias=false;0
 ; font-2 = siji:pixelsize=10;1
 
-modules-left = generalmenu bspwm
+modules-left = bspwm
 modules-center = spotify
-modules-right = xbacklight alsa pulseaudio eth battery date updates-aurhelper powermenu
+modules-right = xbacklight alsa pulseaudio eth battery date updates-aurhelper lock logout powermenu
 
 tray-position = right
 tray-maxsize = 15
@@ -106,7 +106,7 @@ type = internal/bspwm
 
 label-focused = %index%
 label-focused-foreground = ${colors.yellow}
-label-focused-padding = 2
+label-focused-padding = 1
 
 label-occupied = %index%
 label-occupied-foreground = ${colors.white}
@@ -127,15 +127,15 @@ type = custom/script
 interval = 1
 
 format-prefix = ""
-format = <label>
+format = "♫ <label>"
 
-exec = playerctl_polybar
+exec = /home/vikxter/.config/scripts/playerctl_polybar
 
 label-foreground = ${colors.white}
 
-scroll-up = playerctl previous
-scroll-down = playerctl next
-click = playerctl play-pause
+scroll-up = playerctl --player=spotify,%any previous
+scroll-down = playerctl --player=spotify,%any next
+click = playerctl --player=spotify,%any play-pause
 
 [module/mpd]
 type = internal/mpd
@@ -366,6 +366,27 @@ content-foreground = ${colors.red}
 click-left = rofi_system
 click-right = rofi_system
 
+[module/lock]
+type = custom/text
+
+content = 
+
+content-padding = 1
+content-foreground = ${colors.yellow}
+
+click-left = betterlockscreen -l "Vikram is not here right now"
+click-right = betterlockscreen -l "Vikram is not here right now"
+
+[module/logout]
+type = custom/text
+
+content = ""
+
+content-padding = 1
+content-foreground = ${colors.blue}
+
+click-left = bspc quit
+click-right = bspc quit
 
 [module/generalmenu]
 type = custom/text

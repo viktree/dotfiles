@@ -5,7 +5,7 @@ from os.path import isfile, join
 import os
 import shutil
 
-DOWNLOADS_PATH='/home/captain/downloads'
+DOWNLOADS_PATH='/home/vikxter/Downloads'
 
 def sort_files_in_a_folder():
     '''

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [[ $(playerctl status) == "Playing" ]]
-then playerctl metadata --format "{{ artist }} - {{ title }}"
+if [[ $(playerctl --player=spotify,%any status 2> /dev/null) == "Playing" ]]
+then playerctl --player=spotify,%any metadata --format "{{ artist }} - {{ title }}"
 else echo ""
 fi

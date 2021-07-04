@@ -47,7 +47,7 @@ case $chosen in
 	$prog_xwallpaper)
 		wallpapers="$XDG_DATA_HOME/wallpapers"
 		bg_image=$(ls $wallpapers | rofi -dmenu)
-		xwallpaper --center $wallpapers/$bg_image
+		feh --bg-scale $wallpapers/$bg_image
 	;;
 	$prog_bspwm)
 		./$XDG_CONFIG_HOME/bspwm/bspwmrc

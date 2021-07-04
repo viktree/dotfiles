@@ -1,3 +1,4 @@
 configuration {
 	theme: "~/.config/rofi/gruvbox-dark.rasi";
 }
+@import "/usr/share/rofi/themes/gruvbox-dark-hard.rasi"

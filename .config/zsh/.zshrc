@@ -35,9 +35,17 @@ then
 
   # Then, source plugins and add commands to $PATH
   zplug load
+  autoload -U promptinit
+  promptinit
+  # prompt pure
 fi
 
-export PS1="%{$fg[red]%}%n%{$reset_color%}@%{$fg[blue]%}%m %{$fg[yellow]%}%~ %{$reset_color%}%% "
+export PS1="%n@%m %~ %% "
+# export PS1="%{$fg[red]%}%n%{$reset_color%}@%{$fg[blue]%}%m %{$fg[yellow]%}%~ %{$reset_color%}%% "
+
+__git_files () { 
+    _wanted files expl 'local files' _files     
+}
 
 # ---{ Souce completions }---------------------------------------------------------------
 
@@ -180,7 +188,8 @@ alias ls='exa'
 alias pacmatic='sudo --preserve-env=pacman_program /usr/bin/pacmatic'
 
 # Downgrade permissions as AUR helpers expect to be run as a non-root user. $UID is read-only in {ba,z}sh.
-alias pac='pacman_program="sudo -u #$UID /usr/bin/yay --pacman powerpill" pacmatic'
+# alias pac='pacman_program="sudo -u #$UID /usr/bin/yay --pacman powerpill" pacmatic'
+alias pac='pacman_program="sudo -u #$UID /usr/bin/paru --pacman powerpill" pacmatic'
 
 
 source /etc/profile.d/nix{,daemon}.sh

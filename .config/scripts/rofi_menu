@@ -3,7 +3,7 @@
 bluetooth="Configure Bluetooth"
 color_picker="Colour Picker"
 emoji="Select Emoji"
-screenshot_full_page="Screenshot Full"
+screenshot_full="Screenshot Full"
 screenshot_proof="Screenshot Proof"
 screenshot_selection="Screenshot Selection"
 song_next="Next Song"
@@ -15,7 +15,7 @@ chosen=`rofi -i -dmenu <<- EOM
 	$bluetooth
 	$color_picker
 	$emoji
-	$screenshot_full_page
+	$screenshot_full
 	$screenshot_proof
 	$screenshot_selection
 	$song_next
@@ -49,16 +49,16 @@ case $chosen in
 		echo $colour | xsel --clipboard --input
 	;;
 	$screenshot_selection)
-		maim -s $HOME/Dropbox/screenshots/$(date +%F-%T).png
+		maim -s $HOME/Documents/Dropbox/screenshots/$(date +%F-%T).png
 	;;
 	$screenshot_proof)
-		maim -s $HOME/documents/proof/banking/$(date +%F-%T).png
+		maim -s $HOME/Documents/proof/banking/$(date +%F-%T).png
 	;;
 	$restart_proc)
 		rofi_restart
 	;;
-	$screenshot_page)
-		maim $HOME/screenshots/$(date +%F-%T).png
+	$screenshot_full)
+		sleep 2 && maim $HOME/screenshots/$(date +%F-%T).png
 	;;
 	$watch_ball)
 		mimeo https://sportsurge.net/#/groups/19

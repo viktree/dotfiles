@@ -11,18 +11,19 @@ bspc config window_gap           6
 
 bspc config split_ratio          0.52
 bspc config borderless_monocle   true
-bspc config gapless_monocle      true
+bspc config gapless_monocle      false
 
 # Rules
-bspc rule --add feh     state =fullscreen
-bspc rule --add Zathura state =tiled
-bspc rule --add Peek    state =floating
+bspc rule --add feh     state = fullscreen
+bspc rule --add Zathura state = tiled
+bspc rule --add Emacs   state = tiled
+bspc rule --add Peek    state = floating
 
 # Dropdowns
 bspc rule   --add dropdown    sticky=on state=floating hidden=on
-bspc rule   --add filemanager sticky=on state=floating hidden=on
+# bspc rule   --add filemanager sticky=on state=floating hidden=on
 bspc rule   --add pavuctl     sticky=on state=floating hidden=on
 
 $TERMINAL   --class dropdown &
-thunar      --class filemanager &
+# thunar      --class filemanager &
 pavucontrol --class pavuctl &

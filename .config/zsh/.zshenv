@@ -97,3 +97,6 @@ fi
 export LC_ALL=C
 export PATH
 
+
+if [ -e /home/vikxter/.nix-profile/etc/profile.d/nix.sh ]; then . /home/vikxter/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
+source "/home/vikxter/.local/share/cargo/env"

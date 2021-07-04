@@ -40,7 +40,6 @@
       EDITOR = "nvim";
       TERMINAL = "kitty";
     };
-
   };
 
   services = {
@@ -53,6 +52,10 @@
       userName = "Vikram Venkataramanan";
       userEmail = "vikram.venkataramanan@mail.utoronto.ca";
       extraConfig.pull.rebase = true;
+      aliases = {
+        cm = "commit";
+        ls = "status -s";
+      };
     };
 
     direnv = {
