@@ -7,6 +7,16 @@
 #
 #   By setting it in that file, reopening a terminal emulator will start a new Zsh
 #   instance with the PATH value updated.
+#
+# ---{ XDG Compliance}-------------------------------------------------------------------
+
+# Set XDG Base Directory
+export XDG_LOCAL_HOME="$HOME/.local"
+export XDG_DATA_HOME="$XDG_LOCAL_HOME/share"
+export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_CACHE_HOME="$HOME/.cache"
+
+export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
 
 # ---{ Utility Functions }---------------------------------------------------------------
 
@@ -35,7 +45,7 @@ fi
 
 function PATH_append(){
     if [[ -e $1 ]] && [[ ":$PATH:" != *":$1:"* ]]
-    then PATH="$1:$PATH"
+    then PATH="$PATH:$1"
     fi
 }
 
@@ -43,6 +53,7 @@ source_if_file "/opt/homebrew/opt/asdf/libexec/asdf.sh"
 
 if check_for_command direnv
 then
+    eval "$(asdf exec direnv hook zsh)"
     direnv() { asdf exec direnv "$@"; }
 else if check_for_command asdf
     asdf plugin-add direnv
@@ -51,10 +62,35 @@ else if check_for_command asdf
 fi
 
 export HOMEBREW_BUNDLE_FILE="$XDG_CONFIG_HOME/homebrew/Brewfile"      
-HOMEBREW_PREFIX="/usr/local/opt"
+
+HOMEBREW_PREFIX="/opt/homebrew/share"
+
+PATH_append "/opt/homebrew/bin"
 
 PATH_append "$HOME/bin"
 PATH_append "$HOME/programs/google-cloud-sdk/bin"
+PATH_append "$HOME/.asdf/bin"
+PATH_append "$HOME/.asdf/installs/python/3.10.1/bin"
+PATH_append "$(gem environment gemdir)/bin"
 
+export ANDROID_HOME="$HOME/Library/Android/sdk"
+
+PATH_append "$ANDROID_HOME/emulator "
+PATH_append "$ANDROID_HOME/tools "
+PATH_append "$ANDROID_HOME/tools/bin "
+PATH_append "$ANDROID_HOPATH_append ME/platform-tools"
+
+export ANT_HOME="$HOMEBREW_PREFIX/ant/libexec"
+export MAVEN_HOME="$HOMEBREW_PREFIX/maven"
+export GRADLE_HOME="$HOMEBREW_PREFIX/gradle"
+export ANDROID_HOME="$HOMEBREW_PREFIX/android-sdk"
+export ANDROID_NDK_HOME="$HOMEBREW_PREFIX/android-ndk"
+
+PATH_append "$ANT_HOME/bin"
+PATH_append "$MAVEN_HOME/bin"
+PATH_append "$GRADLE_HOME/bin"
+PATH_append "$ANDROID_HOME/tools"
+PATH_append "$ANDROID_HOME/platform-tools"
+PATH_append "$ANDROID_HOME/build-tools/19.1.0"
 
 export PATH

@@ -1,0 +1,5 @@
+direnv 2.30.3
+rust 1.57.0
+nodejs 17.3.0
+python 3.10.1
+haskell 9.2.1
