@@ -1,0 +1,82 @@
+# ---------------------------------------------------------------------------------------
+# ---{ Brewfile } -----------------------------------------------------------------------
+# ---------------------------------------------------------------------------------------
+#
+#   This file lists some of the programs that I use on mac OSX
+#
+#   `brew bundle cleanup`               Will tell you how out of sync this file is
+#   `brew bundle cleanup --force`       Remove stuff that are not in this file
+#   `brew bundle`                       Install everything listed in this file
+#
+# ---{ Taps } ---------------------------------------------------------------------------
+#
+#   These are the packages reposititories that homebrew should look at
+#
+
+cask_args appdir: '/Applications'
+cask_args fontdir: '/Library/Fonts'
+
+# tap 'aws/tap'
+
+tap 'homebrew/bundle'
+tap 'homebrew/cask'
+tap 'homebrew/cask-fonts'
+tap 'homebrew/core'
+tap 'homebrew/services'
+
+# ---{ Brews } --------------------------------------------------------------------------
+
+brew 'asdf'
+
+# ---{ Casks } --------------------------------------------------------------------------
+#
+#   `brew cask` is an extension to `brew` that allows for the management of graphical
+#   applications through the cask project
+#
+
+# cask 'font-cascadia-code'
+# cask 'font-iosevka'
+# cask 'font-jetbrains-mono'
+
+cask 'alfred'
+cask 'appcleaner'
+cask 'brave-browser'
+cask 'burp-suite'
+cask 'brooklyn'
+cask 'beardedspice'
+cask 'calibre'
+cask 'caffeine'
+cask 'discord'
+cask 'dropbox'
+cask 'gpg-suite-no-mail'
+cask 'hiddenbar'
+cask 'hyperswitch'
+cask 'insomnia'
+cask 'itsycal'
+cask 'inkscape'
+cask 'jetbrains-toolbox'
+cask 'karabiner-elements'
+cask 'keka'
+cask 'kitty'
+cask 'messenger'
+cask 'musescore'
+cask 'rectangle'
+cask 'react-native-debugger'
+cask 'signal'
+cask 'spotify'
+cask 'steam'
+cask 'twitch'
+cask 'ubersicht'
+cask 'visual-studio-code'
+cask 'webex'
+cask 'zoom'
+
+# ---------------------------------------------------------------------------------------
+
+# Other programs
+# ---------------------------------------------------------------------------------------
+# - 1password
+# - keybase
+# - yubico authenticator
+
+# ---------------------------------------------------------------------------------------

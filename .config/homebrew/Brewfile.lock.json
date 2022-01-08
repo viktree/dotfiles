@@ -1,0 +1,339 @@
+{
+  "entries": {
+    "tap": {
+      "homebrew/bundle": {
+        "revision": "407dafc7dbdacd1d897cfc79e8c3ab86a859ca71"
+      },
+      "homebrew/cask": {
+        "revision": "a2f99960ec0b911cabfae83a40d6321fb856703d"
+      },
+      "homebrew/cask-fonts": {
+        "revision": "f815bcc8e048ed8484602428d418588f298ca401"
+      },
+      "homebrew/core": {
+        "revision": "f4532c2a75114608617931af0de321d1b01437aa"
+      },
+      "homebrew/services": {
+        "revision": "e7d862e47bc9e6f98921882ed3b1834fffcb2226"
+      }
+    },
+    "cask": {
+      "alfred": {
+        "version": "4.6.1,1274",
+        "options": {
+          "full_name": "alfred",
+          "args": {
+            "fontdir": "/Library/Fonts"
+          }
+        }
+      },
+      "brave-browser": {
+        "version": "1.34.80.0,134.80",
+        "options": {
+          "full_name": "brave-browser",
+          "args": {
+            "fontdir": "/Library/Fonts"
+          }
+        }
+      },
+      "gpg-suite-no-mail": {
+        "version": "2021.3",
+        "options": {
+          "full_name": "gpg-suite-no-mail",
+          "args": {
+            "fontdir": "/Library/Fonts"
+          }
+        }
+      },
+      "itsycal": {
+        "version": "0.13.1,2150",
+        "options": {
+          "full_name": "itsycal",
+          "args": {
+            "fontdir": "/Library/Fonts"
+          }
+        }
+      },
+      "hiddenbar": {
+        "version": "1.8",
+        "options": {
+          "full_name": "hiddenbar",
+          "args": {
+            "fontdir": "/Library/Fonts"
+          }
+        }
+      },
+      "hyperswitch": {
+        "version": "0.2.592-dev",
+        "options": {
+          "full_name": "hyperswitch",
+          "args": {
+            "fontdir": "/Library/Fonts"
+          }
+        }
+      },
+      "karabiner-elements": {
+        "version": "14.3.0",
+        "options": {
+          "full_name": "karabiner-elements",
+          "args": {
+            "fontdir": "/Library/Fonts"
+          }
+        }
+      },
+      "kitty": {
+        "version": "0.24.1",
+        "options": {
+          "full_name": "kitty",
+          "args": {
+            "fontdir": "/Library/Fonts"
+          }
+        }
+      },
+      "rectangle": {
+        "version": "0.50,55",
+        "options": {
+          "full_name": "rectangle",
+          "args": {
+            "fontdir": "/Library/Fonts"
+          }
+        }
+      },
+      "signal": {
+        "version": "5.27.1",
+        "options": {
+          "full_name": "signal",
+          "args": {
+            "fontdir": "/Library/Fonts"
+          }
+        }
+      },
+      "spotify": {
+        "version": "1.1.73.517,bef50fdb,19",
+        "options": {
+          "full_name": "spotify",
+          "args": {
+            "fontdir": "/Library/Fonts"
+          }
+        }
+      },
+      "ubersicht": {
+        "version": "1.6.69",
+        "options": {
+          "full_name": "ubersicht",
+          "args": {
+            "fontdir": "/Library/Fonts"
+          }
+        }
+      },
+      "visual-studio-code": {
+        "version": "1.63.2",
+        "options": {
+          "full_name": "visual-studio-code",
+          "args": {
+            "fontdir": "/Library/Fonts"
+          }
+        }
+      },
+      "insomnia": {
+        "version": "2021.7.2",
+        "options": {
+          "full_name": "insomnia",
+          "args": {
+            "fontdir": "/Library/Fonts"
+          }
+        }
+      },
+      "calibre": {
+        "version": "5.34.0",
+        "options": {
+          "full_name": "calibre",
+          "args": {
+            "fontdir": "/Library/Fonts"
+          }
+        }
+      },
+      "discord": {
+        "version": "0.0.264",
+        "options": {
+          "full_name": "discord",
+          "args": {
+            "fontdir": "/Library/Fonts"
+          }
+        }
+      },
+      "messenger": {
+        "version": "130.7.115,331335098",
+        "options": {
+          "full_name": "messenger",
+          "args": {
+            "fontdir": "/Library/Fonts"
+          }
+        }
+      },
+      "brooklyn": {
+        "version": "2.1.0",
+        "options": {
+          "full_name": "brooklyn",
+          "args": {
+            "fontdir": "/Library/Fonts"
+          }
+        }
+      },
+      "zoom": {
+        "version": "5.9.1.3506",
+        "options": {
+          "full_name": "zoom",
+          "args": {
+            "fontdir": "/Library/Fonts"
+          }
+        }
+      },
+      "burp-suite": {
+        "version": "2021.10.3",
+        "options": {
+          "full_name": "burp-suite",
+          "args": {
+            "fontdir": "/Library/Fonts"
+          }
+        }
+      },
+      "beardedspice": {
+        "version": "2.2.3",
+        "options": {
+          "full_name": "beardedspice",
+          "args": {
+            "fontdir": "/Library/Fonts"
+          }
+        }
+      },
+      "caffeine": {
+        "version": "1.1.3",
+        "options": {
+          "full_name": "caffeine",
+          "args": {
+            "fontdir": "/Library/Fonts"
+          }
+        }
+      },
+      "inkscape": {
+        "version": "1.1.1",
+        "options": {
+          "full_name": "inkscape",
+          "args": {
+            "fontdir": "/Library/Fonts"
+          }
+        }
+      },
+      "musescore": {
+        "version": "3.6.2.548020600",
+        "options": {
+          "full_name": "musescore",
+          "args": {
+            "fontdir": "/Library/Fonts"
+          }
+        }
+      },
+      "steam": {
+        "version": "4.0",
+        "options": {
+          "full_name": "steam",
+          "args": {
+            "fontdir": "/Library/Fonts"
+          }
+        }
+      },
+      "twitch": {
+        "version": "8.60.1",
+        "options": {
+          "full_name": "twitch",
+          "args": {
+            "fontdir": "/Library/Fonts"
+          }
+        }
+      },
+      "webex": {
+        "version": "41.12.0.20899",
+        "options": {
+          "full_name": "webex",
+          "args": {
+            "fontdir": "/Library/Fonts"
+          }
+        }
+      },
+      "dropbox": {
+        "version": "139.4.4896",
+        "options": {
+          "full_name": "dropbox",
+          "args": {
+            "fontdir": "/Library/Fonts"
+          }
+        }
+      },
+      "appcleaner": {
+        "version": "3.6.0,4070",
+        "options": {
+          "full_name": "appcleaner",
+          "args": {
+            "fontdir": "/Library/Fonts"
+          }
+        }
+      },
+      "jetbrains-toolbox": {
+        "version": "1.22,1.22.10970",
+        "options": {
+          "full_name": "jetbrains-toolbox",
+          "args": {
+            "fontdir": "/Library/Fonts"
+          }
+        }
+      },
+      "keka": {
+        "version": "1.2.50",
+        "options": {
+          "full_name": "keka",
+          "args": {
+            "fontdir": "/Library/Fonts"
+          }
+        }
+      },
+      "react-native-debugger": {
+        "version": "0.12.1",
+        "options": {
+          "full_name": "react-native-debugger",
+          "args": {
+            "fontdir": "/Library/Fonts"
+          }
+        }
+      }
+    },
+    "brew": {
+      "asdf": {
+        "version": "0.9.0",
+        "bottle": {
+          "rebuild": 0,
+          "root_url": "https://ghcr.io/v2/homebrew/core",
+          "files": {
+            "all": {
+              "cellar": ":any_skip_relocation",
+              "url": "https://ghcr.io/v2/homebrew/core/asdf/blobs/sha256:2c1733505b491d9d5a9442655c123c68fd3a3b4e102c89bab39898246aa0e405",
+              "sha256": "2c1733505b491d9d5a9442655c123c68fd3a3b4e102c89bab39898246aa0e405"
+            }
+          }
+        }
+      }
+    }
+  },
+  "system": {
+    "macos": {
+      "monterey": {
+        "HOMEBREW_VERSION": "3.3.9",
+        "HOMEBREW_PREFIX": "/opt/homebrew",
+        "Homebrew/homebrew-core": "f4532c2a75114608617931af0de321d1b01437aa",
+        "CLT": "13.2.0.0.1.1638488800",
+        "Xcode": "13.2.1",
+        "macOS": "12.1"
+      }
+    }
+  }
+}
