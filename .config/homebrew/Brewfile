@@ -1,4 +1,4 @@
-# ---------------------------------------------------------------------------------------
+#---------------------------------------------------------------------------------------
 # ---{ Brewfile } -----------------------------------------------------------------------
 # ---------------------------------------------------------------------------------------
 #
@@ -13,10 +13,9 @@
 #   These are the packages reposititories that homebrew should look at
 #
 
+
 cask_args appdir: '/Applications'
 cask_args fontdir: '/Library/Fonts'
-
-# tap 'aws/tap'
 
 tap 'homebrew/bundle'
 tap 'homebrew/cask'
@@ -26,7 +25,58 @@ tap 'homebrew/services'
 
 # ---{ Brews } --------------------------------------------------------------------------
 
+brew 'aria2'
 brew 'asdf'
+brew 'carthage'
+brew 'gh'
+brew 'git'
+brew 'gnupg'
+brew 'grep'
+brew 'hopenpgp-tools'
+brew 'jq'
+brew 'kubectx'
+brew 'mitmproxy'
+brew 'neofetch'
+brew 'nmap'
+brew 'pinentry-mac'
+brew 'ppsspp'
+brew 'proxychains-ng'
+brew 'ripgrep'
+brew 'shellcheck'
+brew 'shfmt'
+brew 'syncthing'
+brew 'tree'
+brew 'wget'
+brew 'ykman'
+brew 'yubikey-personalization'
+
+brew 'ant'
+brew 'maven'
+brew 'gradle'
+
+# For RTL-SDR
+brew 'airspy'
+brew 'airspyhf'
+brew 'cmake'
+brew 'codec2'
+brew 'fftw'
+brew 'glfw'
+brew 'hackrf'
+brew 'libbladerf'
+brew 'librtlsdr'
+brew 'portaudio'
+brew 'rtl-sdr'
+brew 'soapyrtlsdr'
+brew 'volk'
+brew 'zstd'
+
+brew 'urh'
+
+# Neovim
+brew 'tree-sitter', args: ["HEAD"]
+brew 'luajit', args: ["HEAD"]
+brew 'neovim', args: ["HEAD"]
+brew 'luajit-openresty', args: ["HEAD"]
 
 # ---{ Casks } --------------------------------------------------------------------------
 #
@@ -34,42 +84,61 @@ brew 'asdf'
 #   applications through the cask project
 #
 
-# cask 'font-cascadia-code'
-# cask 'font-iosevka'
-# cask 'font-jetbrains-mono'
+cask 'font-cascadia-code'
+cask 'font-iosevka'
+cask 'font-jetbrains-mono'
 
 cask 'alfred'
 cask 'appcleaner'
-cask 'brave-browser'
-cask 'burp-suite'
-cask 'brooklyn'
 cask 'beardedspice'
-cask 'calibre'
+cask 'blender'
+cask 'brave-browser'
+cask 'brooklyn'
+cask 'burp-suite'
 cask 'caffeine'
+cask 'calibre'
+cask 'charles'
+cask 'cyberduck'
 cask 'discord'
 cask 'dropbox'
+cask 'epic-games'
+cask 'flycut'
 cask 'gpg-suite-no-mail'
 cask 'hiddenbar'
 cask 'hyperswitch'
-cask 'insomnia'
-cask 'itsycal'
 cask 'inkscape'
+cask 'insomnia'
+cask 'ipfs'
+cask 'itsycal'
 cask 'jetbrains-toolbox'
+cask 'julia'
 cask 'karabiner-elements'
 cask 'keka'
 cask 'kitty'
 cask 'messenger'
 cask 'musescore'
-cask 'rectangle'
+cask 'openemu'
 cask 'react-native-debugger'
+cask 'rectangle'
 cask 'signal'
 cask 'spotify'
 cask 'steam'
+cask 'transmission'
 cask 'twitch'
 cask 'ubersicht'
+cask 'utm'
 cask 'visual-studio-code'
+cask 'vlc'
 cask 'webex'
+cask 'wireshark'
 cask 'zoom'
+
+cask 'gqrx'
+cask 'cubicsdr'
+
+cask 'android-sdk'
+cask 'android-ndk'
+cask 'temurin'
 
 # ---------------------------------------------------------------------------------------
 
