@@ -11,63 +11,14 @@
 #   key bindings, etc.
 #
 
-# ---{ zplug }---------------------------------------------------------------------------
-#
 function source_if_file(){ [[ -f "$1" ]] && source "$1" }
 function source_if_exists(){ [[ -e $1 ]] && source $1 }
 function check_for_command(){ command -v $1 >/dev/null 2>&1 }
-
-export ZPLUG_HOME="$HOME/.zplug"
-source_if_file   "$ZPLUG_HOME/init.zsh"
-source_if_exists "$HOME/.nix-profile/etc/profile.d/nix.sh"
-
-if [[ ! -d "$ZPLUG_HOME" ]]
-then
-  if check_for_command git 
-  then
-    git clone https://github.com/b4b4r07/zplug $HOME/.zplug
-  else
-    echo "Failed to fetch zplug, no git installed"
-  fi
-fi
-
-if check_for_command zplug
-then
-
-  source_if_file "$XDG_CONFIG_HOME/zsh/packages.zsh"
-
-  # Install plugins if there are plugins that have not been installed
-  if ! zplug check --verbose
-  then
-      printf "Install? [y/N]: "
-      if read -q
-      then
-        echo
-        zplug install
-      fi
-  fi
-
-  export NVM_LAZY_LOAD=true
-
-  # Then, source plugins and add commands to $PATH
-  compinit -u
-  zplug load
-
-  autoload -U promptinit
-  promptinit
-  prompt pure
-
-fi
-
+function is_mac(){ [ "$(uname)" = "Darwin" ] }
 
 # ---{ Souce completions }---------------------------------------------------------------
 
-function source_if_file(){ [[ -f $1 ]] && source $1 }
-function source_if_possible(){ [[ -e $1 ]] && source $1 }
-function check_for_command(){ command -v $1 >/dev/null 2>&1 }
-function is_mac(){ [ "$(uname)" = "Darwin" ] }
-
-# source_if_possible "/usr/local/share/zsh/site-functions"
+source_if_exists "$HOME/.nix-profile/etc/profile.d/nix.sh"
 
 # Updates PATH for the Google Cloud SDK.
 # and enables shell command completion for gcloud.
@@ -213,10 +164,32 @@ if check_for_command direnv
 then eval "$(direnv hook zsh)"
 fi
 
+if [[ ! -d "$XDG_DATA_HOME/sheldon" ]]
+then mkdir "$XDG_DATA_HOME/sheldon"
+fi
+
+if check_for_command sheldon
+then eval "$(sheldon source)"
+fi
+
 source "$HOME/.config/zsh/aliases.zsh"
 
 [ -s "/usr/local/opt/nvm/nvm.sh" ] && source "/usr/local/opt/nvm/nvm.sh"
 [ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && source "/usr/local/opt/nvm/etc/bash_completion.d/nvm"
 
+source /usr/local/opt/asdf/libexec/asdf.sh
+
+alias o='open'
+alias y='yadm'
+alias v='nvim'
+
+alias storybook='npm run storybook'
+alias updateSnaps='npm run test:dev -- -u'
+
+patch_spotify(){
+    spicetify upgrade
+    spicetify restore backup apply
+}
 
 # ---------------------------------------------------------------------------------------
+

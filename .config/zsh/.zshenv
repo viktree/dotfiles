@@ -42,13 +42,17 @@ function PATH_append(){
     fi
 }
 
-export HOMEBREW_BUNDLE_FILE="$XDG_CONFIG_HOME/Brewfile"      
+export HOMEBREW_BUNDLE_FILE="$XDG_CONFIG_HOME/homebrew/Brewfile"
 HOMEBREW_PREFIX="/usr/local/opt"
+
+export NIX_PATH=$HOME/.nix-defexpr/channels${NIX_PATH:+:}$NIX_PATH
 
 PATH_append "$HOME/programs/google-cloud-sdk/bin"
 PATH_append "$HOMEBREW_PREFIX/helm@2/bin"
 PATH_append "$HOMEBREW_PREFIX/node@12/bin"
-PATH_append "$HOME/.emacs.d/bin"
+PATH_append "$HOME/go/bin"
+PATH_append "$HOME/.spicetify"
 # PATH_append "$HOME/programs/nvim-osx64/bin"
 
 export PATH
+. "$HOME/.cargo/env"
