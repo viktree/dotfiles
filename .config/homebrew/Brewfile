@@ -24,8 +24,6 @@ tap 'homebrew/cask-fonts'
 tap 'homebrew/core'
 tap 'homebrew/services'
 
-tap 'clementtsang/bottom'
-
 brew 'coreutils'
 brew 'fd'
 
