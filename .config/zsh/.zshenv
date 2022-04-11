@@ -93,4 +93,7 @@ PATH_append "$ANDROID_HOME/tools"
 PATH_append "$ANDROID_HOME/platform-tools"
 PATH_append "$ANDROID_HOME/build-tools/19.1.0"
 
+PATH_append "$HOME/programs/nvim-osx64/bin"
+PATH_append "$HOME/programs/xmrig-6.16.4"
+
 export PATH
