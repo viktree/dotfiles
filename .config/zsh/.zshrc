@@ -206,8 +206,8 @@ source_if_file "$HOME/programs/google-cloud-sdk/completion.zsh.inc"
 
 # ---------------------------------------------------------------------------------------
 
-export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
+# export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
 # gpgconf --launch gpg-agent
 # gpg-connect-agent /bye
-export GPG_TTY=$(tty)
-export PATH="$PATH:$HOME/.spicetify"
+# export GPG_TTY=$(tty)
+# export PATH="$PATH:$HOME/.spicetify"
