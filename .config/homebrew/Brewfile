@@ -38,6 +38,7 @@ brew 'kubectx'
 brew 'mitmproxy'
 brew 'neofetch'
 brew 'nmap'
+brew 'pulumi'
 brew 'pinentry-mac'
 brew 'ppsspp'
 brew 'proxychains-ng'
@@ -74,8 +75,8 @@ brew 'urh'
 
 # Neovim
 brew 'tree-sitter', args: ["HEAD"]
-brew 'luajit', args: ["HEAD"]
-brew 'neovim', args: ["HEAD"]
+# brew 'luajit', args: ["HEAD"]
+# brew 'neovim', args: ["HEAD"]
 brew 'luajit-openresty', args: ["HEAD"]
 
 # ---{ Casks } --------------------------------------------------------------------------
@@ -87,6 +88,7 @@ brew 'luajit-openresty', args: ["HEAD"]
 cask 'font-cascadia-code'
 cask 'font-iosevka'
 cask 'font-jetbrains-mono'
+cask 'font-ia-writer-quattro'
 
 cask 'alfred'
 cask 'appcleaner'
@@ -101,6 +103,7 @@ cask 'charles'
 cask 'cyberduck'
 cask 'discord'
 cask 'dropbox'
+cask 'element'
 cask 'epic-games'
 cask 'flycut'
 cask 'gpg-suite-no-mail'
@@ -117,7 +120,9 @@ cask 'keka'
 cask 'kitty'
 cask 'messenger'
 cask 'musescore'
+cask 'obsidian'
 cask 'openemu'
+cask 'rancher'
 cask 'react-native-debugger'
 cask 'rectangle'
 cask 'signal'
