@@ -1,0 +1,46 @@
+#!/bin/sh
+
+print_usage() {
+    echo "Usage:"
+    echo ""
+    echo "$ hs-port-forward [environment]"
+    echo ""
+    echo "environment must be one of hs-dev|hs-stage|hs-prod"
+    exit 0
+}
+
+if ! command -v 'cloud_sql_proxy' >/dev/null 2>&1; then
+    echo 'Error: cloud_sql_proxy cli tool not found'
+    echo "please install with 'gcloud components install cloud_sql_proxy'."
+    exit 1
+fi
+
+ENVIRONMENT=$1
+GCP_REGION='us-central1'
+CLOUD_SQL_DB_PORT='5432'
+
+case $ENVIRONMENT in
+
+hs-dev)
+    GCP_PROJECT_ID='home-services-dev'
+    CLOUD_SQL_INSTANCE='home-services-sql-instance-117d8ec3'
+    ;;
+
+hs-stage)
+    GCP_PROJECT_ID='home-services-stage'
+    CLOUD_SQL_INSTANCE='home-services-sql-instance-790e37c6'
+    ;;
+
+hs-prod)
+    GCP_PROJECT_ID='home-services-prod'
+    CLOUD_SQL_INSTANCE='home-services-sql-instance-19b6778a'
+    CLOUD_SQL_INSTANCE='home-services-sql-read-replica-e2158b06'
+    ;;
+
+*)
+    print_usage
+    exit 0
+    ;;
+esac
+
+cloud_sql_proxy -instances=$GCP_PROJECT_ID:$GCP_REGION:$CLOUD_SQL_INSTANCE=tcp:$CLOUD_SQL_DB_PORT -verbose
