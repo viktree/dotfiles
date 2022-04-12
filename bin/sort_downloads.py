@@ -1,59 +1,64 @@
 #!python3
 
-from os import listdir
+from email.generator import Generator
+from os import listdir, environ
 from os.path import isfile, join
 import os
 import shutil
 
-DOWNLOADS_PATH = os.environ["HOME"] + "/Downloads"
+DOWNLOADS_PATH = environ["HOME"] + "/Downloads"
 
 ignore_list = [".DS_Store"]
 
 
-def is_catagorizable(f: str) -> bool:
+def is_sortable(f: str) -> bool:
     if not isfile(join(DOWNLOADS_PATH, f)):
         return False
     if f in ignore_list:
         return False
     filename_split = f.split(".")
-    if len(filename_split) <= 1:
-        return False
-    return True
+    return len(filename_split) > 1
+
+
+def get_filetype(full_filename):
+    extension = full_filename.split(".")[-1]
+    compressed = ["gz", "tar", "zip"]
+    if extension in compressed:
+        return "compressed"
+
+    games = ["gb", "nds"]
+    if extension in games:
+        return "games"
+    return extension
 
 
 def put_files_in_folders():
-    """
-    Sorts the files in the download folder by their file extensions
-    """
-    files = [f for f in listdir(DOWNLOADS_PATH) if is_catagorizable(f)]
-    file_type_variation_list = []
-    ftype_folder_dict = {}
+    files_to_sort = []
+    ftype_folder_paths = set([])
 
-    files = []
+    # Plan
     for full_filename in listdir(DOWNLOADS_PATH):
-        if is_catagorizable(full_filename):
-            ftype = full_filename.split(".")[-1]
-            files.append((full_filename, ftype))
-
-    for _, ftype in files:
-        if ftype in file_type_variation_list:
+        if not is_sortable(full_filename):
             continue
-        file_type_variation_list.append(ftype)
-        new_folder_name = DOWNLOADS_PATH + "/" + ftype
-        ftype_folder_dict[str(ftype)] = str(new_folder_name)
 
-        if not os.path.isdir(new_folder_name):
-            os.mkdir(new_folder_name)
+        ftype = get_filetype(full_filename)
 
-    file_movements = []
-    for full_filename, ftype in files:
         src_path = DOWNLOADS_PATH + "/" + full_filename
-        dest_path = ftype_folder_dict[str(ftype)]
-        file_movements.append((src_path, dest_path))
+        dest_path = DOWNLOADS_PATH + "/" + ftype
 
-    for src_path, dest_path in file_movements:
+        ftype_folder_paths.add(dest_path)
+        files_to_sort.append((src_path, dest_path))
+
+    # Create folders if they are missing
+    for ftype_folder_path in ftype_folder_paths:
+        if not os.path.isdir(ftype_folder_path):
+            os.mkdir(ftype_folder_path)
+
+    # Move files
+    for i, file_to_sort in enumerate(files_to_sort):
+        src_path, dest_path = file_to_sort
         shutil.move(src_path, dest_path)
-        print(src_path + ">>>" + dest_path)
+        print(str(i + 1) + " :" + src_path + ">>>" + dest_path)
 
 
 if __name__ == "__main__":
