@@ -29,7 +29,7 @@ git config --global github.user "$username"
 
 git config --global rebase.autoStash "true"
 
-git config --global core.editor "$EDITOR"
+git config --global core.editor "vi"
 
 if [ -f "$GITCONFIG_DIR/ignore" ]; then
     git config --global core.excludesfile "$GITCONFIG_DIR/ignore"
