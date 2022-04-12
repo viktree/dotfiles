@@ -1,0 +1,33 @@
+#!/bin/sh
+
+check_for_command() {
+    command -v "$1" >/dev/null 2>&1
+}
+
+XDG_CONFIG_HOME="$HOME/.config"
+
+if ! check_for_command brew && check_for_command ruby; then
+    echo "Installing homebrew"
+    ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+fi
+
+export HOMEBREW_BUNDLE_FILE="$XDG_CONFIG_HOME/brew/config"
+export HOMEBREW_CASK_OPTS="--appdir=/Applications --fontdir=/Library/Fonts"
+export HOMEBREW_NO_ANALYTICS=1
+
+BREW_PREFIX="$(/opt/homebrew/bin/brew --prefix)"
+BREW_PREFIX_LLVM="$(/opt/homebrew/bin/brew --prefix llvm)"
+export BREW_PREFIX
+export BREW_PREFIX_LLVM
+
+CFLAGS="-I$(brew --prefix openssl)/include"
+LDFLAGS="-L$(brew --prefix openssl)/lib"
+export CFLAGS
+export LDFLAGS
+
+if [ -f "$XDG_CONFIG_HOME/brew/config" ]; then
+    echo "Updating homebrew bundles"
+    brew bundle
+    brew cleanup -s
+    brew bundle cleanup --force
+fi
