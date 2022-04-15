@@ -23,6 +23,8 @@ tap 'homebrew/cask-fonts'
 tap 'homebrew/core'
 tap 'homebrew/services'
 
+tap 'koekeishiya/formulae'
+
 # ---{ Brews } --------------------------------------------------------------------------
 
 brew 'aria2'
@@ -70,14 +72,16 @@ brew 'rtl-sdr'
 brew 'soapyrtlsdr'
 brew 'volk'
 brew 'zstd'
-
 brew 'urh'
 
+brew 'yabai'
+brew 'skhd'
+
 # Neovim
-brew 'tree-sitter', args: ["HEAD"]
+# brew 'tree-sitter', args: ["HEAD"]
 # brew 'luajit', args: ["HEAD"]
 # brew 'neovim', args: ["HEAD"]
-brew 'luajit-openresty', args: ["HEAD"]
+# brew 'luajit-openresty', args: ["HEAD"]
 
 # ---{ Casks } --------------------------------------------------------------------------
 #
@@ -107,6 +111,7 @@ cask 'element'
 cask 'epic-games'
 cask 'flycut'
 cask 'gpg-suite-no-mail'
+cask 'hammerspoon'
 cask 'hiddenbar'
 cask 'hyperswitch'
 cask 'inkscape'
@@ -126,6 +131,7 @@ cask 'rancher'
 cask 'react-native-debugger'
 cask 'rectangle'
 cask 'signal'
+cask 'skim'
 cask 'spotify'
 cask 'steam'
 cask 'transmission'
