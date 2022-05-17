@@ -206,10 +206,25 @@ source_if_file "$HOME/programs/google-cloud-sdk/completion.zsh.inc"
 
 # ---------------------------------------------------------------------------------------
 
-# gpg-connect-agent /bye
-export GPG_TTY=$(tty)
-export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
-gpgconf --launch gpg-agent
-gpg-connect-agent updatestartuptty /bye
+if check_for_command gpg
+then 
+    export GPG_TTY=$(tty)
+    export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
+    gpgconf --launch gpg-agent  >/dev/null 2>&1
+    gpg-connect-agent updatestartuptty /bye  >/dev/null 2>&1
+fi
 
-# export PATH="$PATH:$HOME/.spicetify"
+# # >>> conda initialize >>>
+# # !! Contents within this block are managed by 'conda init' !!
+# __conda_setup="$('/Users/vikramvenkataramanan/miniforge3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+# if [ $? -eq 0 ]; then
+#     eval "$__conda_setup"
+# else
+#     if [ -f "/Users/vikramvenkataramanan/miniforge3/etc/profile.d/conda.sh" ]; then
+#         . "/Users/vikramvenkataramanan/miniforge3/etc/profile.d/conda.sh"
+#     else
+#         export PATH="/Users/vikramvenkataramanan/miniforge3/bin:$PATH"
+#     fi
+# fi
+# unset __conda_setup
+# # <<< conda initialize <<<

@@ -26,19 +26,6 @@ function source_if_possible(){ [[ -e $1 ]] && source $1 }
 
 # ---------------------------------------------------------------------------------------
 
-if check_for_command nvm
-then
-    export NVM_DIR="$HOME/.nvm" # You probably have this line already
-    export NODE_VERSIONS="${NVM_DIR}/versions/node"
-    export NODE_VERSION_PREFIX="v"
-
-    export NVM_AUTO_USE=true
-    if [[ -e '$HOME/.nvm/usr/local/opt/nvm/nvm.sh' ]]
-    then
-        export NVM_DIR="$HOME/.nvm/usr/local/opt/nvm/nvm.sh"
-    fi
-fi
-
 if check_for_command gpg
 then export GPG_TTY=$(tty)
 fi
@@ -55,10 +42,13 @@ if check_for_command direnv
 then
     eval "$(asdf exec direnv hook zsh)"
     direnv() { asdf exec direnv "$@"; }
-else if check_for_command asdf
-    asdf plugin-add direnv
-    asdf install direnv latest
-    asdf global direnv latest
+else 
+    if check_for_command asdf
+    then
+        asdf plugin-add direnv
+        asdf install direnv latest
+        asdf global direnv latest
+        fi
 fi
 
 export HOMEBREW_BUNDLE_FILE="$XDG_CONFIG_HOME/homebrew/Brewfile"      
@@ -95,5 +85,7 @@ PATH_append "$ANDROID_HOME/build-tools/19.1.0"
 
 PATH_append "$HOME/programs/nvim-osx64/bin"
 PATH_append "$HOME/programs/xmrig-6.16.4"
+
+PATH_append "$HOME/.spicetify"
 
 export PATH
