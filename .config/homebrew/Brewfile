@@ -13,7 +13,6 @@
 #   These are the packages reposititories that homebrew should look at
 #
 
-
 cask_args appdir: '/Applications'
 cask_args fontdir: '/Library/Fonts'
 
@@ -142,6 +141,7 @@ cask 'visual-studio-code'
 cask 'vlc'
 cask 'webex'
 cask 'wireshark'
+cask 'xquartz'
 cask 'zoom'
 
 cask 'gqrx'

@@ -1,0 +1,63 @@
+#!/usr/bin/env sh
+
+# the scripting-addition must be loaded manually if
+# you are running yabai on macOS Big Sur. Uncomment
+# the following line to have the injection performed
+# when the config is executed during startup.
+#
+# for this to work you must configure sudo such that
+# it will be able to run the command without password
+#
+# see this wiki page for information:
+#  - https://github.com/koekeishiya/yabai/wiki/Installing-yabai-(latest-release)
+#
+# sudo yabai --load-sa
+# yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
+
+yabai -m space 1 --label media
+yabai -m rule --add app="^Spotify$" space=media
+
+yabai -m space 2 --label mail
+yabai -m config --space mail layout stack
+yabai -m rule --add app="^Mail$" space=mail
+yabai -m rule --add app="^Calendar$" space=mail
+yabai -m rule --add app="^Reminders$" space=mail
+
+yabai -m space 3 --label notes
+yabai -m rule --add app="^Obsidian$" space=notes
+yabai -m rule --add app="^Notes$" space=notes
+
+yabai -m space 4 --label web
+yabai -m config --space code layout stack
+yabai -m rule --add app="^Safari$" space=web
+yabai -m rule --add app="^Brave$" space=web
+
+yabai -m space 5 --label code
+yabai -m config --space code layout stack
+
+yabai -m space 6 --label tools
+
+yabai -m space 7 --label social
+yabai -m config --space social layout stack
+yabai -m rule --add app="^Signal$" space=social
+yabai -m rule --add app="^Messenger$" space=social
+yabai -m rule --add app="^Messages$" space=social
+yabai -m rule --add app="^Discord$" space=social
+
+yabai -m space 8 --label games
+yabai -m rule --add app="^Steam$" space=games manage=off
+yabai -m rule --add app="^Epic$" space=games manage=off
+
+yabai -m space 9 --label misc
+
+yabai -m rule --add app="^System Preferences$" manage=off
+
+# general space settings
+yabai -m config layout bsp
+yabai -m config top_padding 12
+yabai -m config bottom_padding 12
+yabai -m config left_padding 230
+yabai -m config right_padding 12
+yabai -m config window_gap 06
+
+echo "yabai configuration loaded.."
