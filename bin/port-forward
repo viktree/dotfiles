@@ -5,7 +5,7 @@ print_usage() {
     echo ""
     echo "$ hs-port-forward [environment]"
     echo ""
-    echo "environment must be one of hs-dev|hs-stage|hs-prod"
+    echo "environment must be one of hs-dev|hs-stage|hs-prod|hs-prod-ro"
     exit 0
 }
 
@@ -34,6 +34,10 @@ hs-stage)
 hs-prod)
     GCP_PROJECT_ID='home-services-prod'
     CLOUD_SQL_INSTANCE='home-services-sql-instance-19b6778a'
+    ;;
+
+hs-prod-ro)
+    GCP_PROJECT_ID='home-services-prod'
     CLOUD_SQL_INSTANCE='home-services-sql-read-replica-e2158b06'
     ;;
 
