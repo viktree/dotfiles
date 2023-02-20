@@ -22,6 +22,7 @@ tap 'homebrew/cask-fonts'
 tap 'homebrew/core'
 tap 'homebrew/services'
 
+tap 'pulumi/tap'
 tap 'koekeishiya/formulae'
 
 # ---{ Brews } --------------------------------------------------------------------------
@@ -29,28 +30,42 @@ tap 'koekeishiya/formulae'
 brew 'aria2'
 brew 'asdf'
 brew 'carthage'
+brew 'fzf'
 brew 'gh'
 brew 'git'
 brew 'gnupg'
+brew 'go'
 brew 'grep'
 brew 'hopenpgp-tools'
+brew 'hub'
+brew 'ical-buddy'
 brew 'jq'
 brew 'kubectx'
+brew 'make'
 brew 'mitmproxy'
 brew 'neofetch'
 brew 'nmap'
-brew 'pulumi'
+brew 'node'
 brew 'pinentry-mac'
+brew 'pnpm'
 brew 'ppsspp'
 brew 'proxychains-ng'
+brew 'pulumi'
 brew 'ripgrep'
 brew 'shellcheck'
 brew 'shfmt'
+brew 'spotify-tui'
+brew 'spotifyd'  
 brew 'syncthing'
+brew 'tailscale'
+brew 'tldr'
+brew 'tree-sitter'
 brew 'tree'
 brew 'wget'
 brew 'ykman'
 brew 'yubikey-personalization'
+brew 'zellij'
+brew 'zoxide'
 
 brew 'ant'
 brew 'maven'
@@ -77,10 +92,10 @@ brew 'yabai'
 brew 'skhd'
 
 # Neovim
-# brew 'tree-sitter', args: ["HEAD"]
-# brew 'luajit', args: ["HEAD"]
-# brew 'neovim', args: ["HEAD"]
-# brew 'luajit-openresty', args: ["HEAD"]
+# brew 'tree-sitter', args: ['HEAD']
+# brew 'luajit', args: ['HEAD']
+# brew 'neovim', args: ['HEAD']
+# brew 'luajit-openresty', args: ['HEAD']
 
 # ---{ Casks } --------------------------------------------------------------------------
 #
@@ -88,16 +103,17 @@ brew 'skhd'
 #   applications through the cask project
 #
 
-cask 'font-cascadia-code'
 cask 'font-iosevka'
+cask 'font-hack'
 cask 'font-jetbrains-mono'
-cask 'font-ia-writer-quattro'
 
+cask 'brave-browser'
+
+cask 'alacritty'
 cask 'alfred'
 cask 'appcleaner'
 cask 'beardedspice'
 cask 'blender'
-cask 'brave-browser'
 cask 'brooklyn'
 cask 'burp-suite'
 cask 'caffeine'
@@ -108,6 +124,7 @@ cask 'discord'
 cask 'dropbox'
 cask 'element'
 cask 'epic-games'
+cask 'firefox'
 cask 'flycut'
 cask 'gpg-suite-no-mail'
 cask 'hammerspoon'
@@ -115,24 +132,22 @@ cask 'hiddenbar'
 cask 'hyperswitch'
 cask 'inkscape'
 cask 'insomnia'
-cask 'ipfs'
 cask 'itsycal'
 cask 'jetbrains-toolbox'
 cask 'julia'
 cask 'karabiner-elements'
 cask 'keka'
-cask 'kitty'
-cask 'messenger'
-cask 'musescore'
+cask 'monitorcontrol'
 cask 'obsidian'
 cask 'openemu'
 cask 'rancher'
 cask 'react-native-debugger'
-cask 'rectangle'
 cask 'signal'
 cask 'skim'
+cask 'slack'
 cask 'spotify'
 cask 'steam'
+cask 'tailscale'
 cask 'transmission'
 cask 'twitch'
 cask 'ubersicht'
@@ -148,8 +163,10 @@ cask 'gqrx'
 cask 'cubicsdr'
 
 cask 'android-sdk'
-cask 'android-ndk'
 cask 'temurin'
+
+cask 'balenaetcher'
+cask 'barrier'
 
 # ---------------------------------------------------------------------------------------
 
@@ -158,5 +175,6 @@ cask 'temurin'
 # - 1password
 # - keybase
 # - yubico authenticator
+# cask '1password-cli'
 
 # ---------------------------------------------------------------------------------------
