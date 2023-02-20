@@ -35,6 +35,10 @@ alias o='open'
 alias y='yadm'
 alias v='nvim'
 
+alias dcu='docker compose up'
+alias dcd='docker compose down'
+alias dcr='docker compose down && docker compose up'
+
 if check_for_command egrep
 then alias list_merged="git branch --merged| egrep -v \"(^\*|master|main|dev)\""
 fi
