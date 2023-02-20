@@ -63,6 +63,7 @@ brew 'mitmproxy'
 brew 'nmap'
 brew 'neovim', args: ["HEAD"]
 brew 'pinentry-mac'
+brew 'php'
 brew 'postgresql'
 brew 'protobuf'
 brew 'pass'
