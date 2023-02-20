@@ -48,7 +48,7 @@ function prune_path(){
 }
 
 function add_path(){
-    echo "PATH_append $1" >> "$HOME/.zshenv"
+    echo "PATH_append $1" >> "$HOME/.zshenv" && source "$HOME/.zshenv"
 }
 
 function grep-path(){

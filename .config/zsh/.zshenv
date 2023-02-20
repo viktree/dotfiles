@@ -46,7 +46,9 @@ if check_for_command asdf
 then PATH_append "$HOME/.asdf/installs/java/openjdk-11/bin"
 fi
 
-PATH="$(perl -e 'print join(":", grep { not $seen{$_}++ } split(/:/, $ENV{PATH}))')"
+if check_for_command perl
+then PATH="$(perl -e 'print join(":", grep { not $seen{$_}++ } split(/:/, $ENV{PATH}))')" 
+fi
 
 export PATH
 
