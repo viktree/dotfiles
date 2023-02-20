@@ -1,3 +1,4 @@
+#!/bin/zsh
 # ---------------------------------------------------------------------------------------
 # ---{ My .zshrc } ----------------------------------------------------------------------
 # ---------------------------------------------------------------------------------------
@@ -29,7 +30,7 @@ function prune_path(){
 }
 
 function add_path(){
-    echo "PATH_append $1" >> "$HOME/.zshenv"
+    echo "PATH_append $1" >> "$HOME/.zshenv" && source "$HOME/.zshenv"
 }
 
 function grep-path(){
@@ -152,8 +153,7 @@ zinit light zdharma-continuum/fast-syntax-highlighting
 zinit light zsh-users/zsh-autosuggestions
 
 if check_for_command asdf
-then
-    eval "$(asdf exec direnv hook zsh)"
+then eval "$(asdf exec direnv hook zsh)"
 fi
 
 # ogham/exa, replacement for ls
@@ -195,36 +195,20 @@ patch_spotify(){
 alias o='open'
 alias y='yadm'
 alias v='nvim'
+alias vim='nvim'
 
 # ---------------------------------------------------------------------------------------
 
-# The next line updates PATH for the Google Cloud SDK.
-source_if_file "$HOME/programs/google-cloud-sdk/path.zsh.inc"
-
-# The next line enables shell command completion for gcloud.
-source_if_file "$HOME/programs/google-cloud-sdk/completion.zsh.inc"
+GCLOUD_HOME="$HOME/programs/google-cloud-sdk"
+source_if_file "$GCLOUD_HOME/path.zsh.inc"
+source_if_file "$GCLOUD_HOME/completion.zsh.inc"
 
 # ---------------------------------------------------------------------------------------
 
-if check_for_command gpg
-then 
-    export GPG_TTY=$(tty)
-    export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
-    gpgconf --launch gpg-agent  >/dev/null 2>&1
-    gpg-connect-agent updatestartuptty /bye  >/dev/null 2>&1
-fi
-
-# # >>> conda initialize >>>
-# # !! Contents within this block are managed by 'conda init' !!
-# __conda_setup="$('/Users/vikramvenkataramanan/miniforge3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
-# if [ $? -eq 0 ]; then
-#     eval "$__conda_setup"
-# else
-#     if [ -f "/Users/vikramvenkataramanan/miniforge3/etc/profile.d/conda.sh" ]; then
-#         . "/Users/vikramvenkataramanan/miniforge3/etc/profile.d/conda.sh"
-#     else
-#         export PATH="/Users/vikramvenkataramanan/miniforge3/bin:$PATH"
-#     fi
+# if check_for_command gpg
+# then 
+#     export GPG_TTY=$(tty)
+#     export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
+#     gpgconf --launch gpg-agent  >/dev/null 2>&1
+#     gpg-connect-agent updatestartuptty /bye  >/dev/null 2>&1
 # fi
-# unset __conda_setup
-# # <<< conda initialize <<<

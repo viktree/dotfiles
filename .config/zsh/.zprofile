@@ -87,21 +87,6 @@ then
     export EDITOR='/usr/local/bin/code'
 fi
 
-if check_for_command kitty
-then export TERMINAL="kitty"
-fi
-
-# if check_for_command asdf
-# then
-#     asdf plugin add nodejs
-#     asdf plugin-add haskell
-#     asdf plugin add python
-
-#     export RUST_WITHOUT='rust-docs'
-#     asdf plugin-add rust
-
-# fi
-
 # ---{ hooks }---------------------------------------------------------------------------
 
 eval "$(/opt/homebrew/bin/brew shellenv)"

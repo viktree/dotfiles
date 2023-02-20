@@ -1,3 +1,4 @@
+#!/bin/zsh
 # ---------------------------------------------------------------------------------------
 # ---{ My ~/.zshenv } -------------------------------------------------------------------
 # ---------------------------------------------------------------------------------------
@@ -17,6 +18,8 @@ export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_CACHE_HOME="$HOME/.cache"
 
 export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
+export PNPM_HOME="$XDG_DATA_HOME/pnpm"
+export GCLOUD_HOME="$HOME/programs/google-cloud-sdk"
 
 # ---{ Utility Functions }---------------------------------------------------------------
 
@@ -51,41 +54,65 @@ else
         fi
 fi
 
-export HOMEBREW_BUNDLE_FILE="$XDG_CONFIG_HOME/homebrew/Brewfile"      
 
-HOMEBREW_PREFIX="/opt/homebrew/share"
-
-PATH_append "/opt/homebrew/bin"
+if check_for_command zoxide
+then eval "$(zoxide init zsh)"
+fi
 
 PATH_append "$HOME/bin"
-PATH_append "$HOME/programs/google-cloud-sdk/bin"
-PATH_append "$HOME/.asdf/bin"
-PATH_append "$HOME/.asdf/installs/python/3.10.1/bin"
-PATH_append "$(gem environment gemdir)/bin"
+PATH_append "$GCLOUD_HOME/bin"
+PATH_append "$PNPM_HOME"
+
+PATH_append "$HOME/programs/nvim-macos/bin"
+PATH_append "$HOME/programs/xmrig-6.16.4"
+
+if check_for_command brew
+then
+    export HOMEBREW_BUNDLE_FILE="$XDG_CONFIG_HOME/homebrew/Brewfile"
+    PATH_append "/opt/homebrew/bin"
+    PATH_append "/usr/local/bin"
+
+    HOMEBREW_PREFIX="/opt/homebrew/share"
+    export ANT_HOME="$HOMEBREW_PREFIX/ant/libexec"
+    export MAVEN_HOME="$HOMEBREW_PREFIX/maven"
+    export GRADLE_HOME="$HOMEBREW_PREFIX/gradle"
+    export ANDROID_HOME="$HOMEBREW_PREFIX/android-sdk"
+    export ANDROID_NDK_HOME="$HOMEBREW_PREFIX/android-ndk"
+    
+
+    PATH_append "$ANT_HOME/bin"
+    PATH_append "$MAVEN_HOME/bin"
+    PATH_append "$GRADLE_HOME/bin"
+    PATH_append "$ANDROID_HOME/tools"
+    PATH_append "$ANDROID_HOME/platform-tools"
+    PATH_append "$ANDROID_HOME/build-tools/19.1.0"
+
+    PATH_append "/opt/homebrew/bin"
+    PATH_append "/usr/local/bin"
+fi
+
+if check_for_command asdf
+then
+    PATH_append "$HOME/.asdf/bin"
+    PATH_append "$HOME/.asdf/installs/python/3.10.1/bin"
+fi
+
+if check_for_command gem
+then PATH_append "$(gem environment gemdir)/bin"
+fi
 
 export ANDROID_HOME="$HOME/Library/Android/sdk"
 
 PATH_append "$ANDROID_HOME/emulator "
 PATH_append "$ANDROID_HOME/tools "
 PATH_append "$ANDROID_HOME/tools/bin "
-PATH_append "$ANDROID_HOPATH_append ME/platform-tools"
-
-export ANT_HOME="$HOMEBREW_PREFIX/ant/libexec"
-export MAVEN_HOME="$HOMEBREW_PREFIX/maven"
-export GRADLE_HOME="$HOMEBREW_PREFIX/gradle"
-export ANDROID_HOME="$HOMEBREW_PREFIX/android-sdk"
-export ANDROID_NDK_HOME="$HOMEBREW_PREFIX/android-ndk"
-
-PATH_append "$ANT_HOME/bin"
-PATH_append "$MAVEN_HOME/bin"
-PATH_append "$GRADLE_HOME/bin"
-PATH_append "$ANDROID_HOME/tools"
 PATH_append "$ANDROID_HOME/platform-tools"
-PATH_append "$ANDROID_HOME/build-tools/19.1.0"
 
-PATH_append "$HOME/programs/nvim-osx64/bin"
-PATH_append "$HOME/programs/xmrig-6.16.4"
 
-PATH_append "$HOME/.spicetify"
+
+# Prune path
+if check_for_command pearl
+then PATH="$(perl -e 'print join(":", grep { not $seen{$_}++ } split(/:/, $ENV{PATH}))')"
+fi
 
 export PATH
