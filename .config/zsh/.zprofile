@@ -1,3 +1,5 @@
+# Fig pre block. Keep at the top of this file.
+[[ -f "$HOME/.fig/shell/zprofile.pre.zsh" ]] && builtin source "$HOME/.fig/shell/zprofile.pre.zsh"
 # ---------------------------------------------------------------------------------------
 # ---{ My ~/.zprofile } -----------------------------------------------------------------
 # ---------------------------------------------------------------------------------------
@@ -68,8 +70,12 @@ then
     git config --global core.excludesfile "$HOME/.config/git/ignore"
     git config --global commit.template   "$HOME/.config/git/commit-template"
 
-    git config --global alias.switch-branch checkout
-    git config --global alias.c commit
+    git config --global alias.nb "checkout -b"
+    git config --global alias.sb "checkout"
+    git config --global alias.new-branch "checkout"
+    git config --global alias.switch-branch "checkout"
+
+    git config --global alias.c "commit -m"
     git config --global alias.ls "status -s"
 fi
 
@@ -86,10 +92,12 @@ then
     export EDITOR='/usr/local/bin/code'
 fi
 
-export NVM_AUTO_USE=true
-if [[ -e '$HOME/.nvm/usr/local/opt/nvm/nvm.sh' ]]
-then
-    export NVM_DIR="$HOME/.nvm/usr/local/opt/nvm/nvm.sh"
+if check_for_command alacritty
+then export TERMINAL="alacritty"
+fi
+
+if check_for_command gpg
+then export GPG_TTY=$(tty)
 fi
 
 # ---{ Post-load Checks }----------------------------------------------------------------
@@ -103,4 +111,3 @@ fi
 set +euo pipefail
 
 # ---------------------------------------------------------------------------------------
-

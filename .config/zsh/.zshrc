@@ -18,16 +18,27 @@ function is_mac(){ [ "$(uname)" = "Darwin" ] }
 
 # ---{ Souce completions }---------------------------------------------------------------
 
-source_if_exists "$HOME/.nix-profile/etc/profile.d/nix.sh"
+HOMEBREW_PREFIX="/usr/local/opt"
+GCLOUD_HOME="$HOME/programs/google-cloud-sdk"
+
+source_if_file "$HOME/.nix-profile/etc/profile.d/nix.sh"
+source_if_file "$HOME/.config/zsh/aliases.zsh"
+source_if_file "$HOME/.config/zsh/secrets.sh"
+source_if_file "$HOMEBREW_PREFIX/nvm/nvm.sh"
+source_if_file "$HOMEBREW_PREFIX/nvm/etc/bash_completion.d/nvm"
+source_if_file "$HOMEBREW_PREFIX/asdf/libexec/asdf.sh"
+
+source_if_exists "$HOME/.cargo/env"
+source_if_exists "$HOME/IdeaProjects/op-ts-server-core/local-env/local-files/server_core_rc"
 
 # Updates PATH for the Google Cloud SDK.
 # and enables shell command completion for gcloud.
-# source_if_file "$GCLOUD_HOME/path.zsh.inc"
-# source_if_file "$GCLOUD_HOME/completion.zsh.inc"
+source_if_file "$GCLOUD_HOME/path.zsh.inc"
+source_if_file "$GCLOUD_HOME/completion.zsh.inc"
 
-# if check_for_command kubectl
-# then source <(kubectl completion zsh)
-# fi
+if check_for_command kubectl
+then source <(kubectl completion zsh)
+fi
 
 # ---{ Path Utils }----------------------------------------------------------------------
 
@@ -116,46 +127,6 @@ bindkey -e # e for emacs, v for vim
 
 # ---{ hooks }---------------------------------------------------------------------------
 
-# pipx competions
-if check_for_command pipx
-then eval "$(register-python-argcomplete pipx)"
-fi
-
-if check_for_command nodenv
-then eval "$(nodenv init -)"
-fi
-
-if check_for_command nvm
-then
-    export NVM_DIR="$HOME/.nvm"
-    export NODE_VERSIONS="${NVM_DIR}/versions/node"
-    export NODE_VERSION_PREFIX="v"
-    autoload -U add-zsh-hook
-    load-nvmrc() {
-      local node_version="$(nvm version)"
-      local nvmrc_path="$(nvm_find_nvmrc)"
-
-      if [ -n "$nvmrc_path" ]; then
-        local nvmrc_node_version=$(nvm version "$(cat "${nvmrc_path}")")
-
-        if [ "$nvmrc_node_version" = "N/A" ]; then
-          nvm install
-        elif [ "$nvmrc_node_version" != "$node_version" ]; then
-          nvm use
-        fi
-      elif [ "$node_version" != "$(nvm version default)" ]; then
-        echo "Reverting to nvm default version"
-        nvm use default
-      fi
-    }
-    add-zsh-hook chpwd load-nvmrc
-    load-nvmrc
-fi
-
-if check_for_command pyenv
-then eval "$(pyenv init -)"
-fi
-
 if check_for_command jenv
 then eval "$(jenv init -)"
 fi
@@ -172,24 +143,5 @@ if check_for_command sheldon
 then eval "$(sheldon source)"
 fi
 
-source "$HOME/.config/zsh/aliases.zsh"
-
-[ -s "/usr/local/opt/nvm/nvm.sh" ] && source "/usr/local/opt/nvm/nvm.sh"
-[ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && source "/usr/local/opt/nvm/etc/bash_completion.d/nvm"
-
-source /usr/local/opt/asdf/libexec/asdf.sh
-
-alias o='open'
-alias y='yadm'
-alias v='nvim'
-
-alias storybook='npm run storybook'
-alias updateSnaps='npm run test:dev -- -u'
-
-patch_spotify(){
-    spicetify upgrade
-    spicetify restore backup apply
-}
 
 # ---------------------------------------------------------------------------------------
-

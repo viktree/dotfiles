@@ -1,7 +1,6 @@
 # ---------------------------------------------------------------------------------------
 # ---{ My ~/.zshenv } -------------------------------------------------------------------
 # ---------------------------------------------------------------------------------------
-#
 #   Unlike the ~/.zprofile, this file is sourced often, and it's a good place to put
 #   variables that are subject to change throughout the session such as the PATH
 #
@@ -9,7 +8,6 @@
 #   instance with the PATH value updated.
 
 function check_for_command(){ command -v $1 >/dev/null 2>&1 }
-
 
 # ---{ XDG Compliance}-------------------------------------------------------------------
 
@@ -19,22 +17,9 @@ export XDG_DATA_HOME="$XDG_LOCAL_HOME/share"
 export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_CACHE_HOME="$HOME/.cache"
 
+export NIX_PATH="$HOME/.nix-defexpr/channels${NIX_PATH:+:}$NIX_PATH"
 export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
-
-if check_for_command nvm
-then
-    export NVM_DIR="$HOME/.nvm" # You probably have this line already
-    export NODE_VERSIONS="${NVM_DIR}/versions/node"
-    export NODE_VERSION_PREFIX="v"
-fi
-
-if check_for_command gpg
-then export GPG_TTY=$(tty)
-fi
-
-if check_for_command kitty
-then export TERMINAL="kitty"
-fi
+export GCLOUD_HOME="$HOME/programs/google-cloud-sdk"
 
 function PATH_append(){
     if [[ -e $1 ]] && [[ ":$PATH:" != *":$1:"* ]]
@@ -42,17 +27,27 @@ function PATH_append(){
     fi
 }
 
-export HOMEBREW_BUNDLE_FILE="$XDG_CONFIG_HOME/homebrew/Brewfile"
-HOMEBREW_PREFIX="/usr/local/opt"
-
-export NIX_PATH=$HOME/.nix-defexpr/channels${NIX_PATH:+:}$NIX_PATH
-
-PATH_append "$HOME/programs/google-cloud-sdk/bin"
-PATH_append "$HOMEBREW_PREFIX/helm@2/bin"
-PATH_append "$HOMEBREW_PREFIX/node@12/bin"
+PATH_append "/usr/local/sbin"
+PATH_append "$HOME/bin"
 PATH_append "$HOME/go/bin"
-PATH_append "$HOME/.spicetify"
-# PATH_append "$HOME/programs/nvim-osx64/bin"
+PATH_append "$GCLOUD_HOMEgoogle-cloud-sdk/bin"
+PATH_append "$HOME/programs/nvim-osx64/bin"
+
+if check_for_command brew
+then
+    export HOMEBREW_BUNDLE_FILE="$XDG_CONFIG_HOME/homebrew/Brewfile"
+    HOMEBREW_PREFIX="/usr/local/opt"
+
+    PATH_append "$HOMEBREW_PREFIX/openjdk@11/bin"
+    PATH_append "$HOMEBREW_PREFIX/helm@2/bin"
+fi
+
+if check_for_command asdf
+then PATH_append "$HOME/.asdf/installs/java/openjdk-11/bin"
+fi
+
+PATH="$(perl -e 'print join(":", grep { not $seen{$_}++ } split(/:/, $ENV{PATH}))')"
 
 export PATH
-. "$HOME/.cargo/env"
+
+
