@@ -173,6 +173,14 @@ zinit load hlissner/zsh-autopair
 zinit ice pick"async.zsh" src"pure.zsh" # with zsh-async library that's bundled with it.
 zinit light sindresorhus/pure
 
+zinit load MichaelAquilina/zsh-you-should-use
+
+# Scripts built at install (there's single default make target, "install",
+# and it constructs scripts by `cat'ing a few files). The make'' ice could also be:
+# `make"install PREFIX=$ZPFX"`, if "install" wouldn't be the only default target.
+zi ice as"program" pick"$ZPFX/bin/git-*" make"PREFIX=$ZPFX"
+zi light tj/git-extras
+
 # ---------------------------------------------------------------------------------------
 
 source_if_file "/opt/homebrew/opt/asdf/libexec/asdf.sh"
