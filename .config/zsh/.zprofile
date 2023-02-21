@@ -89,7 +89,7 @@ fi
 
 if [[ -e '/usr/local/bin/code' ]]
 then
-    export EDITOR='/usr/local/bin/code'
+    export EDITOR='/usr/local/bin/code --wait'
 fi
 
 if check_for_command alacritty
