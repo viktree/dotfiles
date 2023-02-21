@@ -626,6 +626,15 @@
             "fontdir": "/Library/Fonts"
           }
         }
+      },
+      "raycast": {
+        "version": "1.47.3",
+        "options": {
+          "full_name": "raycast",
+          "args": {
+            "fontdir": "/Library/Fonts"
+          }
+        }
       }
     },
     "brew": {
