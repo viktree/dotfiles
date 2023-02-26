@@ -27,20 +27,16 @@ tap 'koekeishiya/formulae'
 
 # ---{ Brews } --------------------------------------------------------------------------
 
-brew 'aria2'
-brew 'asdf'
 brew 'carthage'
-brew 'fzf'
+brew 'coreutils'
 brew 'gh'
 brew 'git'
 brew 'gitui'
 brew 'gnupg'
-brew 'go'
 brew 'grep'
 brew 'helix'
 brew 'hopenpgp-tools'
 brew 'ical-buddy'
-brew 'jq'
 brew 'kubectx'
 brew 'make'
 brew 'mitmproxy'
@@ -48,14 +44,10 @@ brew 'mprocs'
 brew 'neofetch'
 brew 'nmap'
 brew 'pinentry-mac'
-brew 'pnpm'
 brew 'ppsspp'
 brew 'proxychains-ng'
 brew 'pulumi'
 brew 'rtx'
-brew 'ripgrep'
-brew 'shellcheck'
-brew 'shfmt'
 brew 'spotify-tui'
 brew 'spotifyd'  
 brew 'syncthing'
@@ -94,12 +86,6 @@ brew 'urh'
 brew 'yabai'
 brew 'skhd'
 
-# Neovim
-# brew 'tree-sitter', args: ['HEAD']
-# brew 'luajit', args: ['HEAD']
-# brew 'neovim', args: ['HEAD']
-# brew 'luajit-openresty', args: ['HEAD']
-
 # ---{ Casks } --------------------------------------------------------------------------
 #
 #   `brew cask` is an extension to `brew` that allows for the management of graphical
@@ -134,7 +120,6 @@ cask 'inkscape'
 cask 'insomnia'
 cask 'itsycal'
 cask 'jetbrains-toolbox'
-cask 'julia'
 cask 'karabiner-elements'
 cask 'keka'
 cask 'monitorcontrol'
