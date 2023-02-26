@@ -39,20 +39,11 @@ function PATH_append(){
     fi
 }
 
-source_if_file "/opt/homebrew/opt/asdf/libexec/asdf.sh"
-
-if check_for_command direnv
-then
-    eval "$(asdf exec direnv hook zsh)"
-    direnv() { asdf exec direnv "$@"; }
-else 
-    if check_for_command asdf
-    then
-        asdf plugin-add direnv
-        asdf install direnv latest
-        asdf global direnv latest
-        fi
-fi
+# if check_for_command direnv
+# then
+#     eval "$(asdf exec direnv hook zsh)"
+#     direnv() { asdf exec direnv "$@"; }
+# fi
 
 
 if check_for_command zoxide
@@ -89,12 +80,6 @@ then
 
     PATH_append "/opt/homebrew/bin"
     PATH_append "/usr/local/bin"
-fi
-
-if check_for_command asdf
-then
-    PATH_append "$HOME/.asdf/bin"
-    PATH_append "$HOME/.asdf/installs/python/3.10.1/bin"
 fi
 
 if check_for_command gem

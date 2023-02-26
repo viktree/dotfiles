@@ -152,10 +152,6 @@ compinit
 zinit light zdharma-continuum/fast-syntax-highlighting
 zinit light zsh-users/zsh-autosuggestions
 
-if check_for_command asdf
-then eval "$(asdf exec direnv hook zsh)"
-fi
-
 # ogham/exa, replacement for ls
 zinit ice wait"3" lucid from"gh-r" as"program" mv"bin/exa* -> exa" pick"exa"
 zinit light ogham/exa
@@ -183,16 +179,16 @@ zi light tj/git-extras
 
 # ---------------------------------------------------------------------------------------
 
-source_if_file "/opt/homebrew/opt/asdf/libexec/asdf.sh"
 
-if check_for_command direnv
-then
-    eval "$(asdf exec direnv hook zsh)"
-    direnv() { asdf exec direnv "$@"; }
-else if check_for_command asdf
-    asdf plugin-add direnv
-    asdf install direnv latest
-    asdf global direnv latest
+# if check_for_command direnv
+# then
+#     eval "$(asdf exec direnv hook zsh)"
+#     direnv() { asdf exec direnv "$@"; }
+# fi
+
+
+if check_for_command rtx
+then eval "$(rtx activate zsh)"
 fi
 
 patch_spotify(){
