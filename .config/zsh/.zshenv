@@ -78,8 +78,13 @@ then
     PATH_append "$ANDROID_HOME/platform-tools"
     PATH_append "$ANDROID_HOME/build-tools/19.1.0"
 
-    PATH_append "/opt/homebrew/bin"
-    PATH_append "/usr/local/bin"
+
+    PATH_append "/opt/coreutils/libexec/gnubin"
+    PATH_append "/opt/findutils/libexec/gnubin"
+    PATH_append "/opt/gnu-sed/libexec/gnubin"
+    PATH_append "/opt/gnu-tar/libexec/gnubin"
+    PATH_append "/opt/gnu-which/libexec/gnubin"
+    PATH_append "/opt/grep/libexec/gnubin"
 fi
 
 if check_for_command gem
