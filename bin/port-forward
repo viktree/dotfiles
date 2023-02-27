@@ -31,6 +31,11 @@ hs-stage)
     CLOUD_SQL_INSTANCE='home-services-sql-instance-790e37c6'
     ;;
 
+hs-stage-ro)
+    GCP_PROJECT_ID='home-services-stage'
+    CLOUD_SQL_INSTANCE='home-services-sql-read-replica-db1a5d98'
+    ;;
+
 hs-prod)
     GCP_PROJECT_ID='home-services-prod'
     CLOUD_SQL_INSTANCE='home-services-sql-instance-19b6778a'
