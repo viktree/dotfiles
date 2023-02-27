@@ -26,7 +26,6 @@ source_if_file "$HOME/.config/zsh/aliases.zsh"
 source_if_file "$HOME/.config/zsh/secrets.sh"
 source_if_file "$HOMEBREW_PREFIX/nvm/nvm.sh"
 source_if_file "$HOMEBREW_PREFIX/nvm/etc/bash_completion.d/nvm"
-source_if_file "$HOMEBREW_PREFIX/asdf/libexec/asdf.sh"
 
 source_if_exists "$HOME/.cargo/env"
 source_if_exists "$HOME/IdeaProjects/op-ts-server-core/local-env/local-files/server_core_rc"
@@ -127,21 +126,20 @@ bindkey -e # e for emacs, v for vim
 
 # ---{ hooks }---------------------------------------------------------------------------
 
-if check_for_command jenv
-then eval "$(jenv init -)"
-fi
-
 if check_for_command direnv
 then eval "$(direnv hook zsh)"
 fi
 
-if [[ ! -d "$XDG_DATA_HOME/sheldon" ]]
-then mkdir "$XDG_DATA_HOME/sheldon"
-fi
-
 if check_for_command sheldon
-then eval "$(sheldon source)"
+then 
+    if [[ ! -d "$XDG_DATA_HOME/sheldon" ]]
+    then mkdir "$XDG_DATA_HOME/sheldon"
+    fi
+    eval "$(sheldon source)"
 fi
 
+if check_for_command rtx
+then eval "$(rtx activate zsh)"
+fi
 
 # ---------------------------------------------------------------------------------------
