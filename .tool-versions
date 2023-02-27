@@ -1,3 +1,4 @@
 nodejs 18.14.1
 python 3.7.10
-java openjdk-11
+java   openjdk-11
+helm   2.17
