@@ -46,6 +46,10 @@ if check_for_command asdf
 then PATH_append "$HOME/.asdf/installs/java/openjdk-11/bin"
 fi
 
+if check_for_command rtx
+then PATH_append "$HOME/.local/share/rtx/installs/golang/1.20/go/bin"
+fi
+
 if check_for_command perl
 then PATH="$(perl -e 'print join(":", grep { not $seen{$_}++ } split(/:/, $ENV{PATH}))')" 
 fi
