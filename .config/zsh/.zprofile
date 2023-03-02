@@ -83,11 +83,11 @@ if [[ -f "/Applications/Xcode.app/Contents/Applications/iPhone\ Simulator.app"  
 then ln -s "/Applications/Xcode.app/Contents/Applications/iPhone\ Simulator.app /Applications"
 fi
 
-if [[ -e '/usr/local/bin/code' ]]
-then export EDITOR='/usr/local/bin/code --wait'
-elif check_for_command nvim
-then export EDITOR="nvim"
-fi
+# if [[ -e '/usr/local/bin/code' ]]
+# then export EDITOR='/usr/local/bin/code --wait'
+# elif check_for_command nvim
+# then export EDITOR="nvim"
+# fi
 
 if check_for_command nvim
 then

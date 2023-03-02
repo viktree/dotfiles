@@ -30,6 +30,8 @@ source_if_file "$HOMEBREW_PREFIX/nvm/etc/bash_completion.d/nvm"
 source_if_exists "$HOME/.cargo/env"
 source_if_exists "$HOME/IdeaProjects/op-ts-server-core/local-env/local-files/server_core_rc"
 
+source_if_exists "$XDG_CONIG_HOME/zsh/.zprofile"
+
 # Updates PATH for the Google Cloud SDK.
 # and enables shell command completion for gcloud.
 source_if_file "$GCLOUD_HOME/path.zsh.inc"
@@ -125,6 +127,10 @@ function extract() {
 bindkey -e # e for emacs, v for vim
 
 # ---{ hooks }---------------------------------------------------------------------------
+
+if check_for_command nvim
+then export EDITOR='nvim'
+fi
 
 if check_for_command direnv
 then eval "$(direnv hook zsh)"
