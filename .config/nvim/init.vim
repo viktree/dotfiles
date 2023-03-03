@@ -1,51 +1,60 @@
 
 if exists('g:vscode')
- set clipboard+=unnamedplus
 
- nnoremap <silent> <C-j> :call VSCodeNotify('workbench.action.navigateDown')<CR>
- xnoremap <silent> <C-j> :call VSCodeNotify('workbench.action.navigateDown')<CR>
- nnoremap <silent> <C-k> :call VSCodeNotify('workbench.action.navigateUp')<CR>
- xnoremap <silent> <C-k> :call VSCodeNotify('workbench.action.navigateUp')<CR>
- nnoremap <silent> <C-h> :call VSCodeNotify('workbench.action.navigateLeft')<CR>
- xnoremap <silent> <C-h> :call VSCodeNotify('workbench.action.navigateLeft')<CR>
- nnoremap <silent> <C-l> :call VSCodeNotify('workbench.action.navigateRight')<CR>
- xnoremap <silent> <C-l> :call VSCodeNotify('workbench.action.navigateRight')<CR>
+set clipboard+=unnamedplus
+set nu
+set rnu
 
- nnoremap ; :
- vnoremap ; :
+nnoremap <silent> <C-j> :call VSCodeNotify('workbench.action.navigateDown')<CR>
+xnoremap <silent> <C-j> :call VSCodeNotify('workbench.action.navigateDown')<CR>
+nnoremap <silent> <C-k> :call VSCodeNotify('workbench.action.navigateUp')<CR>
+xnoremap <silent> <C-k> :call VSCodeNotify('workbench.action.navigateUp')<CR>
+nnoremap <silent> <C-h> :call VSCodeNotify('workbench.action.navigateLeft')<CR>
+xnoremap <silent> <C-h> :call VSCodeNotify('workbench.action.navigateLeft')<CR>
+nnoremap <silent> <C-l> :call VSCodeNotify('workbench.action.navigateRight')<CR>
+xnoremap <silent> <C-l> :call VSCodeNotify('workbench.action.navigateRight')<CR>
 
- xmap gc  <Plug>VSCodeCommentary
- nmap gc  <Plug>VSCodeCommentary
- omap gc  <Plug>VSCodeCommentary
- nmap gcc <Plug>VSCodeCommentaryLine
+nnoremap ; :
+vnoremap ; :
 
- xmap cm  <Plug>VSCodeCommentary
- nmap cm  <Plug>VSCodeCommentary
- omap cm  <Plug>VSCodeCommentary
- nmap cml <Plug>VSCodeCommentaryLine
+xmap gc  <Plug>VSCodeCommentary
+nmap gc  <Plug>VSCodeCommentary
+omap gc  <Plug>VSCodeCommentary
+nmap gcc <Plug>VSCodeCommentaryLine
 
- command! Rg call VSCodeNotify('extension.ripgrep')
- command! Fix call VSCodeNotify('keyboard-quickfix.openQuickFix')
- command! Reload call VSCodeNotify('workbench.action.reloadWindow')
- command! GStatus call VSCodeNotify('magit.status')
- command! GCommit call VSCodeNotify('extension.conventionalCommits')
- command! Sidebar call VSCodeNotify('multiCommand.toggleSidebar')
+xmap cm  <Plug>VSCodeCommentary
+nmap cm  <Plug>VSCodeCommentary
+omap cm  <Plug>VSCodeCommentary
+nmap cml <Plug>VSCodeCommentaryLine
 
- nmap <silent> <BS> :Find<CR>
- nmap <silent> <Tab> :tabn<CR>
- nmap <silent> <S-Tab> :tabp<CR>
+command! Rg call VSCodeNotify('extension.ripgrep')
+command! Fix call VSCodeNotify('keyboard-quickfix.openQuickFix')
+command! Reload call VSCodeNotify('workbench.action.reloadWindow')
+command! GStatus call VSCodeNotify('magit.status')
+command! GCommit call VSCodeNotify('extension.conventionalCommits')
+command! Sidebar call VSCodeNotify('multiCommand.toggleSidebar')
 
- " Redo with U instead of Ctrl+R
- noremap U <C-R
+nmap <silent> <BS> :Find<CR>
+nmap <silent> <Tab> :tabn<CR>
+nmap <silent> <S-Tab> :tabp<CR>
 
- " Quick get that register!
- nnoremap Q @q
- vnoremap Q :normal @q
+" Redo with U instead of Ctrl+R
+noremap U <C-R
 
- AlterCommand o[pen] Find
+" Quick get that register!
+nnoremap Q @q
+vnoremap Q :normal @q
+
+AlterCommand o[pen] Find
 
 " let mapleader = "\<SPACE>"
- nnoremap <space> :call VSCodeNotify('whichkey.show')<cr>
+nnoremap <space> :call VSCodeNotify('whichkey.show')<cr>
  
 else
+
+lua require('plugins')
+" lua require('colorscheme')
+" lua require('lsp')
+lua require('init')
+
 endif
