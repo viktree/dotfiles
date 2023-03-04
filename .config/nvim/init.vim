@@ -52,9 +52,6 @@ nnoremap <space> :call VSCodeNotify('whichkey.show')<cr>
  
 else
 
-lua require('plugins')
-" lua require('colorscheme')
-" lua require('lsp')
 lua require('init')
 
 endif
