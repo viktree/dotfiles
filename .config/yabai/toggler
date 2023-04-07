@@ -4,7 +4,7 @@ TOGGLED="$XDG_CONFIG_HOME/yabai/.toggle_state"
 
 if [ ! -e "$TOGGLED" ]; then
     touch "$TOGGLED"
-    yabai -m config left_padding 230
+    yabai -m config left_padding 550
 else
     rm "$TOGGLED"
     yabai -m config left_padding 12

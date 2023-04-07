@@ -1,0 +1,47 @@
+" nord color scheme approximation for vifm
+
+
+
+" rosewater = "#F4DBD6"
+" flamingo = "#F0C6C6"
+" pink = "#F5BDE6"
+" mauve = "#C6A0F6"
+" red = "#ED8796"
+" maroon = "#EE99A0"
+" peach = "#F5A97F"
+" yellow = "#EED49F"
+" green = "#A6DA95"
+" teal = "#8BD5CA"
+" sky = "#91D7E3"
+" sapphire = "#7DC4E4"
+" blue = "#8AADF4"
+" lavender = "#B7BDF8"
+
+" " Reset all styles first
+highlight clear
+
+highlight Border      cterm=none	ctermfg=default ctermbg=default
+highlight TopLine     cterm=none	ctermfg=110	ctermbg=236
+highlight TopLineSel	cterm=bold	ctermfg=110 ctermbg=237
+
+highlight Win         cterm=none	ctermfg="#F5BDE6"	ctermbg=default
+highlight OtherWin    cterm=none	ctermfg="#F5BDE6"	ctermbg=default
+highlight CurrLine    cterm=bold,inverse	ctermfg=default	ctermbg=default
+highlight OtherLine   cterm=bold	ctermfg=default	ctermbg=235
+highlight Selected    cterm=none	ctermfg="#F5BDE6"	ctermbg=237
+
+highlight JobLine     cterm=bold	ctermfg=116	ctermbg=238
+highlight StatusLine	cterm=bold	ctermfg=110	ctermbg=237
+highlight ErrorMsg    cterm=bold	ctermfg=167	ctermbg=default
+highlight WildMenu    cterm=bold,inverse	ctermfg=110	ctermbg=236
+highlight CmdLine     cterm=none	ctermfg="#F5BDE6"	ctermbg=default
+
+highlight Executable	cterm=bold	ctermfg=003	ctermbg=default
+highlight Directory   cterm=bold	ctermfg=110	ctermbg=default
+highlight Link        cterm=none	ctermfg=005	ctermbg=default
+highlight BrokenLink	cterm=bold	ctermfg=007 ctermbg=167
+highlight Device      cterm=none,standout	ctermfg=110	ctermbg=default
+highlight Fifo        cterm=none	ctermfg=172	ctermbg=default
+highlight Socket      cterm=bold	ctermfg=223	ctermbg=default
+
+
