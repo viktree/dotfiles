@@ -20,6 +20,7 @@ export XDG_CACHE_HOME="$HOME/.cache"
 export NIX_PATH="$HOME/.nix-defexpr/channels${NIX_PATH:+:}$NIX_PATH"
 export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
 export GCLOUD_HOME="$HOME/programs/google-cloud-sdk"
+export USE_GKE_GCLOUD_AUTH_PLUGIN="True"
 
 export SSH_AUTH_SOCK="$HOME/Library/Group\ Containers/2BUA8C4S2C.com.1password/t/agent.sock"
 
@@ -41,6 +42,7 @@ PATH_append "$HOME/bin"
 PATH_append "$HOME/go/bin"
 PATH_append "$GCLOUD_HOMEgoogle-cloud-sdk/bin"
 PATH_append "$HOME/programs/nvim-osx64/bin"
+PATH_append "$HOME/bin/openapitools"
 
 if check_for_command brew
 then
@@ -64,5 +66,5 @@ then PATH="$(perl -e 'print join(":", grep { not $seen{$_}++ } split(/:/, $ENV{P
 fi
 
 export PATH
-
+# export OPENAPI_GENERATOR_VERSION=3.0.2
 

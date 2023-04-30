@@ -137,7 +137,7 @@ then eval "$(direnv hook zsh)"
 fi
 
 if check_for_command sheldon
-then 
+then
     if [[ ! -d "$XDG_DATA_HOME/sheldon" ]]
     then mkdir "$XDG_DATA_HOME/sheldon"
     fi
