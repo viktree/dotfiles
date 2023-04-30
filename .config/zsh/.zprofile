@@ -40,7 +40,6 @@ esac
 
 export DEFAULT_USER=`whoami`
 export LANG="en_US.UTF-8"
-# export SSH_KEY_PATH="~/.ssh/rsa_id"
 
 function is_mac(){ [[ "$PLATFORM" == "osx" ]]  }
 function is_linux(){ [[ "$PLATFORM" == "linux" ]]  }
@@ -59,37 +58,31 @@ export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
 
 # ---------------------------------------------------------------------------------------
 
-if check_for_command git
-then
-    alias g="git"
-
-    # Save git password
-    if is_mac
-    then
-        git config --global credential.helper osxkeychain
-    else
-        git config --global credential.helper cache
-    fi
-
-    git config --global alias.ls "status -s"
-fi
-
 # ---{ PROGRAMS }------------------------------------------------------------------------
 
-# List the iPhone simulator as an application
-if [[ -f "/Applications/Xcode.app/Contents/Applications/iPhone\ Simulator.app"  ]]
+if is_mac
 then
-    ln -s "/Applications/Xcode.app/Contents/Applications/iPhone\ Simulator.app /Applications"
+    # List the iPhone simulator as an application
+    if [[ -f "/Applications/Xcode.app/Contents/Applications/iPhone\ Simulator.app"  ]]
+    then ln -s "/Applications/Xcode.app/Contents/Applications/iPhone\ Simulator.app /Applications"
+    fi
+
+    if [[ -f "$HOME/Library/Group\ Containers/2BUA8C4S2C.com.1password/t/agent.sock" ]]
+    then 
+        mkdir -p "$HOME/.1password"
+        ln -s "$HOME/Library/Group\ Containers/2BUA8C4S2C.com.1password/t/agent.sock" "$HOME/.1password/agent.sock"
+    fi
 fi
 
-if [[ -e '/usr/local/bin/code' ]]
-then
-    export EDITOR='/usr/local/bin/code'
-fi
+
+export EDITOR='nvim'
 
 # ---{ hooks }---------------------------------------------------------------------------
 
-eval "$(/opt/homebrew/bin/brew shellenv)"
+if check_for_command brew
+then eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
+
 
 # ---{ Post-load Checks }----------------------------------------------------------------
 #

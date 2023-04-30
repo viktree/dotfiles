@@ -98,6 +98,7 @@ PATH_append "$ANDROID_HOME/tools "
 PATH_append "$ANDROID_HOME/tools/bin "
 PATH_append "$ANDROID_HOME/platform-tools"
 
+PATH_append "$HOME/.spicetify"
 
 
 # Prune path

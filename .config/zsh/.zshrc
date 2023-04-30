@@ -196,10 +196,12 @@ patch_spotify(){
 	spicetify restore backup apply
 }
 
+alias g='git'
 alias o='open'
-alias y='yadm'
 alias v='nvim'
 alias vim='nvim'
+alias y='yadm'
+alias widget='cd /Users/vikramvenkataramanan/Library/Application\ Support/Übersicht'
 
 # ---------------------------------------------------------------------------------------
 
@@ -209,10 +211,3 @@ source_if_file "$GCLOUD_HOME/completion.zsh.inc"
 
 # ---------------------------------------------------------------------------------------
 
-# if check_for_command gpg
-# then 
-#     export GPG_TTY=$(tty)
-#     export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
-#     gpgconf --launch gpg-agent  >/dev/null 2>&1
-#     gpg-connect-agent updatestartuptty /bye  >/dev/null 2>&1
-# fi
