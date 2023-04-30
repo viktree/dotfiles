@@ -1,0 +1,26 @@
+[color "branch"]
+	current = yellow reverse
+	local = yellow
+	remote = green
+[color "status"]
+	changed = yellow
+	added = green
+	untracked = red
+[color "diff"]
+	meta = yellow bold
+	frag = magenta bold
+	old = red
+	new = green
+
+[alias]
+	branch-name = rev-parse --abbrev-ref HEAD
+	new-branch = checkout -b
+	ls = status -s
+	fix = commit -a --amend --no-edit
+
+[init]
+	defaultBranch = main
+
+[includeIf "gitdir:~/hv/"]
+	path=~/.config/git/hv.gitconfig
+
