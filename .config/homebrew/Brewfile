@@ -64,6 +64,9 @@ brew 'yubikey-personalization'
 brew 'zellij'
 brew 'zoxide'
 
+brew 'gnu-sed'
+brew 'lazygit'
+
 brew 'ant'
 brew 'maven'
 brew 'gradle'
