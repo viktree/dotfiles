@@ -21,28 +21,24 @@ then alias v='nvim'
 fi
 
 if check_for_command git
-then
-    alias g="git"
-    complete -o default -o nospace -F _git g
-
-    alias gp="git pull"
-    alias gpush="git push"
-    alias gts="git status -s"
-    alias gnb="git checkout -b"
-
-    if check_for_command fzf
-    then alias gsb='git checkout $(git branch | fzf)'
-    fi
+then alias g="git"
 fi
 
 if check_for_command yadm
 then alias y='yadm'
 fi
 
+if check_for_command node && check_for_command fzf && check_for_command rg
+then alias npmscripts="cat package.json| jq -r '.scripts | keys[]' | fzf"
+fi
+
 alias o='open'
+alias c='clear'
+alias cpath='pwd | pbcopy'
 
 if check_for_command docker
 then
+    alias dkill='docker ps -aq | xargs docker stop'
     alias dcu='docker compose up'
     alias dcd='docker compose down'
     alias dcr='docker compose down && docker compose up'
