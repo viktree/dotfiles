@@ -1,4 +1,4 @@
-version = "0.7.1"
+version = "0.7.3"
 home = "/Users/vikram.v"
 config_dir = "/Users/vikram.v/.config/sheldon"
 data_dir = "/Users/vikram.v/.local/share/sheldon"
@@ -10,11 +10,15 @@ source_dir = "/Users/vikram.v/.local/share/sheldon/repos/github.com/zsh-users/zs
 files = ["/Users/vikram.v/.local/share/sheldon/repos/github.com/zsh-users/zsh-completions/zsh-completions.plugin.zsh"]
 apply = ["source"]
 
+[plugins.hooks]
+
 [[plugins]]
 name = "zsh-autosuggestions"
 source_dir = "/Users/vikram.v/.local/share/sheldon/repos/github.com/zsh-users/zsh-autosuggestions"
 files = ["/Users/vikram.v/.local/share/sheldon/repos/github.com/zsh-users/zsh-autosuggestions/zsh-autosuggestions.zsh"]
 apply = ["source"]
+
+[plugins.hooks]
 
 [[plugins]]
 name = "prompt-settings"
@@ -26,11 +30,15 @@ source_dir = "/Users/vikram.v/.local/share/sheldon/repos/github.com/agkozak/zsh-
 files = ["/Users/vikram.v/.local/share/sheldon/repos/github.com/agkozak/zsh-z/zsh-z.plugin.zsh"]
 apply = ["source"]
 
+[plugins.hooks]
+
 [[plugins]]
 name = "pure"
 source_dir = "/Users/vikram.v/.local/share/sheldon/repos/github.com/sindresorhus/pure"
 files = ["/Users/vikram.v/.local/share/sheldon/repos/github.com/sindresorhus/pure/async.zsh", "/Users/vikram.v/.local/share/sheldon/repos/github.com/sindresorhus/pure/pure.zsh"]
 apply = ["source"]
+
+[plugins.hooks]
 
 [[plugins]]
 name = "fast-syntax-highlighting"
@@ -38,8 +46,10 @@ source_dir = "/Users/vikram.v/.local/share/sheldon/repos/github.com/zdharma-cont
 files = ["/Users/vikram.v/.local/share/sheldon/repos/github.com/zdharma-continuum/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh"]
 apply = ["source"]
 
+[plugins.hooks]
+
 [templates]
 PATH = "export PATH=\"{{ dir }}:$PATH\""
 path = "path=( \"{{ dir }}\" $path )"
 fpath = "fpath=( \"{{ dir }}\" $fpath )"
-source = "{% for file in files %}source \"{{ file }}\"\n{% endfor %}"
+source = "{{ hooks | get: \"pre\" | nl }}{% for file in files %}source \"{{ file }}\"\n{% endfor %}{{ hooks | get: \"post\" | nl }}"
