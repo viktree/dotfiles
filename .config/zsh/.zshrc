@@ -17,11 +17,9 @@ function check_for_command(){ command -v $1 >/dev/null 2>&1 }
 function is_mac(){ [ "$(uname)" = "Darwin" ] }
 
 # ---{ Souce completions }---------------------------------------------------------------
-
 HOMEBREW_PREFIX="/usr/local/opt"
 GCLOUD_HOME="$HOME/programs/google-cloud-sdk"
 
-source_if_file "$HOME/.nix-profile/etc/profile.d/nix.sh"
 source_if_file "$HOME/.config/zsh/aliases.zsh"
 source_if_file "$HOME/.config/zsh/secrets.sh"
 source_if_file "$HOMEBREW_PREFIX/nvm/nvm.sh"

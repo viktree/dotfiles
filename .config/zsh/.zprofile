@@ -49,33 +49,6 @@ function is_linux(){ [[ "$PLATFORM" == "linux" ]]  }
 function is_freebsd(){ [[ "$PLATFORM" == "freebsd" ]]  }
 function is_windows(){ grep -q Microsoft /proc/version }
 
-# ---{ do you even git? }----------------------------------------------------------------
-
-if check_for_command git
-then
-    if check_for_command diff-so-fancy
-    then git config --global core.pager "diff-so-fancy | less --tabs=4 -RFX"
-    fi
-    git config --global color.ui auto
-
-    # Save git password
-    if is_mac
-    then git config --global credential.helper osxkeychain
-    else git config --global credential.helper cache
-    fi
-
-    git config --global core.excludesfile "$HOME/.config/git/ignore"
-    git config --global commit.template   "$HOME/.config/git/commit-template"
-
-    git config --global alias.nb "checkout -b"
-    git config --global alias.sb "checkout"
-    git config --global alias.new-branch "checkout"
-    git config --global alias.switch-branch "checkout"
-
-    git config --global alias.c "commit -m"
-    git config --global alias.ls "status -s"
-fi
-
 # ---{ Set default programs }------------------------------------------------------------
 
 # List the iPhone simulator as an application
@@ -96,13 +69,15 @@ then
 fi
 
 if check_for_command less
-then export PAGER='less'
+then
+    # Set the default Less options.
+    # Mouse-wheel scrolling has been disabled by -X (disable screen clearing).
+    # Remove -X and -F (exit if the content fits on one screen) to enable it.
+    export LESS='-F -g -i -M -R -S -w -X -z-4'
+    export PAGER='less'
 fi
 
-
-if check_for_command alacritty
-then export TERMINAL="alacritty"
-elif check_for_command kitty
+if check_for_command kitty
 then export TERMINAL="kitty"
 fi
 
@@ -110,10 +85,12 @@ if check_for_command gpg
 then export GPG_TTY=$(tty)
 fi
 
-# Set the default Less options.
-# Mouse-wheel scrolling has been disabled by -X (disable screen clearing).
-# Remove -X and -F (exit if the content fits on one screen) to enable it.
-export LESS='-F -g -i -M -R -S -w -X -z-4'
+# ---{ load secrets }--------------------------------------------------------------------
+
+export HOME_SERVICES_PG_USER_NAME="vikram.v"
+export HOME_SERVICES_PG_PASSWORD=$(pass hs/cloudsql/vikram.v) || true
+
+export JIRA_API_TOKEN=$(pass ecobee/JIRA_API_TOKEN) || true
 
 # ---{ Post-load Checks }----------------------------------------------------------------
 #
