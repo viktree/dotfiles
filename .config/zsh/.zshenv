@@ -16,10 +16,27 @@ export XDG_LOCAL_HOME="$HOME/.local"
 export XDG_DATA_HOME="$XDG_LOCAL_HOME/share"
 export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_CACHE_HOME="$HOME/.cache"
+export XDG_STATE_HOME="$HOME/.local/state"
+export XDG_RUNTIME_DIR="/run/user/$UID"
 
+export HISTFILE="$XDG_STATE_HOME/zsh/history"
 export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
+export LESSHISTFILE="$XDG_CACHE_HOME/less/history"
+export XAUTHORITY="$XDG_RUNTIME_DIR/Xauthority"
+
 export PNPM_HOME="$XDG_DATA_HOME/pnpm"
+export ANDROID_HOME="$XDG_DATA_HOME/android"
+export GRADLE_USER_HOME="$XDG_DATA_HOME/gradle"
+export NODE_REPL_HISTORY="$XDG_DATA_HOME/node_repl_history"
+export KERAS_HOME="${XDG_STATE_HOME}/keras"
+
+export GNUPGHOME="$XDG_DATA_HOME/gnupg"
+
+export MINIKUBE_HOME="$XDG_DATA_HOME/minikube"
+
 export GCLOUD_HOME="$HOME/programs/google-cloud-sdk"
+export AWS_SHARED_CREDENTIALS_FILE="$XDG_CONFIG_HOME/aws/credentials"
+export AWS_CONFIG_FILE="$XDG_CONFIG_HOME/aws/config"
 
 # ---{ Utility Functions }---------------------------------------------------------------
 
@@ -57,6 +74,10 @@ PATH_append "$PNPM_HOME"
 PATH_append "$HOME/programs/nvim-macos/bin"
 PATH_append "$HOME/programs/xmrig-6.16.4"
 
+PATH_append "$XDG_CONFIG_HOME/emacs/bin/doom"
+
+PATH_append "/opt/homebrew/bin"
+
 if check_for_command brew
 then
     export HOMEBREW_BUNDLE_FILE="$XDG_CONFIG_HOME/homebrew/Brewfile"
@@ -85,6 +106,9 @@ then
     PATH_append "/opt/gnu-tar/libexec/gnubin"
     PATH_append "/opt/gnu-which/libexec/gnubin"
     PATH_append "/opt/grep/libexec/gnubin"
+
+    PATH_append "/opt/homebrew/opt/emacs-mac/bin/emacs"
+
 fi
 
 if check_for_command gem
@@ -100,6 +124,9 @@ PATH_append "$ANDROID_HOME/platform-tools"
 
 PATH_append "$HOME/.spicetify"
 
+emacs-mac(){
+    /opt/homebrew/opt/emacs-mac/bin/emacs
+}
 
 # Prune path
 if check_for_command pearl

@@ -83,6 +83,7 @@ if check_for_command brew
 then eval "$(/opt/homebrew/bin/brew shellenv)"
 fi
 
+setopt SHARE_HISTORY
 
 # ---{ Post-load Checks }----------------------------------------------------------------
 #

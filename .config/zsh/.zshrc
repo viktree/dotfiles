@@ -177,6 +177,10 @@ zinit load MichaelAquilina/zsh-you-should-use
 zi ice as"program" pick"$ZPFX/bin/git-*" make"PREFIX=$ZPFX"
 zi light tj/git-extras
 
+
+# XDG_HOME compliant cache
+compinit -d "$XDG_CACHE_HOME"/zsh/zcompdump-"$ZSH_VERSION"
+
 # ---------------------------------------------------------------------------------------
 
 
@@ -202,7 +206,7 @@ alias v='nvim'
 alias vim='nvim'
 alias y='yadm'
 alias widget='cd /Users/vikramvenkataramanan/Library/Application\ Support/Übersicht'
-
+alias wget=wget --hsts-file="$XDG_DATA_HOME/wget-hsts"
 # ---------------------------------------------------------------------------------------
 
 GCLOUD_HOME="$HOME/programs/google-cloud-sdk"
