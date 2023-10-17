@@ -28,6 +28,12 @@ if check_for_command yadm
 then alias y='yadm'
 fi
 
+if check_for_command zellij
+then
+    alias start-ecp='zellij --session ecp --layout ~/.config/zellij/layouts/ecp.kdl'
+    alias ecp='zellij attach ecp'
+fi
+
 if check_for_command node && check_for_command fzf && check_for_command rg
 then alias npmscripts="cat package.json| jq -r '.scripts | keys[]' | fzf"
 fi

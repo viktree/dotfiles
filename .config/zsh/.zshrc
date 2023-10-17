@@ -18,7 +18,7 @@ function is_mac(){ [ "$(uname)" = "Darwin" ] }
 
 # ---{ Souce completions }---------------------------------------------------------------
 HOMEBREW_PREFIX="/usr/local/opt"
-GCLOUD_HOME="$HOME/programs/google-cloud-sdk"
+GCLOUD_HOME="$XDG_DATA_HOME/rtx/installs/gcloud/426.0.0"
 
 source_if_file "$HOME/.config/zsh/aliases.zsh"
 source_if_file "$HOME/.config/zsh/secrets.sh"
@@ -56,6 +56,17 @@ function grep-path(){
 
 # ---{ Other Functions }-----------------------------------------------------------------
 
+if check_for_command wget
+then alias wget=wget --hsts-file="$XDG_DATA_HOME/wget-hsts"
+fi
+
+if check_for_command mitmproxy
+then
+    alias mitmproxy="mitmproxy --set confdir=$XDG_CONFIG_HOME/mitmproxy"
+    alias mitmweb="mitmweb --set confdir=$XDG_CONFIG_HOME/mitmproxy"
+fi
+
+alias clear="TERM=xterm /usr/bin/clear"
 
 function mkcd () {
     mkdir -p $1
@@ -145,5 +156,7 @@ fi
 if check_for_command rtx
 then eval "$(rtx activate zsh)"
 fi
+
+export USE_GKE_GCLOUD_AUTH_PLUGIN=True
 
 # ---------------------------------------------------------------------------------------

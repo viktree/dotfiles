@@ -91,6 +91,7 @@ export HOME_SERVICES_PG_USER_NAME="vikram.v"
 export HOME_SERVICES_PG_PASSWORD=$(pass hs/cloudsql/vikram.v) || true
 
 export JIRA_API_TOKEN=$(pass ecobee/JIRA_API_TOKEN) || true
+# export KUBECONFIG="$XDG_CONFIG_HOME/kubernetes"
 
 # ---{ Post-load Checks }----------------------------------------------------------------
 #
