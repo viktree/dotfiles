@@ -67,6 +67,8 @@ chronos-stage)
     ;;
 esac
 
+echo "cloud_sql_proxy -instances=$GCP_PROJECT_ID:$GCP_REGION:$CLOUD_SQL_INSTANCE=tcp:$CLOUD_SQL_DB_PORT"
+
 cloud_sql_proxy -instances=$GCP_PROJECT_ID:$GCP_REGION:$CLOUD_SQL_INSTANCE=tcp:$CLOUD_SQL_DB_PORT \
     -verbose
 # cloud_sql_proxy -instances=$GCP_PROJECT_ID:$GCP_REGION:$CLOUD_SQL_INSTANCE=tcp:127.0.0.1:$CLOUD_SQL_DB_PORT \
