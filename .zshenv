@@ -1,1 +1,1 @@
-.config/zsh/.zshenv
+/Users/vikram.v/.config/zsh/.zshenv
