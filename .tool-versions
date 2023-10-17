@@ -10,7 +10,7 @@ zellij      0.35
 kubectx     0.9.5
 shfmt       3.7.0
 yarn        1.22.19
-yadm        3.2.0
+yadm        3.2.2
 terraform   0.14.3
 ripgrep     13.0.0
 bat         0.23.0
