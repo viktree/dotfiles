@@ -32,6 +32,9 @@ if check_for_command zellij
 then
     alias start-ecp='zellij --session ecp --layout ~/.config/zellij/layouts/ecp.kdl'
     alias ecp='zellij attach ecp'
+
+    alias start-hslib="zellij --session home-services-lib"
+    alias hslib='zellij attach home-services-lib'
 fi
 
 if check_for_command node && check_for_command fzf && check_for_command rg
