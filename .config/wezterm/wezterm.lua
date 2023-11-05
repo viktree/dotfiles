@@ -17,9 +17,9 @@ config.color_scheme = 'Catppuccin Mocha'
 config.font = wezterm.font 'Iosevka Nerd Font'
 config.font_size = 14
 
-config.window_background_opacity = 0.8
-config.text_background_opacity = 0.7
-config.macos_window_background_blur = 20
+-- config.window_background_opacity = 0.8
+-- config.text_background_opacity = 0.7
+-- config.macos_window_background_blur = 20
 
 config.enable_tab_bar = false
 
