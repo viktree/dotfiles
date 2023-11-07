@@ -60,3 +60,5 @@ fi
 alias storybook='npm run storybook'
 alias update_snaps='npm run test:dev -- -u'
 
+AGENDA="$HOME/agenda/agenda.txt"
+alias journal='nvim + "$AGENDA" -c "execute \"normal! Go\<CR>$(date +"%a %b %d @ %T")\<CR>==============\<CR>What did I just work on?\<CR>\<CR>What will I work on next?\<CR>\<CR>\" | startinsert "'
