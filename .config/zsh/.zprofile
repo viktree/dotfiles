@@ -1,3 +1,4 @@
+# !/bin/bash
 # ---------------------------------------------------------------------------------------
 # ---{ My ~/.zprofile } -----------------------------------------------------------------
 # ---------------------------------------------------------------------------------------
@@ -24,9 +25,15 @@ set -euo pipefail
 
 # ---{ Utility Functions }---------------------------------------------------------------
 
-function check_for_command(){ command -v $1 >/dev/null 2>&1 }
-function source_if_file(){ [[ -f $1 ]] && source $1 }
-function source_if_possible(){ [[ -e $1 ]] && source $1 }
+function check_for_command() {
+    command -v $1 >/dev/null 2>&1
+}
+function source_if_file() {
+    [[ -f $1 ]] && source $1
+}
+function source_if_possible() {
+    [[ -e $1 ]] && source $1
+}
 
 # ---{ OS Setiings }---------------------------------------------------------------------
 #
@@ -34,26 +41,21 @@ function source_if_possible(){ [[ -e $1 ]] && source $1 }
 
 PLATFORM='unknown'
 case "$(uname)" in
-    "Darwin") PLATFORM='osx';;
-    "Linux") PLATFORM='linux';;
-    "FreeBSD") PLATFORM='freebsd';;
-    *);;
+"Darwin") PLATFORM='osx' ;;
+"Linux") PLATFORM='linux' ;;
+"FreeBSD") PLATFORM='freebsd' ;;
+*) ;;
 esac
 
-export DEFAULT_USER=`whoami`
+export DEFAULT_USER=$(whoami)
 export LANG="en_US.UTF-8"
 # export SSH_KEY_PATH="~/.ssh/rsa_id"
-
-function is_mac(){ [[ "$PLATFORM" == "osx" ]]  }
-function is_linux(){ [[ "$PLATFORM" == "linux" ]]  }
-function is_freebsd(){ [[ "$PLATFORM" == "freebsd" ]]  }
-function is_windows(){ grep -q Microsoft /proc/version }
 
 # ---{ Set default programs }------------------------------------------------------------
 
 # List the iPhone simulator as an application
-if [[ -f "/Applications/Xcode.app/Contents/Applications/iPhone\ Simulator.app"  ]]
-then ln -s "/Applications/Xcode.app/Contents/Applications/iPhone\ Simulator.app /Applications"
+if [[ -f "/Applications/Xcode.app/Contents/Applications/iPhone\ Simulator.app" ]]; then
+    ln -s "/Applications/Xcode.app/Contents/Applications/iPhone\ Simulator.app /Applications"
 fi
 
 # if [[ -e '/usr/local/bin/code' ]]
@@ -62,14 +64,12 @@ fi
 # then export EDITOR="nvim"
 # fi
 
-if check_for_command nvim
-then
+if check_for_command nvim; then
     export EDITOR='nvim'
     export VISUAL='nvim'
 fi
 
-if check_for_command less
-then
+if check_for_command less; then
     # Set the default Less options.
     # Mouse-wheel scrolling has been disabled by -X (disable screen clearing).
     # Remove -X and -F (exit if the content fits on one screen) to enable it.
@@ -77,12 +77,16 @@ then
     export PAGER='less'
 fi
 
-if check_for_command kitty
-then export TERMINAL="kitty"
+if check_for_command kitty; then
+    export TERMINAL="kitty"
 fi
 
-if check_for_command gpg
-then export GPG_TTY=$(tty)
+if check_for_command gpg; then
+    export GPG_TTY=$(tty)
+fi
+
+if check_for_command ngrok; then
+    eval "$(ngrok completion)"
 fi
 
 # ---{ load secrets }--------------------------------------------------------------------

@@ -1,3 +1,4 @@
+#!/bin/bash
 # ---------------------------------------------------------------------------------------
 # ---{ My ~/.zshenv } -------------------------------------------------------------------
 # ---------------------------------------------------------------------------------------
@@ -7,7 +8,9 @@
 #   By setting it in that file, reopening a terminal emulator will start a new Zsh
 #   instance with the PATH value updated.
 
-function check_for_command(){ command -v $1 >/dev/null 2>&1 }
+function check_for_command() {
+    command -v $1 >/dev/null 2>&1
+}
 
 # ---{ XDG Compliance}-------------------------------------------------------------------
 
@@ -22,7 +25,7 @@ export XDG_RUNTIME_DIR="/run/user/$UID"
 export HISTFILE="$XDG_STATE_HOME/zsh/history"
 export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
 
- export _Z_DATA="$XDG_DATA_HOME/z"
+export _Z_DATA="$XDG_DATA_HOME/z"
 
 # export KUBECONFIG="$XDG_CONFIG_HOME/kubernetes"
 export GCLOUD_HOME="$XDG_DATA_HOME/rtx/installs/gcloud/426.0.0"
@@ -56,36 +59,33 @@ export MINIKUBE_HOME="$XDG_DATA_HOME/minikube"
 export LESSHISTFILE="$XDG_CACHE_HOME/less/history"
 
 export PSQL_HISTORY="$XDG_DATA_HOME/psql_history"
- export MYSQL_HISTFILE="$XDG_DATA_HOME/mysql_history"
+export MYSQL_HISTFILE="$XDG_DATA_HOME/mysql_history"
 
 export FZF_DEFAULT_OPTS=" \
 --color=bg+:#313244,bg:#1e1e2e,spinner:#f5e0dc,hl:#f38ba8 \
 --color=fg:#cdd6f4,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc \
 --color=marker:#f5e0dc,fg+:#cdd6f4,prompt:#cba6f7,hl+:#f38ba8"
 
-export DOOMDIR="$XDG_CONFIG_HOME/doom"
-
 export BAT_THEME="Catppuccin-mocha"
 
-function PATH_append(){
-    if [[ -e $1 ]] && [[ ":$PATH:" != *":$1:"* ]]
-    then PATH="$1:$PATH"
+function PATH_append() {
+    if [[ -e $1 ]] && [[ ":$PATH:" != *":$1:"* ]]; then
+        PATH="$1:$PATH"
     fi
 }
 
 export USE_GKE_GCLOUD_AUTH_PLUGIN=True
 
-PATH_append "/usr/local/bin"
-PATH_append "/usr/local/sbin"
+PATH_append "$GCLOUD_HOME/google-cloud-sdk/bin"
+PATH_append "$HOME/.spicetify/spicetify"
 PATH_append "$HOME/bin"
 PATH_append "$HOME/bin/openapitools"
 PATH_append "$HOME/go/bin"
-PATH_append "$GCLOUD_HOME/google-cloud-sdk/bin"
-PATH_append "$HOME/.spicetify/spicetify"
-PATH_append "$XDG_CONFIG_HOME/emacs/bin"
+PATH_append "/usr/local/bin"
+PATH_append "/usr/local/opt/llvm/bin"
+PATH_append "/usr/local/sbin"
 
-if check_for_command brew
-then
+if check_for_command brew; then
     export HOMEBREW_BUNDLE_FILE="$XDG_CONFIG_HOME/homebrew/Brewfile"
     HOMEBREW_PREFIX="/usr/local/opt"
 
@@ -93,5 +93,3 @@ then
 fi
 
 export PATH
-
-export PATH="/usr/local/opt/llvm/bin:$PATH"
