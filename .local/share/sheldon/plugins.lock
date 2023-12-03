@@ -1,4 +1,4 @@
-version = "0.7.3"
+version = "0.7.4"
 home = "/Users/vikram.v"
 config_dir = "/Users/vikram.v/.config/sheldon"
 data_dir = "/Users/vikram.v/.local/share/sheldon"
@@ -52,4 +52,6 @@ apply = ["source"]
 PATH = "export PATH=\"{{ dir }}:$PATH\""
 path = "path=( \"{{ dir }}\" $path )"
 fpath = "fpath=( \"{{ dir }}\" $fpath )"
-source = "{{ hooks | get: \"pre\" | nl }}{% for file in files %}source \"{{ file }}\"\n{% endfor %}{{ hooks | get: \"post\" | nl }}"
+source = """
+{{ hooks?.pre | nl }}{% for file in files %}source \"{{ file }}\"
+{% endfor %}{{ hooks?.post | nl }}"""
