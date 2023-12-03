@@ -13,9 +13,19 @@ end
 -- This is where you actually apply your config choices
 
 -- For example, changing the color scheme:
-config.color_scheme = 'Catppuccin Mocha'
-config.font = wezterm.font 'Iosevka Nerd Font'
+-- config.color_scheme = 'Catppuccin Mocha'
+config.color_scheme = 'Atom'
+
+-- config.font = wezterm.font 'Iosevka Nerd Font'
+
+config.font = wezterm.font_with_fallback {
+  'Iosevka NFP',
+  'Monaspace Neon',
+}
+
 config.font_size = 14
+
+-- config.font_size = 20
 
 -- config.window_background_opacity = 0.8
 -- config.text_background_opacity = 0.7
