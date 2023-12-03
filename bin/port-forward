@@ -1,14 +1,16 @@
 #!/bin/sh
 
-USAGE=$(cat <<-END
-Usage: port-forward [ENVIRONMENT]
+USAGE=$(
+    cat <<-END
+Usage: port-forward &ARSGS [PROJECT] [ENVIRONMENT]
 
-ENVIRONMENT must be one of the following
-    hs-dev |hs-stage | hs-prod | hs-prod-ro
-    chronos-stage | chronos-prod
+    Flags
+        (-ro|--readonly)    connects to readonly instance
 
+    Args:
+        PROJECT             hs | chronos
+        ENVIRONMENT         dev | stage | prod
 END
-
 )
 
 print_usage() {
@@ -21,53 +23,112 @@ if ! command -v 'cloud_sql_proxy' >/dev/null 2>&1; then
     exit 1
 fi
 
-ENVIRONMENT=$1
-GCP_REGION='us-central1'
+set_project() {
+    case $1 in
+    "hs")
+        PROJECT="hs"
+        ;;
+    "chronos")
+        PROJECT="chronos"
+        ;;
+    *)
+        print_usage
+        exit 1
+        ;;
+    esac
+}
 
-case $ENVIRONMENT in
+set_environment() {
+    case $2 in
+    "dev")
+        ENVIRONMENT="dev"
+        ;;
+    "prod")
+        ENVIRONMENT="prod"
+        ;;
+    "stage")
+        ENVIRONMENT="stage"
+        ;;
+    *)
+        print_usage
+        exit 1
+        ;;
+    esac
+}
 
-hs-dev)
+if [ "$#" -eq 2 ]; then
+    MODE=""
+elif [ "$#" -eq 3 ]; then
+    if [ "$1" = "-ro" ] || [ "$1" = "--readonly" ]; then
+        MODE="-readonly"
+        shift
+    else
+        print_usage
+        exit 1
+    fi
+else
+    print_usage
+    exit 1
+fi
+
+set_environment "$@"
+set_project "$@"
+
+case "$PROJECT-$ENVIRONMENT$MODE" in
+"hs-dev")
+    CLOUD_SQL_DB_PORT='5432'
     GCP_PROJECT_ID='home-services-dev'
     CLOUD_SQL_INSTANCE='home-services-sql-instance-117d8ec3'
-    CLOUD_SQL_DB_PORT='5432'
     ;;
-
-hs-stage)
+"hs-stage")
+    CLOUD_SQL_DB_PORT='5432'
     GCP_PROJECT_ID='home-services-stage'
     CLOUD_SQL_INSTANCE='home-services-sql-instance-790e37c6'
-    CLOUD_SQL_DB_PORT='5432'
     ;;
-
-hs-stage-ro)
+"hs-stage-readonly")
+    CLOUD_SQL_DB_PORT='5432'
     GCP_PROJECT_ID='home-services-stage'
     CLOUD_SQL_INSTANCE='home-services-sql-read-replica-db1a5d98'
-    CLOUD_SQL_DB_PORT='5432'
     ;;
-
-hs-prod)
+"hs-prod")
+    CLOUD_SQL_DB_PORT='5432'
     GCP_PROJECT_ID='home-services-prod'
     CLOUD_SQL_INSTANCE='home-services-sql-instance-19b6778a'
-    CLOUD_SQL_DB_PORT='5432'
     ;;
-
-hs-prod-ro)
+"hs-prod-readonly")
+    CLOUD_SQL_DB_PORT='5432'
     GCP_PROJECT_ID='home-services-prod'
     CLOUD_SQL_INSTANCE='home-services-sql-read-replica-e2158b06'
-    CLOUD_SQL_DB_PORT='5432'
     ;;
-
-chronos-stage)
-    GCP_PROJECT_ID='chronos-staging'
-    CLOUD_SQL_INSTANCE='chronos-db-stage'
+"chronos-stage")
     CLOUD_SQL_DB_PORT='3306'
+    GCP_PROJECT_ID='chronos-staging-189818'
+    CLOUD_SQL_INSTANCE='chronos-db-stage'
+    ;;
+"chronos-stage-readonly")
+    CLOUD_SQL_DB_PORT='3306'
+    GCP_PROJECT_ID='chronos-staging-189818'
+    CLOUD_SQL_INSTANCE='chronos-db-stage-readonly'
+    ;;
+"chronos-prod")
+    CLOUD_SQL_DB_PORT='3306'
+    GCP_PROJECT_ID='chronos-production'
+    CLOUD_SQL_INSTANCE='chronos-db-prod'
+    ;;
+"chronos-prod-readonly")
+    CLOUD_SQL_DB_PORT='3306'
+    GCP_PROJECT_ID='chronos-production'
+    CLOUD_SQL_INSTANCE='chronos-db-prod-readonly'
     ;;
 *)
     print_usage
-    exit 0
+    exit 1
     ;;
 esac
 
-echo "cloud_sql_proxy -instances=$GCP_PROJECT_ID:$GCP_REGION:$CLOUD_SQL_INSTANCE=tcp:$CLOUD_SQL_DB_PORT"
+GCP_REGION='us-central1'
+
+echo "cloud_sql_proxy -instances=$GCP_PROJECT_ID:$GCP_REGION:$CLOUD_SQL_INSTANCE=tcp:$CLOUD_SQL_DB_PORT -verbose"
 
 cloud_sql_proxy -instances=$GCP_PROJECT_ID:$GCP_REGION:$CLOUD_SQL_INSTANCE=tcp:$CLOUD_SQL_DB_PORT \
     -verbose
