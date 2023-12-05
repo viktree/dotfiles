@@ -22,7 +22,3 @@ ctrl + cmd - f: yabai -m space --layout float
 ctrl + cmd - 1  : yabai -m window --display 1 && yabai -m display --focus 1
 ctrl + cmd - 2  : yabai -m window --display 2 && yabai -m display --focus 2
 ctrl + cmd - a : yabai -m window --toggle sticky
-
-# cmd -return: /Applications/Alacritty.app/Contents/MacOS/alacritty
-ctrl + cmd - return: open -a /Applications/kitty.app/Contents/MacOS/kitty
-ctrl + cmd - m: mpv $(pbpaste)

@@ -29,7 +29,6 @@ yabai -m config mouse_drop_action swap
 yabai -m rule --add app="^Settings$" manage=off
 yabai -m rule --add app="^Gather$" manage=off
 yabai -m rule --add app="^Stickies$" manage=off
-yabai -m rule --add app="^Sublime Text$" manage=off
 
 # general space settings
 yabai -m config layout bsp

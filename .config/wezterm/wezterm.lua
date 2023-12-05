@@ -19,7 +19,7 @@ config.color_scheme = 'Atom'
 -- config.font = wezterm.font 'Iosevka Nerd Font'
 
 config.font = wezterm.font_with_fallback {
-  'Iosevka NFP',
+  'Iosevka Nerd Font Mono',
   'Monaspace Neon',
 }
 
