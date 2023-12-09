@@ -1,12 +1,12 @@
 #!/bin/sh
 # This shell script is PUBLIC DOMAIN. You may do whatever you want with it.
 
-TOGGLE="$XDG_CONFIG_HOME/yabai/.toggle_state"
+TOGGLE="/Users/vikramvenkataramanan/.config/yabai/.toggle_state"
 
 if [ ! -e "$TOGGLE" ]; then
     touch "$TOGGLE"
-    yabai -m config left_padding 230
+    yabai -m config top_padding 50
 else
     rm "$TOGGLE"
-    yabai -m config left_padding 12
+    yabai -m config top_padding 10
 fi

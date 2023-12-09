@@ -2,7 +2,7 @@
 ctrl + cmd - r : brew services restart skhd && osascript -e 'display notification "restarted shkd"'
 ctrl + cmd - q : yabai -m window --close
 
-ctrl + cmd - return : open -a alacritty
+ctrl + cmd - return : open -a wezterm
 
 ctrl + cmd - 1 : yabai -m space --focus 1
 ctrl + cmd - 2 : yabai -m space --focus 2
@@ -24,4 +24,4 @@ ctrl + cmd - t : yabai -m space --layout bsp
 ctrl + cmd - s : yabai -m space --layout stack
 ctrl + cmd - f : yabai -m space --layout float
 
-ctrl + cmd - d : sh "$XDG_CONFIG_HOME/yabai/toggler"
+ctrl + cmd - d : sh "/Users/vikramvenkataramanan/.config/yabai/toggler"
