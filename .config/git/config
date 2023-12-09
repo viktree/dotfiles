@@ -24,3 +24,5 @@
 [includeIf "gitdir:~/hv/"]
 	path=~/.config/git/hv.gitconfig
 
+[credential]
+	helper = osxkeychain

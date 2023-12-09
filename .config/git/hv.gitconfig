@@ -1,20 +1,20 @@
 [user]
 	name = Vikram Venkataramanan
-	email = 116660544+headlessvoyager@users.noreply.github.com
+	email = "116660544+headlessvoyager@users.noreply.github.com"
 	username = headlessvoyager
-  signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFWr0OXnNd1ZQrTN4LRy62zVmIgmlvH6XkxnzE4Ev7jO
- 
+	signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFWr0OXnNd1ZQrTN4LRy62zVmIgmlvH6XkxnzE4Ev7jO
+
 [github]
 	user = headlessvoyager
 
 [gpg]
-  format = ssh
+	format = ssh
 
 [gpg "ssh"]
-  program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
+	program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
 
 [commit]
-  gpgsign = true
+	gpgsign = true
 
 [credential]
 	helper = osxkeychain
