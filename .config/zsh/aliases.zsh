@@ -30,6 +30,7 @@ fi
 
 if check_for_command zellij
 then
+    alias zj="zellij"
     alias start-ecp='zellij --session ecp --layout ~/.config/zellij/layouts/ecp.kdl'
     alias ecp='zellij attach ecp'
 

@@ -28,8 +28,6 @@ GCLOUD_HOME="$XDG_DATA_HOME/rtx/installs/gcloud/426.0.0"
 
 source_if_file "$HOME/.config/zsh/aliases.zsh"
 source_if_file "$HOME/.config/zsh/secrets.sh"
-source_if_file "$HOMEBREW_PREFIX/nvm/nvm.sh"
-source_if_file "$HOMEBREW_PREFIX/nvm/etc/bash_completion.d/nvm"
 
 source_if_exists "$HOME/.cargo/env"
 source_if_exists "$HOME/IdeaProjects/op-ts-server-core/local-env/local-files/server_core_rc"
@@ -145,10 +143,6 @@ bindkey -e # e for emacs, v for vim
 
 if check_for_command nvim; then
     export EDITOR='nvim'
-fi
-
-if check_for_command direnv; then
-    eval "$(direnv hook zsh)"
 fi
 
 if check_for_command sheldon; then
