@@ -1,0 +1,54 @@
+[alias]
+	branch-name = rev-parse --abbrev-ref HEAD
+	c = commit -m
+	fix = commit -a --amend --no-edit
+	ia = !git add $(git ls-files --modified --exclude-standard | fzf -m --ansi --preview \"git diff $@ --color=always -- {-1}\")
+	ignore = update-index --assume-unchanged
+	ignored = !git ls-files -v | grep "^[[:lower:]]"
+	ls = status -s
+	new-branch = checkout -b
+	nb = checkout -b
+	switch-branch = checkout
+	sb = checkout
+	delete-branch = branch -D
+	db = branch -D
+	unignore = update-index --no-assume-unchanged
+	p = pull
+	P = push
+	Pf = push --force-with-leash
+	rH = reset HEAD --hard
+	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+	init-as-worktree = clone --bare
+[commit]
+	template = "~/.config/git/commit-template.conf"
+[core]
+	editor = nvim
+	excludesfile = "~/.config/git/ignore.gitignore"
+	pager = diff-so-fancy | less --tabs=4 -RFX
+[init]
+	defaultBranch = main
+[push]
+	autoSetupRemote = true
+[rebase]
+	autoStash = true
+[color]
+	ui = auto
+[color "branch"]
+	current = yellow reverse
+	local = yellow
+	remote = green
+[color "status"]
+	changed = yellow
+	added = green
+	untracked = red
+[color "diff"]
+	frag = magenta bold
+	func = 146 bold
+	commit = yellow bold
+	meta = 11 #yellow bold
+	new = green bold
+	old = red bold
+	whitespace = red reverse
+
+[includeIf "gitdir:/"]
+	path = "~/.config/git/viktree.gitconfig"
