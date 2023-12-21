@@ -38,6 +38,11 @@ export GCLOUD_HOME="$HOME/programs/google-cloud-sdk"
 export AWS_SHARED_CREDENTIALS_FILE="$XDG_CONFIG_HOME/aws/credentials"
 export AWS_CONFIG_FILE="$XDG_CONFIG_HOME/aws/config"
 
+export TERMINFO="$XDG_DATA_HOME/terminfo"
+export TERMINFO_DIRS="$XDG_DATA_HOME/terminfo:/usr/share/terminfo"
+
+export GNUPGHOME="$XDG_DATA_HOME/gnupg"
+
 # ---{ Utility Functions }---------------------------------------------------------------
 
 function check_for_command(){ command -v $1 >/dev/null 2>&1 }
@@ -72,9 +77,6 @@ PATH_append "$GCLOUD_HOME/bin"
 PATH_append "$PNPM_HOME"
 
 PATH_append "$HOME/programs/nvim-macos/bin"
-PATH_append "$HOME/programs/xmrig-6.16.4"
-
-PATH_append "$XDG_CONFIG_HOME/emacs/bin/doom"
 
 PATH_append "/opt/homebrew/bin"
 
@@ -90,7 +92,6 @@ then
     export GRADLE_HOME="$HOMEBREW_PREFIX/gradle"
     export ANDROID_HOME="$HOMEBREW_PREFIX/android-sdk"
     export ANDROID_NDK_HOME="$HOMEBREW_PREFIX/android-ndk"
-    
 
     PATH_append "$ANT_HOME/bin"
     PATH_append "$MAVEN_HOME/bin"
@@ -106,9 +107,6 @@ then
     PATH_append "/opt/gnu-tar/libexec/gnubin"
     PATH_append "/opt/gnu-which/libexec/gnubin"
     PATH_append "/opt/grep/libexec/gnubin"
-
-    PATH_append "/opt/homebrew/opt/emacs-mac/bin/emacs"
-
 fi
 
 if check_for_command gem
@@ -125,7 +123,7 @@ PATH_append "$ANDROID_HOME/platform-tools"
 PATH_append "$HOME/.spicetify"
 
 emacs-mac(){
-    /opt/homebrew/opt/emacs-mac/bin/emacs
+/opt/homebrew/opt/emacs-mac/bin/emacs
 }
 
 # Prune path
