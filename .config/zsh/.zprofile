@@ -85,9 +85,9 @@ if check_for_command gpg; then
     export GPG_TTY=$(tty)
 fi
 
-if check_for_command ngrok; then
-    eval "$(ngrok completion)"
-fi
+# if check_for_command ngrok; then
+#     eval "$(ngrok completion)"
+# fi
 
 # ---{ load secrets }--------------------------------------------------------------------
 

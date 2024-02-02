@@ -39,15 +39,15 @@ source_if_exists "$XDG_CONIG_HOME/zsh/.zprofile"
 source_if_file "$GCLOUD_HOME/path.zsh.inc"
 source_if_file "$GCLOUD_HOME/completion.zsh.inc"
 
-if check_for_command kubectl; then
-    kubectl completion zsh >/tmp/kubectl_completion
-    source /tmp/kubectl_completion
-    rm /tmp/kubectl_completion
-fi
+# if check_for_command kubectl; then
+#     kubectl completion zsh > /tmp/kubectl_completion
+#     source /tmp/kubectl_completion
+#     rm /tmp/kubectl_completion
+# fi
 
 # ---{ Path Utils }----------------------------------------------------------------------
 
-function prune_path() {
+function prune-path() {
     PATH="$(perl -e 'print join(":", grep { not $seen{$_}++ } split(/:/, $ENV{PATH}))')"
     export PATH
 }
@@ -156,6 +156,15 @@ if check_for_command rtx; then
     eval "$(rtx activate zsh)"
 fi
 
+if check_for_command direnv; then
+    eval "$(direnv hook zsh)"
+fi
+
 export USE_GKE_GCLOUD_AUTH_PLUGIN=True
+
+if check_for_command mise
+then
+eval "$(/usr/local/bin/mise activate zsh)"
+fi
 
 # ---------------------------------------------------------------------------------------

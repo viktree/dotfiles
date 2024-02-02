@@ -77,13 +77,12 @@ function PATH_append() {
 export USE_GKE_GCLOUD_AUTH_PLUGIN=True
 
 PATH_append "$GCLOUD_HOME/google-cloud-sdk/bin"
-PATH_append "$HOME/.spicetify/spicetify"
 PATH_append "$HOME/bin"
 PATH_append "$HOME/bin/openapitools"
-PATH_append "$HOME/go/bin"
 PATH_append "/usr/local/bin"
 PATH_append "/usr/local/opt/llvm/bin"
 PATH_append "/usr/local/sbin"
+PATH_append "$XDG_DATA_HOME/mise/shims"
 
 if check_for_command brew; then
     export HOMEBREW_BUNDLE_FILE="$XDG_CONFIG_HOME/homebrew/Brewfile"
