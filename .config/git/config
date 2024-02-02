@@ -19,14 +19,17 @@
 	rH = reset HEAD --hard
 	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
 	init-as-worktree = clone --bare
+
 [commit]
 	template = "~/.config/git/commit-template.conf"
+
 [core]
 	editor = nvim
 	excludesfile = "~/.config/git/ignore.gitignore"
-	pager = diff-so-fancy | less --tabs=4 -RFX
+
 [init]
 	defaultBranch = main
+
 [push]
 	autoSetupRemote = true
 [rebase]
