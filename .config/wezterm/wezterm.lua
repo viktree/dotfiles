@@ -1,6 +1,7 @@
 -- Pull in the wezterm API
 local wezterm = require "wezterm"
 
+
 -- This table will hold the configuration.
 local config = {}
 
@@ -16,10 +17,15 @@ end
 -- config.color_scheme = 'Catppuccin Mocha'
 config.color_scheme = "OneHalfDark"
 
+local rosepine_theme = require "lua/rose-pine"
+-- config.colors = rosepine_theme.colors()
+-- config.window_frame = rosepine_theme.window_frame()
+
 -- config.font = wezterm.font 'Iosevka Nerd Font'
 
 config.font =
     wezterm.font_with_fallback {
+    "IosevkaCustom Nerd Font Mono",
     "Iosevka Nerd Font Mono",
     "Monaspace Neon"
 }
