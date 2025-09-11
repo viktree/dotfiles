@@ -1,96 +1,76 @@
 # dotfiles
 
-This dotfiles repo is my preferred way to back up and syncing my settings/configurations across multiple machines. I often discover helpful settings or programming gems while toying around and it's great to have them nestled within the confines of this repo.
+This repository contains my personal dotfiles - settings files for various tools. To make it easy to keep environments isolated but consistent, each machine/account has its own branch
 
-## branches, machines and naming structure
+## Branch naming convention
 
-I have my configurations for each computer/account managed using a separate branch.Branches are named using either `<os>/<hostname>` or `<os>/<hostname>`. To avoid ambiguities, I've referred to `osx` as `mac` in the branch names.
-
-I've based the `$HOSTNAME` of my personal computers off the characters from [The Adventures of Tintin](https://en.wikipedia.org/wiki/The_Adventures_of_Tintin).
+- Format: `<os>/<hostname>`  
+- I use `mac` instead of `osx` for clarity.  
+- Hostnames are named after characters from [*The Adventures of Tintin*](https://en.wikipedia.org/wiki/The_Adventures_of_Tintin).  
 
 <p align="center">
   <img src="https://upload.wikimedia.org/wikipedia/en/e/ed/Tintin-mainSupportingCharacters.png">
 </p>
 
-### Active development environments
+---
 
-1. [mac/sponz](https://github.com/viktree/dotfiles/tree/mac/sponz) My personal m1 mac book air that I use for most things.
+## Active machines
 
-2. [mac/ecobee-mbp-2019](https://github.com/viktree/dotfiles/tree/mac/ecobee-mbp-2019) My ecobee work laptop
+- [mac/sponz](https://github.com/viktree/dotfiles/tree/mac/sponz) — Personal M1 MacBook Air  
 
-### No longer in use
+## Retired machines
 
-1. [mac/tintinux](https://github.com/viktree/dotfiles/tree/mac/tintinux) was my previous personal machine
+- [mac/ecobee-mbp-2019](https://github.com/viktree/dotfiles/tree/mac/ecobee-mbp-2019) — Previous work laptop (ecobee)  
+- [mac/tintinux](https://github.com/viktree/dotfiles/tree/mac/tintinux) — Previous personal Mac  
+- [arch/pv-workstation](https://github.com/viktree/dotfiles/tree/arch/pv-workstation), [ubuntu/pv-laptop](https://github.com/viktree/dotfiles/tree/ubuntu/pv-laptop), [mac/ecobee-web](https://github.com/viktree/dotfiles/tree/mac/ecobee-web-pey) — Old work laptops (Per Vices & ecobee)  
+- [uoftcs/wolf](https://github.com/viktree/dotfiles/tree/uoftcs/wolf) — U of T CS server configs  
+- [arch/haddock](https://github.com/viktree/dotfiles/tree/arch/haddock), [arch/rastapopoulos](https://github.com/viktree/dotfiles/tree/arch/rastapopoulos) — Arch Linux experiments  
+- [ubuntu/jetson-nano](https://github.com/viktree/dotfiles/tree/ubuntu/jetson-nano) — Old NVIDIA Jetson dev board  
 
-2. [arch/pv-workstation](https://github.com/viktree/dotfiles/tree/arch/pv-workstation), [ubuntu/pv-laptop](https://github.com/viktree/dotfiles/tree/ubuntu/pv-laptop) and [mac/ecobee-web](https://github.com/viktree/dotfiles/tree/mac/ecobee-web-pey) are my previous work laptops from Per Vices and ecobee respectively.
+---
 
-3. [uoftcs/wolf](https://github.com/viktree/dotfiles/tree/uoftcs/wolf) Some of the configuration files from U of T's computer science server. Not quite sure why it was called wolf.
+## Quick start
 
-4. [arch/haddock](https://github.com/viktree/dotfiles/tree/arch/haddock) and [arch/rastapopoulos](https://github.com/viktree/dotfiles/tree/arch/rastapopoulos) are some of my dabblings in archlinux before my current setup
+Two options for managing these dotfiles:
 
-5. [ubuntu/alcazar](https://github.com/viktree/dotfiles/tree/ubuntu/jetson-nano) This is a nvidia jetson that I used to have sitting on my desk at home.
-
-## Setting up a new computer
-
-Of the many possible ways to manage dotfiles, I came across a framework I like outlined in [this hacker news post](https://news.ycombinator.com/item?id=11070797) and then elaborated on [in this atlassian blog entry](https://developer.atlassian.com/blog/2016/02/best-way-to-store-dotfiles-git-bare-repo/). Unlike many of the other options, this strategy doesn't depend on having symbolic links or bulky programs (the only prerequisite is git)!
-
-I used this for the first little while and then I started to peek over at [yadm](https://yadm.io/), which is a program that pretty much does the same thing under the hood and comes with a couple of other nice features. We are still only using a glorified git repo.
-
-### Settings up a new machine without yadm
+### Option 1: Minimal (bare repo)
 
 ```bash
-# ssh version: git@github.com:viktree/dotfiles.git
 git clone --bare https://github.com/viktree/dotfiles.git $HOME/.cfg
-
-# Keep this in a bashrc or an equivalent file
 alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 
-config checkout  -b <descriptive-branch-name>
+config checkout -b <branch>
 config config --local status.showUntrackedFiles no
-config add <file-to-backup>
+config add <file>
 config commit -m "initial commit"
-config push --set-upstream origin <descriptive-branch-name>
+config push --set-upstream origin <branch>
 ```
 
-### Settings up a new machine with yadm
+### Option 2: Using yadm
 
-First download [yadm](https://yadm.io) from source (without a package manager)
+yadm is [yet another dotfiles manager](https://yadm.io/)
 
 ```bash
 git clone https://github.com/TheLocehiliosan/yadm.git ~/.config/yadm
 ln -s ~/.config/yadm ~/bin/yadm
-```
 
-Then we need to point it at this repo
-
-```bash
-# ssh version: git@github.com:viktree/dotfiles.git
 yadm remote add origin https://github.com/viktree/dotfiles
 yadm pull
-```
-
-We can setup the machine by running bootstrap
-
-```
 yadm bootstrap
-```
 
-Finally, we cut a new branch and push the files
-
-```
-yadm checkout -b <descriptive-branch-name>
-yadm add <file-to-backup>
+yadm checkout -b <branch>
+yadm add <file>
 yadm commit -m "initial commit"
-yadm push --set-upstream origin <descriptive-branch-name>
+yadm push --set-upstream origin <branch>
 ```
 
-### After branch creation
+## Helpful things to do after adding a branch
 
 Here's a checklist of things to go over
 
-- [ ] add machine specs to the `README.md` file of the branch
-- [ ] add entry to this file on the master branch
-- [ ] make sure to commit to the branch frequently
+ - [ ] add machine specs to the README.md file of the branch
+ - [ ] add entry to this file on the master branch
+ - [ ] make sure to commit to the branch frequently
 
 ---
 
