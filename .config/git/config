@@ -13,10 +13,44 @@
         new = green
 
 [alias]
+        bb = !~/.config/git/bettter-branch.sh
         branch-name = "!printf %s $(git rev-parse --abbrev-ref HEAD)"
-        new-branch = checkout -b
-        ls = status -s
+        co = commit -m
+        db = branch -D
+        delete-branch = branch -D
         fix = commit -a --amend --no-edit
+        fP = push --force-with-leash
+        fpush = push --force-with-lease
+        ia = !git add $(git ls-files --modified --exclude-standard | fzf -m --ansi --preview \"git diff $@ --color=always -- {-1}\")
+        ignore = update-index --assume-unchanged
+        ignored = !git ls-files -v | grep "^[[:lower:]]"
+        init-as-worktree = clone --bare
+        lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+        ls = status -s
+        nb = checkout -b
+        new-branch = checkout -b
+        p = pull
+        P = push
+        rH = reset HEAD --hard
+        sb = checkout
+        switch-branch = checkout
+        unignore = update-index --no-assume-unchanged
 
 [init]
         defaultBranch = main
+
+[core]
+        editor = vi
+        excludesfile = "~/.config/git/ignore.gitignore"
+        
+[push]
+        autoSetupRemote = true
+[pull]
+        rebase = true
+[rebase]
+        autoStash = true
+[rerere]
+        enabled=true
+
+[includeIf "gitdir:/"]
+        path = "~/.config/git/vikram-ecobee.gitconfig"
