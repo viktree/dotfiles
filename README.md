@@ -17,7 +17,7 @@ This repository contains my personal dotfiles - settings files for various tools
 ## Active machines
 
 - [mac/sponz](https://github.com/viktree/dotfiles/tree/mac/sponz) — Personal M1 MacBook Air
-- [mac/ecobee-mbp-2023] (https://github.com/viktree/dotfiles/tree/mac/ecobee-mbp-2023) — My current work machine
+- [mac/ecobee-mbp-2023](https://github.com/viktree/dotfiles/tree/mac/ecobee-mbp-2023) — My current work machine
 
 ## Retired machines
 
