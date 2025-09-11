@@ -20,12 +20,16 @@ This repository contains my personal dotfiles - settings files for various tools
 
 ## Retired machines
 
-- [mac/ecobee-mbp-2019](https://github.com/viktree/dotfiles/tree/mac/ecobee-mbp-2019) — Previous work laptop (ecobee)  
 - [mac/tintinux](https://github.com/viktree/dotfiles/tree/mac/tintinux) — Previous personal Mac  
-- [arch/pv-workstation](https://github.com/viktree/dotfiles/tree/arch/pv-workstation), [ubuntu/pv-laptop](https://github.com/viktree/dotfiles/tree/ubuntu/pv-laptop), [mac/ecobee-web](https://github.com/viktree/dotfiles/tree/mac/ecobee-web-pey) — Old work laptops (Per Vices & ecobee)  
 - [uoftcs/wolf](https://github.com/viktree/dotfiles/tree/uoftcs/wolf) — U of T CS server configs  
-- [arch/haddock](https://github.com/viktree/dotfiles/tree/arch/haddock), [arch/rastapopoulos](https://github.com/viktree/dotfiles/tree/arch/rastapopoulos) — Arch Linux experiments  
+- [arch/haddock](https://github.com/viktree/dotfiles/tree/arch/haddock), [arch/rastapopoulos](https://github.com/viktree/dotfiles/tree/arch/rastapopoulos) — Arch Linux experiments, btw
 - [ubuntu/jetson-nano](https://github.com/viktree/dotfiles/tree/ubuntu/jetson-nano) — Old NVIDIA Jetson dev board  
+
+### Work Machines
+
+- [mac/ecobee-mbp-2019](https://github.com/viktree/dotfiles/tree/mac/ecobee-mbp-2019) — Previous work laptop (ecobee)  
+- [arch/pv-workstation](https://github.com/viktree/dotfiles/tree/arch/pv-workstation), [ubuntu/pv-laptop](https://github.com/viktree/dotfiles/tree/ubuntu/pv-laptop) — Per Vices work laptops
+- [mac/ecobee-web](https://github.com/viktree/dotfiles/tree/mac/ecobee-web-pey) - Computer from PEY term at ecobee
 
 ---
 
