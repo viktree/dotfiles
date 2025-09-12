@@ -13,7 +13,7 @@
         new = green
 
 [alias]
-        bb = !~/.config/git/bettter-branch.sh
+        bb = !~/.config/git/better-branch.sh
         branch-name = "!printf %s $(git rev-parse --abbrev-ref HEAD)"
         co = commit -m
         db = branch -D
