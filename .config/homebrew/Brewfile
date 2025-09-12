@@ -1,0 +1,122 @@
+# ---------------------------------------------------------------------------------------
+# ---{ Brewfile } -----------------------------------------------------------------------
+# ---------------------------------------------------------------------------------------
+#
+#   Programs and tools I use on macOS, managed by Homebrew.
+#
+#   Useful commands:
+#     brew bundle cleanup           # See what isn’t in this file but is installed
+#     brew bundle cleanup --force   # Remove anything not in this file
+#     brew bundle                   # Install everything in this file
+#
+# ---------------------------------------------------------------------------------------
+
+# ---{ Homebrew Tap Sources }------------------------------------------------------------
+#
+#   Package repositories for Homebrew.
+#
+
+cask_args appdir: '/Applications'
+cask_args fontdir: '/Library/Fonts'
+
+tap 'hashicorp/tap'                 # HashiCorp tools (Vault, Terraform, etc.)
+tap 'homebrew/bundle'               # Brewfile/bundle support
+tap 'homebrew/services'             # Service management
+tap 'menubar-apps/menubar-apps'     # Menubar utility apps
+tap 'mongodb/brew'                  # MongoDB tools
+
+# ---{ Command Line Tools & Utilities }--------------------------------------------------
+
+## ---{ Developer Toolchains }----------------------------------------------------------
+brew 'openjdk@11'                   # Java JDK for projects requiring Java 11
+brew 'mvn'                          # Maven build tool
+brew 'cmake'                        # C/C++ build system
+brew 'automake'                     # Makefile generator
+brew 'autoconf'                     # Automatic configure scripts
+brew 'm4'                           # Macro processor
+brew 'pkg-config'                   # Manage compile/link flags
+
+## ---{ Scripting & Language Runtimes }-------------------------------------------------
+brew 'lua'                          # Lua programming language
+brew 'luarocks'                     # Lua package manager
+brew 'fennel'                       # Lisp dialect for Lua
+brew 'node-build'                   # Node.js build tool (for nodenv)
+brew 'coreutils'                    # GNU core utilities
+
+## ---{ Cloud, DevOps & Security }------------------------------------------------------
+brew 'awscli'                       # AWS CLI
+brew 'direnv'                       # Environment variable automation
+brew 'tfenv'                        # Terraform version manager
+brew 'vault'                        # HashiCorp Vault
+brew 'argocd-vault-plugin'          # Vault secrets in ArgoCD
+brew 'sops'                         # Secret management
+brew 'mkcert'                       # Local SSL certificate generator
+
+## ---{ Containers & Services }---------------------------------------------------------
+brew 'docker-compose'               # Docker Compose (legacy)
+brew 'docker-buildx'                # Docker build tool
+brew 'mongodb/brew/mongodb-community'       # MongoDB server
+brew 'mongodb/brew/mongodb-database-tools'  # MongoDB database tools
+brew 'dnsmasq'                      # Lightweight DNS forwarder
+
+## ---{ Text, Editors & Terminal Utilities }--------------------------------------------
+brew 'asciinema'                    # Terminal session recorder
+brew 'adr-tools'                    # Architecture Decision Records
+brew 'prettierd'                    # Fast prettier for code formatting
+brew 'ispell'                       # Spell checker
+brew 'yadm'                         # Dotfile manager
+brew 'tree-sitter'                  # Parser generator tool
+brew 'tree-sitter-cli'              # CLI for tree-sitter
+brew "railwaycat/emacsmacport/emacs-mac@29" # Emacs Mac port
+
+## ---{ System Libraries & Fonts }------------------------------------------------------
+brew 'libssh'                       # SSH library
+brew 'libgccjit'                    # GCC JIT library
+brew 'libmpc'                       # Multiple Precision library
+brew 'libxml2'                      # XML parsing library
+brew 'mpfr'                         # Floating point library
+brew 'jansson'                      # JSON library
+brew 'gdk-pixbuf'                   # GDK image library
+brew 'pango'                        # Text rendering library
+brew 'librsvg'                      # SVG rendering library
+brew 'fribidi'                      # BiDi text library
+brew 'isl'                          # Integer set library
+brew 'nss'                          # Network Security Services
+brew 'texinfo'                      # Documentation system
+
+## ---{ Kubernetes & Infrastructure }----------------------------------------------------
+brew 'helm'                         # Kubernetes package manager
+brew 'k9s'                          # Kubernetes terminal UI
+
+# ---{ Fonts } --------------------------------------------------------------------------
+#
+#   Developer and nerd fonts.
+#
+
+cask 'font-iosevka-nerd-font'        # Iosevka Nerd Font
+
+# ---{ Graphical Applications (Casks) }--------------------------------------------------
+#
+#   GUI apps managed via Homebrew Cask, grouped by function.
+#
+
+## ---{ Productivity & Utilities }-------------------------------------------------------
+cask 'arc'                          # Arc Browser
+cask 'ghostty'                      # Next-gen terminal
+cask 'itsycal'                      # Menubar calendar
+cask 'hiddenbar'                    # Menubar organizer
+cask 'karabiner-elements'           # Keyboard customizer
+cask 'keybase'                      # Encrypted chat and storage
+cask 'meetingbar'                   # Calendar meetings in menubar
+cask 'pullbar'                      # Pull request menubar tool
+cask 'raycast'                      # Productivity launcher
+cask 'rectangle'                    # Window manager
+cask 'tableplus'                    # Database client
+cask 'visual-studio-code'           # Code editor
+cask 'bruno'                        # API client
+
+## ---{ Developer & API Tools }----------------------------------------------------------
+cask 'insomnia'                     # REST API client
+cask 'postman'                      # API development
+
+# ---------------------------------------------------------------------------------------
