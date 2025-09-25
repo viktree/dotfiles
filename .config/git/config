@@ -10,16 +10,21 @@
         meta = yellow bold
         frag = magenta bold
         old = red
-        new = green
+	new = green
+[color "decorate"]
+	tag = cyan
+	head = red bold
 
 [alias]
+	ai = add --patch
+	co = commit
         bb = !~/.config/git/better-branch.sh
         branch-name = "!printf %s $(git rev-parse --abbrev-ref HEAD)"
-        co = commit -m
+        cm = commit -m
         db = branch -D
         delete-branch = branch -D
-        fix = commit -a --amend --no-edit
         fP = push --force-with-leash
+        fix = commit -a --amend --no-edit
         fpush = push --force-with-lease
         ia = !git add $(git ls-files --modified --exclude-standard | fzf -m --ansi --preview \"git diff $@ --color=always -- {-1}\")
         ignore = update-index --assume-unchanged
@@ -29,22 +34,36 @@
         ls = status -s
         nb = checkout -b
         new-branch = checkout -b
-        p = pull
+	pb = checkout -
+	prev-branch = checkout -
         P = push
+        p = pull
         rH = reset HEAD --hard
         sb = checkout
         switch-branch = checkout
         unignore = update-index --no-assume-unchanged
 
+[interactive]
+	singlekey = true
+
 [init]
         defaultBranch = main
 
 [core]
-        editor = vi
+        editor = nvim
         excludesfile = "~/.config/git/ignore.gitignore"
-        
+
+[branch]
+	sort = -committerdate
+
+[log]
+	date = relative
+	abbrevCommit = true
+
 [push]
-        autoSetupRemote = true
+	autoSetupRemote = true
+	default = current
+	followTags = true
 [pull]
         rebase = true
 [rebase]
