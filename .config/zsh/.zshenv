@@ -48,10 +48,12 @@ PATH_append "$ANDROID_HOME/tools/bin"
 PATH_append "$ANT_HOME/bin"
 PATH_append "$GRADLE_HOME/bin"
 PATH_append "$HOME/.spicetify"
-PATH_append "$HOME/bin"
+# PATH_append "$HOME/bin"
+PATH_append "$XDG_LOCAL_HOME/bin"
 PATH_append "$HOME/programs/google-cloud-sdk/bin"
 PATH_append "$HOME/programs/nvim-osx64/bin"
 PATH_append "$MAVEN_HOME/bin"
+
 
 if check_for_command nodenv; then
     export NODENV_VERSION="24.11.1"

@@ -111,4 +111,8 @@ if check_for_command direnv; then
     eval "$(direnv hook zsh)"
 fi
 
+if check_for_command mise; then
+    eval "$(mise activate zsh)"
+fi
+
 # ---------------------------------------------------------------------------------------
