@@ -1,4 +1,3 @@
-#!/bin/zsh
 # ---------------------------------------------------------------------------------------
 # ---{ My .zshrc } ----------------------------------------------------------------------
 # ---------------------------------------------------------------------------------------
@@ -12,98 +11,27 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
-# ---{ bindings }------------------------------------------------------------------------
-
-bindkey -e # e for emacs, v for vim
-
 # ---{ Utility Functions }---------------------------------------------------------------
 
-function check_for_command(){ command -v $1 >/dev/null 2>&1 }
-function source_if_file(){ [[ -f $1 ]] && source $1 }
-function source_if_possible(){ [[ -e $1 ]] && source $1 }
-
-# ---{ Path Utils }----------------------------------------------------------------------
-
-function prune_path(){
-    PATH="$(perl -e 'print join(":", grep { not $seen{$_}++ } split(/:/, $ENV{PATH}))')"
-    export PATH
-}
-
-function add_path(){
-    echo "PATH_append $1" >> "$HOME/.zshenv" && source "$HOME/.zshenv"
-}
-
-function grep-path(){
-    echo -e ${PATH//:/\\n} | rg $1
-}
+check_for_command(){ command -v $1 >/dev/null 2>&1 }
+source_if_file(){ [[ -f $1 ]] && source $1 }
+source_if_possible(){ [[ -e $1 ]] && source $1 }
 
 # ---{ Other Functions }-----------------------------------------------------------------
 
+ZDOTDIR="/Users/vikramvenkataramanan/.config/zsh"
 
-function mkcd () {
-    mkdir -p $1
-    cd $1
-}
-
-function bak(){
-    cp $1{,.bak}
-}
-
-function overview(){
-    files_to_ignore=".git|node_modules|bower_components|.DS_Store|repo.git"
-    tree -aC -I $files_to_ignore --dirsfirst "$@"
-}
-
-function grep-history(){
-    history | grep $1
-}
-
-function grep-node(){
-    node_apps_to_ignore="Visual|Insomnia|Typhora|Postman|Notion|Uebersicht|Slack"
-    ps aux \
-        | grep -i node \
-        | grep -v $node_apps_to_ignore
-}
-
-function kill-program(){
-    ps -ef | fzf | awk '{print $2}' | xargs kill -9
-}
-
-function kill-node(){
-    grep-node $1 | fzf | xargs kill -9
-}
-
-function merge-pdf () {
-    gs -q -dNOPAUSE -dBATCH -sDEVICE=pdfwrite -sOutputFile="$1" "${@:2}"
-}
-
-# Extract many types of compressed packages
-# Credit: http://nparikh.org/notes/zshrc.txt
-function extract() {
-    if [ -f "$1" ]
-    then
-        case "$1" in
-            *.tar.bz2)  tar -jxvf "$1"                               ;;
-            *.tar.gz)   tar -zxvf "$1"                               ;;
-            *.bz2)      bunzip2 "$1"                                 ;;
-            *.dmg)      hdiutil mount "$1"                           ;;
-            *.gz)       gunzip "$1"                                  ;;
-            *.tar)      tar -xvf "$1"                                ;;
-            *.tbz2)     tar -jxvf "$1"                               ;;
-            *.tgz)      tar -zxvf "$1"                               ;;
-            *.zip)      unzip "$1"                                   ;;
-            *.ZIP)      unzip "$1"                                   ;;
-            *.pax)      cat "$1" | pax -r                            ;;
-            *.pax.Z)    uncompress "$1" --stdout | pax -r            ;;
-            *.Z)        uncompress "$1"                              ;;
-            *) echo "'$1' cannot be extracted/mounted via extract()" ;;
-        esac
-    else
-        echo "'$1' is not a valid file to extract"
-    fi
-}
+source_if_file "${ZDOTDIR}/aliases.zsh"
+source_if_file "${ZDOTDIR}/aliases.zsh"
+source_if_file "${ZDOTDIR}/extract.zsh"
+source_if_file "${ZDOTDIR}/onepassword.zsh"
+source_if_file "${ZDOTDIR}/paths.zsh"
+source_if_file "${ZDOTDIR}/spicetify.zsh"
+source_if_file "${ZDOTDIR}/utils.zsh"
 
 # ---------------------------------------------------------------------------------------
+
+bindkey -e # e for emacs, v for vim
 
 setopt hist_ignore_all_dups # remove older duplicate entries from history
 setopt hist_reduce_blanks # remove superfluous blanks from history items
@@ -156,9 +84,7 @@ zinit light zsh-users/zsh-autosuggestions
 zinit ice wait"3" lucid from"gh-r" as"program" mv"bin/exa* -> exa" pick"exa"
 zinit light ogham/exa
 
-if [[ -f "$ZINIT_PLUGIN_PATH/ogham---exa/exa" ]]
-then alias ls="$ZINIT_PLUGIN_PATH/ogham---exa/exa"
-fi
+[[ -f "$ZINIT_PLUGIN_PATH/ogham---exa/exa" ]] && alias ls="$ZINIT_PLUGIN_PATH/ogham---exa/exa"
 
 zinit ice wait lucid id-as"auto"
 zinit load hlissner/zsh-autopair
@@ -169,49 +95,20 @@ zinit load hlissner/zsh-autopair
 zinit ice pick"async.zsh" src"pure.zsh" # with zsh-async library that's bundled with it.
 zinit light sindresorhus/pure
 
-zinit load MichaelAquilina/zsh-you-should-use
-
-# Scripts built at install (there's single default make target, "install",
-# and it constructs scripts by `cat'ing a few files). The make'' ice could also be:
-# `make"install PREFIX=$ZPFX"`, if "install" wouldn't be the only default target.
-zi ice as"program" pick"$ZPFX/bin/git-*" make"PREFIX=$ZPFX"
-zi light tj/git-extras
-
-
-# XDG_HOME compliant cache
-compinit -d "$XDG_CACHE_HOME"/zsh/zcompdump-"$ZSH_VERSION"
-
 # ---------------------------------------------------------------------------------------
 
+# source_if_file "/opt/homebrew/opt/asdf/libexec/asdf.sh"
 
-# if check_for_command direnv
-# then
-#     eval "$(asdf exec direnv hook zsh)"
-#     direnv() { asdf exec direnv "$@"; }
+# if check_for_command gemini; then
+#     opdev export GEMINI_API_KEY
 # fi
 
-
-if check_for_command rtx
-then eval "$(rtx activate zsh)"
+if check_for_command zoxide; then
+    eval "$(zoxide init zsh)"
 fi
 
-patch_spotify(){
-	spicetify upgrade
-	spicetify restore backup apply
-}
-
-alias g='git'
-alias o='open'
-alias v='nvim'
-alias vim='nvim'
-alias y='yadm'
-alias widget='cd /Users/vikramvenkataramanan/Library/Application\ Support/Übersicht'
-alias wget=wget --hsts-file="$XDG_DATA_HOME/wget-hsts"
-# ---------------------------------------------------------------------------------------
-
-GCLOUD_HOME="$HOME/programs/google-cloud-sdk"
-source_if_file "$GCLOUD_HOME/path.zsh.inc"
-source_if_file "$GCLOUD_HOME/completion.zsh.inc"
+if check_for_command direnv; then
+    eval "$(direnv hook zsh)"
+fi
 
 # ---------------------------------------------------------------------------------------
-

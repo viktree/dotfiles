@@ -12,15 +12,6 @@
 #
 #   Variables that are more prone to change, like $PATH declared in .zshenv
 #
-# ---{ Pre-load Checks }-----------------------------------------------------------------
-#
-#   -e    exit on first error
-#   -u    exit when an undefined variable
-#   -o    pipefail exit when any cmd in pipe sequence has exitcode != 0
-#   -x    print all commands
-#
-
-set -euo pipefail
 
 # ---{ Utility Functions }---------------------------------------------------------------
 
@@ -40,6 +31,7 @@ esac
 
 export DEFAULT_USER=`whoami`
 export LANG="en_US.UTF-8"
+# export SSH_KEY_PATH="~/.ssh/rsa_id"
 
 function is_mac(){ [[ "$PLATFORM" == "osx" ]]  }
 function is_linux(){ [[ "$PLATFORM" == "linux" ]]  }
@@ -56,43 +48,27 @@ export XDG_CACHE_HOME="$HOME/.cache"
 
 export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
 
-# ---------------------------------------------------------------------------------------
-
 # ---{ PROGRAMS }------------------------------------------------------------------------
 
-if is_mac
+# List the iPhone simulator as an application
+if [[ -f "/Applications/Xcode.app/Contents/Applications/iPhone\ Simulator.app"  ]]
 then
-    # List the iPhone simulator as an application
-    if [[ -f "/Applications/Xcode.app/Contents/Applications/iPhone\ Simulator.app"  ]]
-    then ln -s "/Applications/Xcode.app/Contents/Applications/iPhone\ Simulator.app /Applications"
-    fi
-
-    if [[ -f "$HOME/Library/Group\ Containers/2BUA8C4S2C.com.1password/t/agent.sock" ]]
-    then 
-        mkdir -p "$HOME/.1password"
-        ln -s "$HOME/Library/Group\ Containers/2BUA8C4S2C.com.1password/t/agent.sock" "$HOME/.1password/agent.sock"
-    fi
+    ln -s "/Applications/Xcode.app/Contents/Applications/iPhone\ Simulator.app /Applications"
 fi
 
-
-export EDITOR='nvim'
+if [[ -e '/usr/local/bin/code' ]]
+then
+    export EDITOR='/usr/local/bin/code'
+fi
 
 # ---{ hooks }---------------------------------------------------------------------------
 
-if check_for_command brew
-then eval "$(/opt/homebrew/bin/brew shellenv)"
+if command -v brew >/dev/null 2>&1; then
+    eval "$(brew shellenv)"
 fi
 
-setopt SHARE_HISTORY
-
-# ---{ Post-load Checks }----------------------------------------------------------------
-#
-#   -e    exit on first error
-#   -u    exit when an undefined variable
-#   -o    pipefail exit when any cmd in pipe sequence has exitcode != 0
-#   -x    print all commands
-#
-
-set +euo pipefail
+if check_for_command nodenv; then
+    eval "$(nodenv init - --no-rehash zsh)"
+fi
 
 # ---------------------------------------------------------------------------------------
