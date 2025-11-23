@@ -1,28 +1,64 @@
 [color "branch"]
-	current = yellow reverse
-	local = yellow
-	remote = green
+        current = yellow reverse
+        local = yellow
+        remote = green
 [color "status"]
-	changed = yellow
-	added = green
-	untracked = red
+        changed = yellow
+        added = green
+        untracked = red
 [color "diff"]
-	meta = yellow bold
-	frag = magenta bold
-	old = red
+        meta = yellow bold
+        frag = magenta bold
+        old = red
 	new = green
+[color "decorate"]
+	HEAD = red
+	tag = blue
 
 [alias]
-	branch-name = rev-parse --abbrev-ref HEAD
-	new-branch = checkout -b
+        branch-name = "!printf %s $(git rev-parse --abbrev-ref HEAD)"
+        new-branch = checkout -b
+        nb = checkout -b
+        switch-branch = checkout
+        sb = checkout
+        prev-branch = checkout -
+        pb = checkout -
 	ls = status -s
+	cm = commit -m
 	fix = commit -a --amend --no-edit
+	lg = log --oneline
+
+
+# Personal repos easy
+[url "git@github.com:"]
+	insetadOf = "gh:"
+
+# save some disk space
+[core]
+	compression = 9
+
+[interactive]
+	singlekey = true
 
 [init]
 	defaultBranch = main
 
-[includeIf "gitdir:~/hv/"]
-	path=~/.config/git/hv.gitconfig
+[branch]
+	sort = -committerdate
+
+[tag]
+	sort = -taggerdate
+
+[log]
+	abbrevCommit = true
+
+[push]
+	autoSetupRemote = true
+	default = current
+	followTags = true
+
+[rebase]
+	autoStash = true
 
 [credential]
 	helper = osxkeychain
