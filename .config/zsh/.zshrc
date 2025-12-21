@@ -7,111 +7,83 @@
 #   function definitions, shell option settings, completion settings, prompt settings,
 #   key bindings, etc.
 #
+# ---------------------------------------------------------------------------------------
 
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
-# ---{ Utility Functions }---------------------------------------------------------------
+# ---------------------------------------------------------------------------------------
+
+# --- History settings ---
+export HISTSIZE=10000
+export SAVEHIST=10000
+# ----------------------
+
+# carefull about the order
+optional_hooks=(
+    conda
+    gpg
+    zoxide
+    mise
+)
+
+personal_scripts=(
+  aliases.zsh
+  extract.zsh
+  # onepassword.zsh
+  paths.zsh
+  spicetify.zsh
+  utils.zsh
+
+  # this needs to be loaded last
+  hooks.zsh
+)
+
+fpath=(
+  $HOME/.docker/completions
+  $HOME/programs/google-cloud-sdk/completion.zsh.inc
+  $XDG_DATA_HOME/zinit/zinit.git/completions
+
+  # keep existing paths at the end
+  $fpath
+)
+
+# ---------------------------------------------------------------------------------------
+
+autoload -Uz compinit
+compinit -u
 
 check_for_command(){ command -v $1 >/dev/null 2>&1 }
 source_if_file(){ [[ -f $1 ]] && source $1 }
-source_if_possible(){ [[ -e $1 ]] && source $1 }
 
-# ---{ Other Functions }-----------------------------------------------------------------
+source_if_file "$ZDOTDIR/zinit-setup.zsh"
+source_if_file "$ZDOTDIR/opts.zsh"
 
-ZDOTDIR="/Users/vikramvenkataramanan/.config/zsh"
+for script in "${personal_scripts[@]}"; do
+    source_if_file "$ZDOTDIR/$script"
+done
 
-source_if_file "${ZDOTDIR}/aliases.zsh"
-source_if_file "${ZDOTDIR}/aliases.zsh"
-source_if_file "${ZDOTDIR}/extract.zsh"
-source_if_file "${ZDOTDIR}/onepassword.zsh"
-source_if_file "${ZDOTDIR}/paths.zsh"
-source_if_file "${ZDOTDIR}/spicetify.zsh"
-source_if_file "${ZDOTDIR}/utils.zsh"
-
-# ---------------------------------------------------------------------------------------
-
-bindkey -e # e for emacs, v for vim
-
-setopt hist_ignore_all_dups # remove older duplicate entries from history
-setopt hist_reduce_blanks # remove superfluous blanks from history items
-setopt inc_append_history # save history entries as soon as they are entered
-setopt auto_list # automatically list choices on ambiguous completion
-setopt auto_menu # automatically use menu completion
-setopt interactive_comments # allow comments in interactive shells
-
-# ---------------------------------------------------------------------------------------
-
-### Added by Zinit's installer
-
-if [[ ! -f $XDG_DATA_HOME/zinit/zinit.git/zinit.zsh ]]
-then
-    print -P "%F{33} %F{220}Installing %F{33}ZDHARMA-CONTINUUM%F{220} Initiative Plugin Manager (%F{33}zdharma-continuum/zinit%F{220})…%f"
-    command mkdir -p "$XDG_DATA_HOME/zinit" && command chmod g-rwX "$XDG_DATA_HOME/zinit"
-    command git clone https://github.com/zdharma-continuum/zinit "$XDG_DATA_HOME/zinit/zinit.git" && \
-        print -P "%F{33} %F{34}Installation successful.%f%b" || \
-        print -P "%F{160} The clone has failed.%f%b"
+if check_for_command "conda"; then
+    __conda_setup="$("$HOME/radioconda/bin/conda" 'shell.zsh' 'hook' 2> /dev/null)"
+    if [[ $? -eq 0 ]]; then
+        eval "$__conda_setup"
+    else
+        source_if_file "$HOME/radioconda/etc/profile.d/conda.sh"
+    fi
+    unset __conda_setup
+    conda deactivate 2>/dev/null
 fi
 
-source "$XDG_DATA_HOME/zinit/zinit.git/zinit.zsh"
-autoload -Uz _zinit
-(( ${+_comps} )) && _comps[zinit]=_zinit
+if check_for_command "gpg"; then
+    export GPG_TTY=$(tty)
+    export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
+fi
 
-# Load a few important annexes, without Turbo
-# (this is currently required for annexes)
-zinit light-mode for \
-    zdharma-continuum/zinit-annex-as-monitor \
-    zdharma-continuum/zinit-annex-bin-gem-node \
-    zdharma-continuum/zinit-annex-patch-dl \
-    zdharma-continuum/zinit-annex-rust
-
-### End of Zinit's installer chunk
-
-# ---------------------------------------------------------------------------------------
-
-ZINIT_PLUGIN_PATH="$XDG_DATA_HOME/zinit/plugins"
-
-zinit ice blockf atpull'zinit creinstall -q .'
-zinit light zsh-users/zsh-completions
-
-autoload compinit
-compinit
-
-zinit light zdharma-continuum/fast-syntax-highlighting
-zinit light zsh-users/zsh-autosuggestions
-
-# ogham/exa, replacement for ls
-zinit ice wait"3" lucid from"gh-r" as"program" mv"bin/exa* -> exa" pick"exa"
-zinit light ogham/exa
-
-[[ -f "$ZINIT_PLUGIN_PATH/ogham---exa/exa" ]] && alias ls="$ZINIT_PLUGIN_PATH/ogham---exa/exa"
-
-zinit ice wait lucid id-as"auto"
-zinit load hlissner/zsh-autopair
-
-# ---------------------------------------------------------------------------------------
-
-# Load pure theme
-zinit ice pick"async.zsh" src"pure.zsh" # with zsh-async library that's bundled with it.
-zinit light sindresorhus/pure
-
-# ---------------------------------------------------------------------------------------
-
-# source_if_file "/opt/homebrew/opt/asdf/libexec/asdf.sh"
-
-# if check_for_command gemini; then
-#     opdev export GEMINI_API_KEY
-# fi
-
-if check_for_command zoxide; then
+if check_for_command "zoxide"; then
     eval "$(zoxide init zsh)"
 fi
 
-if check_for_command direnv; then
-    eval "$(direnv hook zsh)"
-fi
-
-if check_for_command mise; then
+if check_for_command "mise"; then
     eval "$(mise activate zsh)"
 fi
 

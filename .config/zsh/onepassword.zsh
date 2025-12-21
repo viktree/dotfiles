@@ -2,6 +2,9 @@
 #
 # opdev - 1Password DevSecrets helper
 
+# op plugins
+source_if_file "${XDG_CONFIG_HOME}/op/plugins.sh"
+
 unalias opdev 2>/dev/null
 
 VAULT_NAME="DevSecrets"
@@ -85,3 +88,7 @@ opdev() {
       ;;
   esac
 }
+
+if check_for_command gemini; then
+    opdev export GEMINI_API_KEY
+fi
