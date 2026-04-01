@@ -1,75 +1,81 @@
 [color "branch"]
-        current = yellow reverse
-        local = yellow
-        remote = green
+    current = yellow reverse
+    local = yellow
+    remote = green
 [color "status"]
-        changed = yellow
-        added = green
-        untracked = red
+    changed = yellow
+    added = green
+    untracked = red
 [color "diff"]
-        meta = yellow bold
-        frag = magenta bold
-        old = red
-	new = green
+    meta = yellow bold
+    frag = magenta bold
+    old = red
+    new = green
 [color "decorate"]
 	tag = cyan
 	head = red bold
 
 [alias]
-	ai = add --patch
-	co = commit
-        bb = !~/.config/git/better-branch.sh
-        branch-name = "!printf %s $(git rev-parse --abbrev-ref HEAD)"
-        cm = commit -m
-        db = branch -D
-        delete-branch = branch -D
-        fP = push --force-with-leash
-        fix = commit -a --amend --no-edit
-        fpush = push --force-with-lease
-        ia = !git add $(git ls-files --modified --exclude-standard | fzf -m --ansi --preview \"git diff $@ --color=always -- {-1}\")
-        ignore = update-index --assume-unchanged
-        ignored = !git ls-files -v | grep "^[[:lower:]]"
-        init-as-worktree = clone --bare
-        lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
-        ls = status -s
-        nb = checkout -b
-        new-branch = checkout -b
-	pb = checkout -
-	prev-branch = checkout -
-        P = push
-        p = pull
-        rH = reset HEAD --hard
-        sb = checkout
-        switch-branch = checkout
-        unignore = update-index --no-assume-unchanged
+    ai = add --patch
+    co = commit
+    bb = !~/.config/git/better-branch.sh
+    branch-name = "!printf %s $(git rev-parse --abbrev-ref HEAD)"
+    cm = commit -m
+    db = branch -D
+    delete-branch = branch -D
+    dead = "!git branch --merged | rg -v '(^\\*|^\\+|master|main)'"
+    fP = push --force-with-leash
+    fix = commit -a --amend --no-edit
+    fpush = push --force-with-lease
+    ia = !git add $(git ls-files --modified --exclude-standard | fzf -m --ansi --preview \"git diff $@ --color=always -- {-1}\")
+    ignore = update-index --assume-unchanged
+    ignored = !git ls-files -v | grep "^[[:lower:]]"
+    init-as-worktree = clone --bare
+    lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+    ls = status -s --branch
+    nb = checkout -b
+    new-branch = checkout -b
+    pb = checkout -
+    prev-branch = checkout -
+    P = push
+    p = pull
+    prune-merged-branches = "!git branch --merged | rg -v '(^\\*|^\\+|master|main)' | xargs -n 1 git branch -d"
+    rH = reset HEAD --hard
+    sb = checkout
+    switch-branch = checkout
+    unignore = update-index --no-assume-unchanged
 
 [interactive]
 	singlekey = true
 
 [init]
-        defaultBranch = main
+    defaultBranch = main
 
 [core]
-        editor = nvim
-        excludesfile = "~/.config/git/ignore.gitignore"
+    editor = nvim
+    excludesfile = ~/.config/git/ignore.gitignore
 
 [branch]
-	sort = -committerdate
+    sort = -committerdate
+
+[commit]
+    gpgSign = true
 
 [log]
-	date = relative
-	abbrevCommit = true
+    date = relative
+    abbrevCommit = true
+    excludeDecoration = refs/gitbutler
 
 [push]
-	autoSetupRemote = true
-	default = current
-	followTags = true
+    autoSetupRemote = true
+    default = current
+    followTags = true
 [pull]
-        rebase = true
+    rebase = true
 [rebase]
-        autoStash = true
+    autoStash = true
 [rerere]
-        enabled=true
+    enabled=true
 
 [includeIf "gitdir:/"]
-        path = "~/.config/git/vikram-ecobee.gitconfig"
+    path = "~/.config/git/vikram-ecobee.gitconfig"
