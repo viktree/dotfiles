@@ -24,6 +24,7 @@ tap 'homebrew/bundle'               # Brewfile/bundle support
 tap 'homebrew/services'             # Service management
 tap 'menubar-apps/menubar-apps'     # Menubar utility apps
 tap 'mongodb/brew'                  # MongoDB tools
+tap 'ankitpokhrel/jira-cli'
 
 # ---{ Command Line Tools & Utilities }--------------------------------------------------
 
@@ -67,7 +68,6 @@ brew 'ispell'                       # Spell checker
 brew 'yadm'                         # Dotfile manager
 brew 'tree-sitter'                  # Parser generator tool
 brew 'tree-sitter-cli'              # CLI for tree-sitter
-brew "railwaycat/emacsmacport/emacs-mac@29" # Emacs Mac port
 
 ## ---{ System Libraries & Fonts }------------------------------------------------------
 brew 'libssh'                       # SSH library
@@ -88,6 +88,13 @@ brew 'texinfo'                      # Documentation system
 brew 'helm'                         # Kubernetes package manager
 brew 'k9s'                          # Kubernetes terminal UI
 
+brew 'gemini-cli'
+brew 'opencode'
+brew 'yq'
+brew 'helm-ls'
+brew 'yamllint'
+brew 'jira-cli'
+
 # ---{ Fonts } --------------------------------------------------------------------------
 #
 #   Developer and nerd fonts.
@@ -101,7 +108,6 @@ cask 'font-iosevka-nerd-font'        # Iosevka Nerd Font
 #
 
 ## ---{ Productivity & Utilities }-------------------------------------------------------
-cask 'arc'                          # Arc Browser
 cask 'ghostty'                      # Next-gen terminal
 cask 'itsycal'                      # Menubar calendar
 cask 'hiddenbar'                    # Menubar organizer
@@ -113,9 +119,13 @@ cask 'raycast'                      # Productivity launcher
 cask 'rectangle'                    # Window manager
 cask 'tableplus'                    # Database client
 cask 'visual-studio-code'           # Code editor
-cask 'bruno'                        # API client
+
+cask 'zed'
+cask 'zen'
 
 ## ---{ Developer & API Tools }----------------------------------------------------------
+
+cask 'bruno'                        # API client
 cask 'insomnia'                     # REST API client
 cask 'postman'                      # API development
 
